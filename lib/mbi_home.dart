@@ -14,9 +14,10 @@ class _MBIHomeState extends State<MBIHome> {
       child: Scaffold(
         appBar: AppBar(
           title: Text("MBICalc"),
+          actions: [],
         ),
         body: Container(
-          color: Colors.blue,
+          color: Colors.blueGrey,
         ),
       ),
     );

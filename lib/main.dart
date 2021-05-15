@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mbi_app/app_theme.dart';
 import 'package:mbi_app/mbi_home.dart';
 
 void main() {
@@ -10,9 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MBI Calc',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: appTheme,
       home: MBIHome(),
     );
   }
