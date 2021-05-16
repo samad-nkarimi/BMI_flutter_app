@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 final appTheme = ThemeData(
   // textTheme: GoogleFonts.openSansTextTheme(),
-  primaryColorDark: const Color(0xFFFF0000),
+  primaryColorDark: const Color(0xFF81EBEF),
   primaryColorLight: const Color(0xFF00FF00),
   primaryColor: const Color(0xFFFFFF00),
   accentColor: const Color(0xFF009688),
@@ -11,6 +11,13 @@ final appTheme = ThemeData(
   inputDecorationTheme: InputDecorationTheme(
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),
+    ),
+  ),
+  textTheme: TextTheme(
+    headline5: TextStyle(
+      fontFamily: "ANasr",
+      color: const Color(0xFF75C28C),
+      fontSize: 24,
     ),
   ),
 );

@@ -35,11 +35,11 @@ class _MBIHomeState extends State<MBIHome> {
                 right: 50,
                 child: Text(
                   "MBICalc",
-                  style: TextStyle(fontSize: 30),
+                  style: TextStyle(fontSize: 25, fontFamily: "ANasr"),
                 ),
               ),
               Positioned(
-                top: 0,
+                top: 10,
                 left: 0,
                 child: Builder(
                   builder: (context) => Container(
