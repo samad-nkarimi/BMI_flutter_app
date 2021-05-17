@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mbi_app/blocs/blocs.dart';
 import 'package:mbi_app/models/drawer_item.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:share/share.dart';
+import 'package:store_redirect/store_redirect.dart';
 
 class MbiDrawer extends StatelessWidget {
   MbiDrawer({Key key}) : super(key: key);
@@ -55,11 +57,23 @@ class MbiDrawer extends StatelessWidget {
                 child: Text("Help&Feedback",
                     style: Theme.of(context).textTheme.headline5),
                 onTap: () => FlutterEmailSender.send(email),
+                // onLongPress: ,
               ),
               SizedBox(height: 15),
-              Text("Share App", style: Theme.of(context).textTheme.headline5),
+              InkWell(
+                child: Text("Share App",
+                    style: Theme.of(context).textTheme.headline5),
+                onTap: () => Share.share("https://www.google.com"),
+              ),
               SizedBox(height: 15),
-              Text("More Apps", style: Theme.of(context).textTheme.headline5),
+              InkWell(
+                child: Text("More Apps",
+                    style: Theme.of(context).textTheme.headline5),
+                onTap: () => StoreRedirect.redirect(
+                  androidAppId: "com.iyaffle.rangoli",
+                  iOSAppId: "585027354",
+                ),
+              ),
               SizedBox(height: 15),
               Text("About Us", style: Theme.of(context).textTheme.headline5),
               SizedBox(height: 40),
