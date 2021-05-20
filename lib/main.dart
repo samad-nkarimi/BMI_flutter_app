@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mbi_app/app_theme.dart';
+import 'package:mbi_app/utils/app_theme.dart';
 import 'package:mbi_app/blocs/blocs.dart';
 import 'package:mbi_app/blocs/simple_bloc_observer.dart';
-import 'package:mbi_app/mbi_home.dart';
+import 'package:mbi_app/screens/home_screen.dart';
 
 void main() {
   Bloc.observer = SimpleBlocObserver();

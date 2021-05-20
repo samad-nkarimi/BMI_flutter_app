@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
@@ -18,6 +20,21 @@ final appTheme = ThemeData(
       fontFamily: "ANasr",
       color: const Color(0xFF75C28C),
       fontSize: 24,
+    ),
+    headline6: TextStyle(
+      fontFamily: "ANasr",
+      color: const Color(0xFF75C28C),
+      fontSize: 18,
+    ),
+    bodyText1: TextStyle(
+      fontFamily: "ANasr",
+      color: const Color(0xFF220200),
+      fontSize: 13,
+    ),
+    bodyText2: TextStyle(
+      fontFamily: "trebuc",
+      color: const Color(0xFF220200),
+      fontSize: 15,
     ),
   ),
 );
