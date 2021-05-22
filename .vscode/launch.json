@@ -7,7 +7,8 @@
         {
             "name": "mbi_app",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            // "flutterMode": "profile"
         }
     ]
 }
