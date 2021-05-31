@@ -6,6 +6,7 @@ import 'package:mbi_app/blocs/blocs.dart';
 import 'package:mbi_app/models/drawer_item.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:mbi_app/utils/constants.dart';
+import 'package:mbi_app/utils/images.dart';
 import 'package:share/share.dart';
 import 'package:store_redirect/store_redirect.dart';
 
@@ -35,7 +36,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
         height: MediaQuery.of(context).size.height * 0.4,
         padding: EdgeInsets.all(50),
         child: Image.asset(
-          "assets/images/logo.png",
+          Images.LOGO_IMAGE,
           fit: BoxFit.cover,
         ),
       ),

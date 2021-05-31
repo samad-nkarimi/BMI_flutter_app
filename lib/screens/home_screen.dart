@@ -12,6 +12,8 @@ class MBIHome extends StatefulWidget {
 }
 
 class _MBIHomeState extends State<MBIHome> {
+  String _selectedWeightUnit = "kg";
+  String _selectedHeightUnit = "ft";
   Widget _scoreRow(String text, String text2) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 2),
@@ -78,7 +80,9 @@ class _MBIHomeState extends State<MBIHome> {
                   ),
                 ],
               ),
-              RadialGauge(),
+              Container(
+                  height: MediaQuery.of(context).size.height * .4,
+                  child: RadialGauge()),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Card(
@@ -91,7 +95,157 @@ class _MBIHomeState extends State<MBIHome> {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Column(
                       children: [
-                        SliderWidget(),
+                        Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                flex: 12,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text("weight"),
+                                ),
+                              ),
+                              Expanded(
+                                child: SliderWidget(),
+                                flex: 40,
+                              ),
+                              Flexible(
+                                flex: 15,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: new DropdownButton<String>(
+                                    value: _selectedWeightUnit,
+                                    items: <String>["kg", "lb"].map((value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            value,
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedWeightUnit = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                fit: FlexFit.loose,
+                                flex: 12,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text("height"),
+                                ),
+                              ),
+                              Expanded(
+                                child: SliderWidget(),
+                                flex: 40,
+                              ),
+                              Flexible(
+                                flex: 15,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: DropdownButton<String>(
+                                    value: _selectedHeightUnit,
+                                    items: <String>["ft", "cm"].map((value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            value,
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedHeightUnit = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Text("age"),
+                            ),
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.blue),
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    side: BorderSide(
+                                        color: Colors.blue, width: 3),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {},
+                              child: Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: Text("-20"),
+                              ),
+                            ),
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    Color(0x0075C28C)),
+                                textStyle: MaterialStateProperty.all(
+                                  TextStyle(color: Colors.black),
+                                ),
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    side: BorderSide(
+                                        color: Colors.blue, width: 3),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {},
+                              child: Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: Text("+20"),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/images/woman.svg",
+                                  color: Colors.red,
+                                ),
+                                VerticalDivider(
+                                  width: 1,
+                                  color: Colors.black,
+                                ),
+                                SvgPicture.asset("assets/images/man.svg"),
+                              ],
+                            ),
+                          ],
+                        ),
 
                         // _scoreRow(" very severely underweight", "=< 15.9"),
                         // _scoreRow("severely underweight", "16.0 - 16.9"),

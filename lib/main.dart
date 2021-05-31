@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mbi_app/utils/app_theme.dart';
 import 'package:mbi_app/blocs/blocs.dart';
@@ -20,7 +21,14 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'MBI Calc',
         theme: appTheme,
-        home: MBIHome(),
+        home: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              systemNavigationBarColor: Color(0xff75C28C),
+              systemNavigationBarDividerColor: Colors.transparent,
+              systemNavigationBarIconBrightness: Brightness.light),
+          child: MBIHome(),
+        ),
       ),
     );
   }

@@ -9,10 +9,10 @@ class RadialGauge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SfRadialGauge(
-      title: GaugeTitle(
-          text: 'Speedometer',
-          textStyle:
-              const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+      // title: GaugeTitle(
+      //     text: "null",
+      //     textStyle:
+      //         const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
       axes: <RadialAxis>[
         RadialAxis(
           tickOffset: 40,

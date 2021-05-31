@@ -50,18 +50,21 @@ class _SliderWidgetState extends State<SliderWidget> {
             2, this.widget.sliderHeight * paddingFactor, 2),
         child: Row(
           children: <Widget>[
-            Text(
-              '${this.widget.min}',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: this.widget.sliderHeight * .3,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: Text(
+                '${this.widget.min}',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: this.widget.sliderHeight * .3,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
               ),
             ),
-            SizedBox(
-              width: this.widget.sliderHeight * .1,
-            ),
+            // SizedBox(
+            //   width: this.widget.sliderHeight * .1,
+            // ),
             Expanded(
               child: Center(
                 child: SliderTheme(
