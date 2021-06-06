@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mbi_app/utils/size_config.dart';
 import 'custom_slider_thumb_circle.dart';
 
 class SliderWidget extends StatefulWidget {
@@ -11,7 +12,7 @@ class SliderWidget extends StatefulWidget {
       {this.sliderHeight = 48,
       this.max = 100,
       this.min = 0,
-      this.fullWidth = false});
+      this.fullWidth = true});
 
   @override
   _SliderWidgetState createState() => _SliderWidgetState();
@@ -71,15 +72,19 @@ class _SliderWidgetState extends State<SliderWidget> {
                   data: SliderTheme.of(context).copyWith(
                     activeTrackColor: Colors.white.withOpacity(1),
                     inactiveTrackColor: Colors.white.withOpacity(.5),
-
                     trackHeight: 10.0,
                     thumbShape: CustomSliderThumbCircle(
-                      thumbRadius: this.widget.sliderHeight * .4,
+                      thumbRadius: this.widget.sliderHeight * .3,
                       min: this.widget.min,
                       max: this.widget.max,
                     ),
+                    // overlayShape: CustomSliderThumbCircle(
+                    //   thumbRadius: this.widget.sliderHeight * .3,
+                    //   min: this.widget.min,
+                    //   max: this.widget.max,
+                    // ),
                     overlayColor: Colors.white.withOpacity(.4),
-                    //valueIndicatorColor: Colors.white,
+                    thumbColor: Colors.black,
                     activeTickMarkColor: Colors.white,
                     inactiveTickMarkColor: Colors.red.withOpacity(.7),
                     valueIndicatorShape: PaddleSliderValueIndicatorShape(),

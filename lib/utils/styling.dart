@@ -8,7 +8,7 @@ class AppTheme {
   static const Color topBarBackgroundColor = Color(0xFFFFD974);
   static const Color selectedTabBackgroundColor = Color(0xFFFFC442);
   static const Color unSelectedTabBackgroundColor = Color(0xFFFFFFFC);
-  static const Color subTitleTextColor = Color(0xFF9F988F);
+  static const Color subTitleTextColor = Color(0xFF75C28C);
 
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: AppTheme.appBackgroundColor,
@@ -44,39 +44,39 @@ class AppTheme {
 
   static final TextStyle _titleLight = TextStyle(
     color: Colors.black,
-    fontSize: 3.5 * SizeConfig.textMultiplier,
+    fontSize: 5 * SizeConfig.textMultiplier,
   );
 
   static final TextStyle _subTitleLight = TextStyle(
     color: subTitleTextColor,
-    fontSize: 2 * SizeConfig.textMultiplier,
+    fontSize: 4 * SizeConfig.textMultiplier,
     height: 1.5,
   );
 
   static final TextStyle _buttonLight = TextStyle(
     color: Colors.black,
-    fontSize: 2.5 * SizeConfig.textMultiplier,
+    fontSize: 4.5 * SizeConfig.textMultiplier,
   );
 
   static final TextStyle _greetingLight = TextStyle(
     color: Colors.black,
-    fontSize: 2.0 * SizeConfig.textMultiplier,
+    fontSize: 3 * SizeConfig.textMultiplier,
   );
 
   static final TextStyle _searchLight = TextStyle(
     color: Colors.black,
-    fontSize: 2.3 * SizeConfig.textMultiplier,
+    fontSize: 3.2 * SizeConfig.textMultiplier,
   );
 
   static final TextStyle _selectedTabLight = TextStyle(
     color: Colors.black,
     fontWeight: FontWeight.bold,
-    fontSize: 2 * SizeConfig.textMultiplier,
+    fontSize: 3 * SizeConfig.textMultiplier,
   );
 
   static final TextStyle _unSelectedTabLight = TextStyle(
-    color: Colors.grey,
-    fontSize: 2 * SizeConfig.textMultiplier,
+    color: Color(0xFF75C28C),
+    fontSize: 2.5 * SizeConfig.textMultiplier,
   );
 
   static final TextStyle _titleDark = _titleLight.copyWith(color: Colors.white);
