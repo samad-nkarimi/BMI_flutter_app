@@ -58,7 +58,7 @@ flutter:
   assets:
     - assets/icons/menu.png
     - assets/icons/back.png
-    - assets/images/ellipse.png
+    - assets/images/bmi_name.svg
     - assets/images/logo.png 
     - assets/images/back_btn.png
     - assets/images/top_shape.svg
