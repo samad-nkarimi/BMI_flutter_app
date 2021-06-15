@@ -3,12 +3,30 @@ import 'package:mbi_app/utils/size_config.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class RadialGauge extends StatelessWidget {
-  const RadialGauge({
+  double value;
+  RadialGauge({
+    this.value = 12.0,
     Key key,
   }) : super(key: key);
 
+  double resHeight(mobileRes, tabletRes) {
+    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) *
+        SizeConfig.heightMultiplier;
+  }
+
+  double resWidth(mobileRes, tabletRes) {
+    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) *
+        SizeConfig.widthMultiplier;
+  }
+
+  double resText(mobileRes, tabletRes) {
+    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) *
+        SizeConfig.textMultiplier;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final _width = resHeight(8.5, 10.0);
     return SfRadialGauge(
       // backgroundColor: Colors.black26,
       // title: GaugeTitle(
@@ -18,9 +36,9 @@ class RadialGauge extends StatelessWidget {
       axes: <RadialAxis>[
         RadialAxis(
           axisLabelStyle: GaugeTextStyle(
-            fontSize: 1.5 * SizeConfig.heightMultiplier,
+            fontSize: resText(1.5, 1.5),
           ),
-          tickOffset: 9.2 * SizeConfig.heightMultiplier,
+          tickOffset: resHeight(7.0, 9.2),
           minimum: 12.0,
           maximum: 42.0,
           interval: 5.0,
@@ -29,40 +47,43 @@ class RadialGauge extends StatelessWidget {
           ranges: <GaugeRange>[
             GaugeRange(
               label: "underweight",
-              labelStyle: GaugeTextStyle(fontSize: 20, color: Colors.white),
+              labelStyle: GaugeTextStyle(
+                  fontSize: resText(2.0, 2.0), color: Colors.white),
               rangeOffset: 0,
               startValue: 12,
               endValue: 22,
               color: Colors.blue,
-              startWidth: 10 * SizeConfig.heightMultiplier,
-              endWidth: 10 * SizeConfig.heightMultiplier,
+              startWidth: _width,
+              endWidth: _width,
             ),
             GaugeRange(
               label: "normal",
-              labelStyle: GaugeTextStyle(fontSize: 20, color: Colors.white),
+              labelStyle: GaugeTextStyle(
+                  fontSize: resText(2.0, 2.0), color: Colors.white),
               startValue: 22,
               endValue: 32,
               color: Colors.green,
-              startWidth: 10 * SizeConfig.heightMultiplier,
-              endWidth: 10 * SizeConfig.heightMultiplier,
+              startWidth: _width,
+              endWidth: _width,
             ),
             GaugeRange(
               label: "overweight",
-              labelStyle: GaugeTextStyle(fontSize: 20, color: Colors.white),
+              labelStyle: GaugeTextStyle(
+                  fontSize: resText(2.0, 2.0), color: Colors.white),
               startValue: 32,
               endValue: 42,
               color: Colors.orange,
-              startWidth: 10 * SizeConfig.heightMultiplier,
-              endWidth: 10 * SizeConfig.heightMultiplier,
+              startWidth: _width,
+              endWidth: _width,
             )
           ],
           pointers: <GaugePointer>[
             MarkerPointer(
-              value: 30,
-              markerHeight: 30,
-              markerWidth: 30,
+              value: value,
+              markerHeight: resHeight(3.0, 4.0),
+              markerWidth: resHeight(3.0, 4.0),
               markerType: MarkerType.triangle,
-              markerOffset: 105,
+              markerOffset: resHeight(6.5, 7.7),
               color: Colors.white,
             )
           ],
@@ -73,9 +94,9 @@ class RadialGauge extends StatelessWidget {
                     // decoration: BoxDecoration(
                     //     border: Border.all(color: Colors.blueAccent, width: 3),
                     //     borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: Text('90.0',
+                    child: Text('${value.toStringAsFixed(1)}',
                         style: TextStyle(
-                            fontSize: 4 * SizeConfig.textMultiplier,
+                            fontSize: resText(4.0, 4.0),
                             fontWeight: FontWeight.bold))),
                 angle: 90,
                 positionFactor: 0.0)
