@@ -54,8 +54,8 @@ class AppTheme {
   );
 
   static final TextStyle _buttonLight = TextStyle(
-    color: Colors.black,
-    fontSize: 4.5 * SizeConfig.textMultiplier,
+    color: Colors.blue,
+    fontSize: 2.5 * SizeConfig.textMultiplier,
   );
 
   static final TextStyle _greetingLight = TextStyle(

@@ -14,10 +14,10 @@ class BmiCalcBloc extends Bloc<BmiCalcEvent, BmiCalcState> {
   Stream<BmiCalcState> mapEventToState(BmiCalcEvent event) async* {
     if (event is DataInputChanged) {
       yield* _mapDataToState(event);
-    } else if (event is WeightSetted) {
-      yield* _mapWeightSettedToState(event);
-    } else if (event is HeightSetted) {
-      yield* _mapHeightSettedToState(event);
+      // } else if (event is WeightSetted) {
+      //   yield* _mapWeightSettedToState(event);
+      // } else if (event is HeightSetted) {
+      //   yield* _mapHeightSettedToState(event);
     } else if (event is AgeSetted) {
     } else if (event is GenderSetted) {
     } else if (event is UnitSetted) {}
@@ -29,36 +29,32 @@ class BmiCalcBloc extends Bloc<BmiCalcEvent, BmiCalcState> {
     yield BmiCalculated(bmiValue);
   }
 
-  Stream<BmiCalcState> _mapWeightSettedToState(WeightSetted event) async* {
-    double bmiValue = _calculate(event.bmiCalcModel);
+  // Stream<BmiCalcState> _mapWeightSettedToState(WeightSetted event) async* {
+  //   double bmiValue = _calculate(event.bmiCalcModel);
 
-    yield BmiCalculated(bmiValue);
-  }
+  //   yield BmiCalculated(bmiValue);
+  // }
 
-  Stream<BmiCalcState> _mapHeightSettedToState(HeightSetted event) async* {
-    double bmiValue = _calculate(event.bmiCalcModel);
+  // Stream<BmiCalcState> _mapHeightSettedToState(HeightSetted event) async* {
+  //   double bmiValue = _calculate(event.bmiCalcModel);
 
-    yield BmiCalculated(bmiValue);
-  }
+  //   yield BmiCalculated(bmiValue);
+  // }
 
   double _calculate(BmiCalcModel bmiModel) {
-    double bmiValue;
+    double _bmiValue;
+    double _constant = 705;
     bmiCalcModel = bmiModel;
-    double weight = bmiCalcModel.weight;
-    double height = bmiCalcModel.height;
-    if (bmiCalcModel.heightUnit == Unit.SI) {
-      height = height / 2.54;
-    }
-    if (bmiCalcModel.heightUnit == Unit.SI) {
-      weight = weight / 0.4536;
-    }
+    double _weight = bmiCalcModel.weight / 0.4536; //kg -> lb
+    double _height = bmiCalcModel.height / 2.54; //cm -> in
+
+    if (bmiCalcModel.ageCategory == Age.lessThan21) _constant = 703;
 
     //formula  w:lb , h:in
-    bmiValue = (weight * 705) / (pow(height, 2));
+    _bmiValue = (_weight * _constant) / (pow(_height, 2));
 
-    print("weihgt: $weight");
-    print("height: $height");
-    print(bmiValue);
-    return bmiValue;
+    // print(bmiCalcModel.toString());
+    print(_bmiValue);
+    return _bmiValue;
   }
 }

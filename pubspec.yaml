@@ -33,6 +33,7 @@ dependencies:
   flutter_fluid_slider: ^1.0.3
   flutter_svg: ^0.22.0
   flutter_toggle_tab: ^1.1.2
+  numberpicker: ^2.1.1
 
 
   # The following adds the Cupertino Icons font to your application.

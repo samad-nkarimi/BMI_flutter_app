@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mbi_app/blocs/blocs.dart';
+import 'package:mbi_app/blocs/bmi_calc/bmi_calc_bloc.dart';
 import 'package:mbi_app/utils/size_config.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class RadialGauge extends StatelessWidget {
-  double value;
+  // double value;
   RadialGauge({
-    this.value = 12.0,
+    // this.value = 12.0,
     Key key,
   }) : super(key: key);
 
@@ -27,12 +30,8 @@ class RadialGauge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _width = resHeight(8.5, 10.0);
+    print("gauge repainted ------------------------------------- ");
     return SfRadialGauge(
-      // backgroundColor: Colors.black26,
-      // title: GaugeTitle(
-      //     text: "null",
-      //     textStyle:
-      //         const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
       axes: <RadialAxis>[
         RadialAxis(
           axisLabelStyle: GaugeTextStyle(
@@ -48,7 +47,9 @@ class RadialGauge extends StatelessWidget {
             GaugeRange(
               label: "underweight",
               labelStyle: GaugeTextStyle(
-                  fontSize: resText(2.0, 2.0), color: Colors.white),
+                fontSize: resText(2.0, 2.0),
+                color: Colors.white,
+              ),
               rangeOffset: 0,
               startValue: 12,
               endValue: 22,
@@ -59,7 +60,9 @@ class RadialGauge extends StatelessWidget {
             GaugeRange(
               label: "normal",
               labelStyle: GaugeTextStyle(
-                  fontSize: resText(2.0, 2.0), color: Colors.white),
+                fontSize: resText(2.0, 2.0),
+                color: Colors.white,
+              ),
               startValue: 22,
               endValue: 32,
               color: Colors.green,
@@ -69,7 +72,9 @@ class RadialGauge extends StatelessWidget {
             GaugeRange(
               label: "overweight",
               labelStyle: GaugeTextStyle(
-                  fontSize: resText(2.0, 2.0), color: Colors.white),
+                fontSize: resText(2.0, 2.0),
+                color: Colors.white,
+              ),
               startValue: 32,
               endValue: 42,
               color: Colors.orange,
@@ -79,7 +84,7 @@ class RadialGauge extends StatelessWidget {
           ],
           pointers: <GaugePointer>[
             MarkerPointer(
-              value: value,
+              value: 20,
               markerHeight: resHeight(3.0, 4.0),
               markerWidth: resHeight(3.0, 4.0),
               markerType: MarkerType.triangle,
@@ -89,17 +94,28 @@ class RadialGauge extends StatelessWidget {
           ],
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(
-                widget: Container(
+              widget: BlocBuilder<BmiCalcBloc, BmiCalcState>(
+                builder: (context, state) {
+                  final double bmiValue =
+                      state is BmiCalculated ? (state.bmiValue ?? 20) : 24;
+
+                  return Container(
                     padding: EdgeInsets.all(0.5 * SizeConfig.heightMultiplier),
                     // decoration: BoxDecoration(
                     //     border: Border.all(color: Colors.blueAccent, width: 3),
                     //     borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: Text('${value.toStringAsFixed(1)}',
-                        style: TextStyle(
-                            fontSize: resText(4.0, 4.0),
-                            fontWeight: FontWeight.bold))),
-                angle: 90,
-                positionFactor: 0.0)
+                    child: Text(
+                      '${bmiValue.toStringAsFixed(1)}',
+                      style: TextStyle(
+                          fontSize: resText(4.0, 4.0),
+                          fontWeight: FontWeight.bold),
+                    ),
+                  );
+                },
+              ),
+              angle: 90,
+              positionFactor: 0.0,
+            )
           ],
         )
       ],

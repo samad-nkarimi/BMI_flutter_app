@@ -135,41 +135,10 @@ class _MbiDrawerState extends State<MbiDrawer> {
                 )),
         SizedBox(height: resHeight(1.0, 3.0)),
         drawerItem(
-            "About Us",
-            () => setState(() {
-                  _showAboutUs = !_showAboutUs;
-                })),
-        SizedBox(
-          height: resHeight(4.0, 4.0),
-        ),
-        Container(
-          color: Colors.amber,
-          width: resWidth(30.0, 20.0),
-          height: resWidth(15.0, 10.0),
-          child: InkWell(
-            onTap: () => Navigator.pop(context),
-            child: Stack(alignment: Alignment.center, children: [
-              Image.asset(
-                "assets/images/back_btn.png",
-                width: resWidth(30.0, 20.0),
-                height: resWidth(15.0, 10.0),
-                fit: BoxFit.fill,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: IconButton(
-                  icon: Image.asset(
-                    "assets/icons/back.png",
-                    color: Colors.white,
-                    width: resWidth(30.0, 20.0),
-                    height: resWidth(15.0, 10.0),
-                    fit: BoxFit.fill,
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ),
-            ]),
-          ),
+          "About Us",
+          () => setState(() {
+            _showAboutUs = !_showAboutUs;
+          }),
         ),
       ],
     );
