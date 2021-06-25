@@ -20,7 +20,8 @@ class MBIHome extends StatefulWidget {
 
 class _MBIHomeState extends State<MBIHome> {
   // var _gaugeValue = 12.0;
-  double _currentDoubleValue = 58.3;
+  double _currentWeightValue = 58.3;
+  double _currentHeightValue = 110.6;
   // NumberPicker decimalNumberPicker;
   Map<String, String> _scores = {
     "underweight": "18.5>=",
@@ -60,15 +61,14 @@ class _MBIHomeState extends State<MBIHome> {
                     padding: const EdgeInsets.all(10.0),
                     margin: const EdgeInsets.all(10.0),
                     alignment: Alignment.topLeft,
-                    child: IconButton(
-                      iconSize: 10 * SizeConfig.heightMultiplier,
-                      icon: Image.asset(
-                        "assets/icons/menu.png",
-                        fit: BoxFit.fill,
-                        width: resWidth(8.0, 6.0),
-                        height: resWidth(8.0, 6.0),
+                    child: Container(
+                      width: resWidth(12.0, 8.0),
+                      height: resWidth(12.0, 8.0),
+                      child: IconButton(
+                        // iconSize: 10 * SizeConfig.heightMultiplier,
+                        icon: SvgPicture.asset("assets/images/menu_icon.svg"),
+                        onPressed: () => Scaffold.of(context).openDrawer(),
                       ),
-                      onPressed: () => Scaffold.of(context).openDrawer(),
                     ),
                   ),
                 ),
@@ -140,8 +140,9 @@ class _MBIHomeState extends State<MBIHome> {
                           children: [
                             // segment weight
                             if (SizeConfig.isMobilePortrait)
-                              _propertyRowMobile(name: "weight", unit: "kg"),
-                            _sliderTotal(name: "weight", unit: "kg"),
+                              _propertyRowMobile(20, 200,
+                                  name: "weight", unit: "kg"),
+                            _sliderTotal(20, 200, name: "weight", unit: "kg"),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 18.0),
@@ -151,8 +152,9 @@ class _MBIHomeState extends State<MBIHome> {
 
                             // segment height
                             if (SizeConfig.isMobilePortrait)
-                              _propertyRowMobile(name: "height", unit: "cm"),
-                            _sliderTotal(name: "height", unit: "cm"),
+                              _propertyRowMobile(130, 220,
+                                  name: "height", unit: "cm"),
+                            _sliderTotal(130, 220, name: "height", unit: "cm"),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 18.0),
@@ -257,7 +259,8 @@ class _MBIHomeState extends State<MBIHome> {
     return _categoryNumber;
   }
 
-  Widget _propertyRowMobile({name, unit}) {
+  Widget _propertyRowMobile(int min, int max, {name, unit}) {
+    final parameter = name == "weight" ? Parameter.weight : Parameter.height;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -273,16 +276,19 @@ class _MBIHomeState extends State<MBIHome> {
             return showDialog(
               context: context,
               builder: (ctx) {
-                return _DecimalExample(_currentDoubleValue);
+                return _DecimalExample(parameter, min, max);
               },
             ).then((value) {
               setState(() {
-                if (value != null) _currentDoubleValue = value;
+                if (value != null && name == "weight")
+                  _currentWeightValue = value;
+                if (value != null && name == "height")
+                  _currentHeightValue = value;
               });
             });
           },
           child: Text(
-            "$_currentDoubleValue",
+            "${weightOrHeightValue(name)}",
             style: Theme.of(context).textTheme.bodyText2,
           ),
         ),
@@ -290,13 +296,20 @@ class _MBIHomeState extends State<MBIHome> {
     );
   }
 
-  Widget _sliderTotal({name, unit}) {
+  double weightOrHeightValue(String name) {
+    if (name == "weight")
+      return _currentWeightValue;
+    else
+      return _currentHeightValue;
+  }
+
+  Widget _sliderTotal(int min, int max, {name, unit}) {
     return Row(
       children: [
         if (!SizeConfig.isMobilePortrait)
           Flexible(
             flex: 30,
-            child: _propertyRowMobile(name: name, unit: unit),
+            child: _propertyRowMobile(min, max, name: name, unit: unit),
           ),
         Flexible(
           flex: 65,
@@ -307,8 +320,8 @@ class _MBIHomeState extends State<MBIHome> {
             child: SliderWidget(
               Parameter.weight,
               sliderHeight: 6.0 * SizeConfig.heightMultiplier,
-              min: 30,
-              max: 200,
+              min: min,
+              max: max,
             ),
           ),
         ),
@@ -438,53 +451,72 @@ class _MBIHomeState extends State<MBIHome> {
 
 // ignore: must_be_immutable
 class _DecimalExample extends StatefulWidget {
-  double _value;
-  _DecimalExample(this._value);
+  // double _value;
+  int _min;
+  int _max;
+  final Parameter parameterType;
+  _DecimalExample(this.parameterType, this._min, this._max);
   @override
   __DecimalExampleState createState() => __DecimalExampleState();
 }
 
 class __DecimalExampleState extends State<_DecimalExample> {
-  double _currentDoubleValue;
+  // double _currentDoubleValue;
+  int _minValue;
+  int _maxValue;
   @override
   void initState() {
-    _currentDoubleValue = widget._value;
+    // _currentDoubleValue = widget._value;
+    _minValue = widget._min;
+    _maxValue = widget._max;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title:
-          Text('select weight', style: Theme.of(context).textTheme.bodyText1),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text("cancell", style: Theme.of(context).textTheme.button),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context, _currentDoubleValue);
-          },
-          child: Text(
-            "ok",
-            style: Theme.of(context).textTheme.button,
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ],
-      content: DecimalNumberPicker(
-        value: _currentDoubleValue,
-        minValue: 30,
-        maxValue: 220,
-        itemCount: 3,
-        decimalPlaces: 1,
-        onChanged: (value) => setState(
-          () => _currentDoubleValue = value,
-        ),
-      ),
+    return BlocBuilder<BmiCalcBloc, BmiCalcState>(
+      builder: (context, state) {
+        final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+        return AlertDialog(
+          title: Text('select weight',
+              style: Theme.of(context).textTheme.bodyText1),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("cancell", style: Theme.of(context).textTheme.button),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, bmiModel.height);
+              },
+              child: Text(
+                "ok",
+                style: Theme.of(context).textTheme.button,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+          content: DecimalNumberPicker(
+              value: bmiModel.height,
+              minValue: _minValue,
+              maxValue: _maxValue,
+              itemCount: 3,
+              decimalPlaces: 1,
+              onChanged: (value) {
+                // setState(
+                //   () => _currentDoubleValue = value,
+                // );
+                if (widget.parameterType == Parameter.weight)
+                  bmiModel.weight = value;
+                else
+                  bmiModel.height = value;
+                BlocProvider.of<BmiCalcBloc>(context)
+                    .add(DataInputChanged(bmiModel));
+              }),
+        );
+      },
     );
   }
 }

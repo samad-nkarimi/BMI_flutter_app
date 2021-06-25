@@ -65,6 +65,8 @@ flutter:
     - assets/images/top_shape.svg
     - assets/images/man.svg
     - assets/images/woman.svg
+    - assets/images/back_icon.svg
+    - assets/images/menu_icon.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

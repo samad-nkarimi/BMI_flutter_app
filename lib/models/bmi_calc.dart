@@ -11,8 +11,8 @@ class BmiCalcModel extends Equatable {
   Age ageCategory;
 
   BmiCalcModel({
-    this.weight = 30.0,
-    this.height = 130.0,
+    this.weight = 50.0,
+    this.height = 160.0,
     this.genderCategory = Gender.male,
     this.ageCategory = Age.greaterThan21,
   });

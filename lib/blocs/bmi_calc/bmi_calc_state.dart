@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 abstract class BmiCalcState extends Equatable {
+  final double bmiValue = 150;
   const BmiCalcState();
 
   @override

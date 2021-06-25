@@ -17,8 +17,8 @@ class SliderWidget extends StatefulWidget {
   SliderWidget(
     this.parameterType, {
     this.sliderHeight = 48,
-    this.max = 100,
-    this.min = 0,
+    this.max = 220,
+    this.min = 20,
     this.fullWidth = true,
   });
 
@@ -105,11 +105,16 @@ class _SliderWidgetState extends State<SliderWidget> {
                     builder: (context, state) {
                       final bmiModel =
                           BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                      _value = widget.parameterType == Parameter.weight
+                          ? bmiModel.height
+                          : bmiModel.weight;
+                      print(
+                          "$_value *******************************************");
                       return Slider(
-                        value: _value,
-                        label:
-                            '${(widget.min + _value * (widget.max - widget.min)).toStringAsFixed(1)}',
-                        divisions: (widget.max - widget.min) ~/ 2,
+                        value:
+                            (_value - widget.min) / (widget.max - widget.min),
+                        label: '${(_value).toStringAsFixed(1)}',
+                        divisions: (widget.max - widget.min) * 2,
                         onChanged: (value) {
                           setState(() {
                             _value = value;

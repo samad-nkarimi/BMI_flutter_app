@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mbi_app/blocs/blocs.dart';
 import 'package:mbi_app/models/drawer_item.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
@@ -62,18 +63,13 @@ class _MbiDrawerState extends State<MbiDrawer> {
         ),
       ),
       Positioned(
-        top: resHeight(8.0, 4.0),
-        left: resHeight(8.0, 6.0),
+        top: resHeight(2.0, 4.0),
+        left: resHeight(2.0, 6.0),
         child: Container(
           width: resWidth(12.0, 8.0),
           height: resWidth(12.0, 8.0),
           child: IconButton(
-            icon: Image.asset(
-              "assets/icons/back.png",
-              fit: BoxFit.fill,
-              width: resWidth(12.0, 8.0),
-              height: resWidth(12.0, 8.0),
-            ),
+            icon: SvgPicture.asset("assets/images/back_icon.svg"),
             onPressed: () => Navigator.pop(context),
           ),
         ),
@@ -95,7 +91,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
         Container(
           width: resWidth(30.0, 20.0),
           height: resWidth(15.0, 10.0),
-          child: InkWell(
+          child: GestureDetector(
             onTap: () => setState(() {
               _showAboutUs = !_showAboutUs;
             }),
