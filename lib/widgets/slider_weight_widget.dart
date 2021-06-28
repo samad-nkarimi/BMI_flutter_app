@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mbi_app/blocs/blocs.dart';
-import 'package:mbi_app/models/bmi_calc.dart';
-import 'package:mbi_app/utils/size_config.dart';
 import 'custom_slider_thumb_circle.dart';
 
-enum Parameter { weight, height }
-
-class SliderWidget extends StatefulWidget {
+class SliderWeightWidget extends StatefulWidget {
   final double sliderHeight;
   final int min;
   final int max;
   final fullWidth;
-  final Parameter parameterType;
+  // final Parameter parameterType;
 
-  SliderWidget(
-    this.parameterType, {
+  SliderWeightWidget({
     this.sliderHeight = 48,
     this.max = 220,
     this.min = 20,
@@ -23,10 +18,10 @@ class SliderWidget extends StatefulWidget {
   });
 
   @override
-  _SliderWidgetState createState() => _SliderWidgetState();
+  _SliderWeightWidgetState createState() => _SliderWeightWidgetState();
 }
 
-class _SliderWidgetState extends State<SliderWidget> {
+class _SliderWeightWidgetState extends State<SliderWeightWidget> {
   double _value = 0.0;
 
   @override
@@ -81,11 +76,11 @@ class _SliderWidgetState extends State<SliderWidget> {
                     activeTrackColor: Colors.white.withOpacity(1),
                     inactiveTrackColor: Colors.white.withOpacity(.5),
                     trackHeight: 10.0,
-                    thumbShape: CustomSliderThumbCircle(
-                      thumbRadius: this.widget.sliderHeight * .4,
-                      min: this.widget.min,
-                      max: this.widget.max,
-                    ),
+                    // thumbShape: CustomSliderThumbCircle(
+                    //   thumbRadius: this.widget.sliderHeight * .4,
+                    //   min: this.widget.min,
+                    //   max: this.widget.max,
+                    // ),
                     // overlayShape: CustomSliderThumbCircle(
                     //   thumbRadius: this.widget.sliderHeight * .3,
                     //   min: this.widget.min,
@@ -105,26 +100,22 @@ class _SliderWidgetState extends State<SliderWidget> {
                     builder: (context, state) {
                       final bmiModel =
                           BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-                      _value = widget.parameterType == Parameter.weight
-                          ? bmiModel.height
-                          : bmiModel.weight;
+                      _value = bmiModel.weight;
                       print(
                           "$_value *******************************************");
                       return Slider(
                         value:
                             (_value - widget.min) / (widget.max - widget.min),
-                        label: '${(_value).toStringAsFixed(1)}',
+                        // label: '${(_value).toStringAsFixed(1)}',
                         divisions: (widget.max - widget.min) * 2,
                         onChanged: (value) {
                           setState(() {
                             _value = value;
                           });
-                          if (widget.parameterType == Parameter.weight)
-                            bmiModel.weight =
-                                widget.min + value * (widget.max - widget.min);
-                          else
-                            bmiModel.height =
-                                widget.min + value * (widget.max - widget.min);
+
+                          bmiModel.weight =
+                              widget.min + value * (widget.max - widget.min);
+
                           BlocProvider.of<BmiCalcBloc>(context)
                               .add(DataInputChanged(bmiModel));
                         },

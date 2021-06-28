@@ -31,75 +31,75 @@ class RadialGauge extends StatelessWidget {
   Widget build(BuildContext context) {
     final _width = resHeight(8.5, 10.0);
     print("gauge repainted ------------------------------------- ");
-    return SfRadialGauge(
-      axes: <RadialAxis>[
-        RadialAxis(
-          axisLabelStyle: GaugeTextStyle(
-            fontSize: resText(1.5, 1.5),
-          ),
-          tickOffset: resHeight(7.0, 9.2),
-          minimum: 12.0,
-          maximum: 42.0,
-          interval: 5.0,
-          startAngle: 180,
-          endAngle: 0,
-          ranges: <GaugeRange>[
-            GaugeRange(
-              label: "underweight",
-              labelStyle: GaugeTextStyle(
-                fontSize: resText(2.0, 2.0),
-                color: Colors.white,
-              ),
-              rangeOffset: 0,
-              startValue: 12,
-              endValue: 22,
-              color: Colors.blue,
-              startWidth: _width,
-              endWidth: _width,
-            ),
-            GaugeRange(
-              label: "normal",
-              labelStyle: GaugeTextStyle(
-                fontSize: resText(2.0, 2.0),
-                color: Colors.white,
-              ),
-              startValue: 22,
-              endValue: 32,
-              color: Colors.green,
-              startWidth: _width,
-              endWidth: _width,
-            ),
-            GaugeRange(
-              label: "overweight",
-              labelStyle: GaugeTextStyle(
-                fontSize: resText(2.0, 2.0),
-                color: Colors.white,
-              ),
-              startValue: 32,
-              endValue: 42,
-              color: Colors.orange,
-              startWidth: _width,
-              endWidth: _width,
-            )
-          ],
-          pointers: <GaugePointer>[
-            MarkerPointer(
-              value: 20,
-              markerHeight: resHeight(3.0, 4.0),
-              markerWidth: resHeight(3.0, 4.0),
-              markerType: MarkerType.triangle,
-              markerOffset: resHeight(6.5, 7.7),
-              color: Colors.white,
-            )
-          ],
-          annotations: <GaugeAnnotation>[
-            GaugeAnnotation(
-              widget: BlocBuilder<BmiCalcBloc, BmiCalcState>(
-                builder: (context, state) {
-                  final double bmiValue =
-                      state is BmiCalculated ? (state.bmiValue ?? 20) : 24;
+    return BlocBuilder<BmiCalcBloc, BmiCalcState>(
+      builder: (context, state) {
+        final double bmiValue =
+            state is BmiCalculated ? (state.bmiValue ?? 20) : 24;
 
-                  return Container(
+        return SfRadialGauge(
+          axes: <RadialAxis>[
+            RadialAxis(
+              axisLabelStyle: GaugeTextStyle(
+                fontSize: resText(1.5, 1.5),
+              ),
+              tickOffset: resHeight(7.0, 9.2),
+              minimum: 12.0,
+              maximum: 42.0,
+              interval: 5.0,
+              startAngle: 180,
+              endAngle: 0,
+              ranges: <GaugeRange>[
+                GaugeRange(
+                  label: "underweight",
+                  labelStyle: GaugeTextStyle(
+                    fontSize: resText(2.0, 2.0),
+                    color: Colors.white,
+                  ),
+                  rangeOffset: 0,
+                  startValue: 12,
+                  endValue: 22,
+                  color: Colors.blue,
+                  startWidth: _width,
+                  endWidth: _width,
+                ),
+                GaugeRange(
+                  label: "normal",
+                  labelStyle: GaugeTextStyle(
+                    fontSize: resText(2.0, 2.0),
+                    color: Colors.white,
+                  ),
+                  startValue: 22,
+                  endValue: 32,
+                  color: Colors.green,
+                  startWidth: _width,
+                  endWidth: _width,
+                ),
+                GaugeRange(
+                  label: "overweight",
+                  labelStyle: GaugeTextStyle(
+                    fontSize: resText(2.0, 2.0),
+                    color: Colors.white,
+                  ),
+                  startValue: 32,
+                  endValue: 42,
+                  color: Colors.orange,
+                  startWidth: _width,
+                  endWidth: _width,
+                )
+              ],
+              pointers: <GaugePointer>[
+                MarkerPointer(
+                  value: bmiValue,
+                  markerHeight: resHeight(3.0, 4.0),
+                  markerWidth: resHeight(3.0, 4.0),
+                  markerType: MarkerType.triangle,
+                  markerOffset: resHeight(6.5, 7.7),
+                  color: Colors.white,
+                )
+              ],
+              annotations: <GaugeAnnotation>[
+                GaugeAnnotation(
+                  widget: Container(
                     padding: EdgeInsets.all(0.5 * SizeConfig.heightMultiplier),
                     // decoration: BoxDecoration(
                     //     border: Border.all(color: Colors.blueAccent, width: 3),
@@ -110,15 +110,15 @@ class RadialGauge extends StatelessWidget {
                           fontSize: resText(4.0, 4.0),
                           fontWeight: FontWeight.bold),
                     ),
-                  );
-                },
-              ),
-              angle: 90,
-              positionFactor: 0.0,
+                  ),
+                  angle: 90,
+                  positionFactor: 0.0,
+                )
+              ],
             )
           ],
-        )
-      ],
+        );
+      },
     );
   }
 }
