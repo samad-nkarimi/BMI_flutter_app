@@ -9,12 +9,18 @@ class BmiCalcModel extends Equatable {
   double height;
   Gender genderCategory;
   int age;
+  double percentile5th;
+  double percentile85th;
+  double percentile95th;
 
   BmiCalcModel({
     this.weight = 50.0,
     this.height = 160.0,
     this.genderCategory = Gender.male,
     this.age = 20,
+    this.percentile5th = 18.5,
+    this.percentile85th = 25.0,
+    this.percentile95th = 30.0,
   });
 
   @override

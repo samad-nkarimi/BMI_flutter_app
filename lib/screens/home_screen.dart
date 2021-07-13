@@ -656,34 +656,51 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                maleToggle = true;
-              });
-            },
-            child: Text("male",
-                style: maleToggle
-                    ? Theme.of(context).textTheme.bodyText1
-                    : Theme.of(context).textTheme.subtitle1),
+    return BlocBuilder<BmiCalcBloc, BmiCalcState>(
+      builder: (context, state) {
+        final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+        return Container(
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    maleToggle = true;
+                  });
+                  bmiModel.genderCategory = Gender.male;
+                  BlocProvider.of<BmiCalcBloc>(context).add(
+                    DataInputChanged(bmiModel),
+                  );
+                },
+                child: Text(
+                  "male",
+                  style: maleToggle
+                      ? Theme.of(context).textTheme.bodyText1
+                      : Theme.of(context).textTheme.subtitle1,
+                ),
+              ),
+              Text(" | ", style: Theme.of(context).textTheme.subtitle1),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    maleToggle = false;
+                  });
+                  bmiModel.genderCategory = Gender.female;
+                  BlocProvider.of<BmiCalcBloc>(context).add(
+                    DataInputChanged(bmiModel),
+                  );
+                },
+                child: Text(
+                  "female",
+                  style: !maleToggle
+                      ? Theme.of(context).textTheme.bodyText1
+                      : Theme.of(context).textTheme.subtitle1,
+                ),
+              ),
+            ],
           ),
-          Text(" | ", style: Theme.of(context).textTheme.subtitle1),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                maleToggle = false;
-              });
-            },
-            child: Text("female",
-                style: !maleToggle
-                    ? Theme.of(context).textTheme.bodyText1
-                    : Theme.of(context).textTheme.subtitle1),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
