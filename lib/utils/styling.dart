@@ -9,6 +9,7 @@ class AppTheme {
   static const Color selectedTabBackgroundColor = Color(0xFFFFC442);
   static const Color unSelectedTabBackgroundColor = Color(0xFFFFFFFC);
   static const Color subTitleTextColor = Color(0xFF75C28C);
+  static const Color subTitleSmallTextColor = Color(0x99000000);
 
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: AppTheme.appBackgroundColor,
@@ -24,6 +25,7 @@ class AppTheme {
 
   static final TextTheme lightTextTheme = TextTheme(
     headline6: _titleLight,
+    subtitle1: _subTitleSmallLight,
     subtitle2: _subTitleLight,
     button: _buttonLight,
     headline4: _greetingLight,
@@ -53,6 +55,13 @@ class AppTheme {
     height: 1.5,
   );
 
+  static final TextStyle _subTitleSmallLight = TextStyle(
+    color: subTitleSmallTextColor,
+    fontSize: 2.0 * SizeConfig.textMultiplier,
+    fontWeight: FontWeight.w600,
+    height: 1.5,
+  );
+
   static final TextStyle _buttonLight = TextStyle(
     color: Colors.blue,
     fontSize: 2.5 * SizeConfig.textMultiplier,
@@ -69,9 +78,9 @@ class AppTheme {
   );
 
   static final TextStyle _selectedTabLight = TextStyle(
-    color: Colors.black,
+    color: Colors.blue,
     fontWeight: FontWeight.bold,
-    fontSize: 3 * SizeConfig.textMultiplier,
+    fontSize: 2.5 * SizeConfig.textMultiplier,
   );
 
   static final TextStyle _unSelectedTabLight = TextStyle(

@@ -37,7 +37,7 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
       height: (this.widget.sliderHeight),
       decoration: new BoxDecoration(
         borderRadius: new BorderRadius.all(
-          Radius.circular((this.widget.sliderHeight * .3)),
+          Radius.circular((this.widget.sliderHeight * .15)),
         ),
         gradient: new LinearGradient(
             colors: [
@@ -75,7 +75,7 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
                   data: SliderTheme.of(context).copyWith(
                     activeTrackColor: Colors.white.withOpacity(1),
                     inactiveTrackColor: Colors.white.withOpacity(.5),
-                    trackHeight: 10.0,
+                    trackHeight: 6.0,
                     // thumbShape: CustomSliderThumbCircle(
                     //   thumbRadius: this.widget.sliderHeight * .4,
                     //   min: this.widget.min,
@@ -101,8 +101,7 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
                       final bmiModel =
                           BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                       _value = bmiModel.weight;
-                      print(
-                          "$_value *******************************************");
+
                       return Slider(
                         value:
                             (_value - widget.min) / (widget.max - widget.min),

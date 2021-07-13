@@ -23,6 +23,8 @@ class _MBIHomeState extends State<MBIHome> {
   // var _gaugeValue = 12.0;
   double _currentWeightValue = 58.3;
   double _currentHeightValue = 110.6;
+  double _horizPaddingFactorTextForMobile = 5.0;
+  double _horizPaddingFactorTextForTablet = 5.0;
   // NumberPicker decimalNumberPicker;
   Map<String, String> _scores = {
     "underweight": "18.5>=",
@@ -94,7 +96,7 @@ class _MBIHomeState extends State<MBIHome> {
                 // color: Colors.black26,
                 width: double.maxFinite,
                 padding: EdgeInsets.only(
-                    top: resWidth(5.0, 0.0), left: 15, right: 15),
+                    top: resWidth(5.0, 0.0), left: 10.0, right: 10.0),
                 height: resHeight(50.0, 55.0),
                 child: RadialGauge(
                     // value: bmiValue,
@@ -111,13 +113,33 @@ class _MBIHomeState extends State<MBIHome> {
                       builder: (context, state) {
                         final bmiModel =
                             BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text("Normal Weight"),
-                            Text(
-                                "(${((24.5 * bmiModel.height * bmiModel.height * 0.4356) / (703 * 2.54 * 2.54)).toStringAsFixed(1)} - ${((30.5 * bmiModel.height * bmiModel.height * 0.4356) / (703 * 2.54 * 2.54)).toStringAsFixed(1)})")
-                          ],
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: resHeight(
+                              _horizPaddingFactorTextForMobile +
+                                  1.0, // adding 1.0 for card margin
+                              _horizPaddingFactorTextForTablet + 1.0,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "normal weight(kg)",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1
+                                    .copyWith(color: Colors.blue),
+                              ),
+                              Text(
+                                "${((24.5 * bmiModel.height * bmiModel.height * 0.4356) / (703 * 2.54 * 2.54)).toStringAsFixed(1)} - ${((30.5 * bmiModel.height * bmiModel.height * 0.4356) / (703 * 2.54 * 2.54)).toStringAsFixed(1)}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1
+                                    .copyWith(color: Colors.blue),
+                              )
+                            ],
+                          ),
                         );
                       },
                     ),
@@ -130,7 +152,7 @@ class _MBIHomeState extends State<MBIHome> {
                           bottom: resHeight(0.5, 1.0)),
                       elevation: 1,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
+                        borderRadius: BorderRadius.circular(7.0),
                         // side: BorderSide(width: 5, color: Colors.green),
                       ),
                       child: Container(
@@ -145,11 +167,9 @@ class _MBIHomeState extends State<MBIHome> {
                                   name: "weight", unit: "kg"),
                             _sliderTotalWeight(20, 200,
                                 name: "weight", unit: "kg"),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 18.0),
-                              child:
-                                  Divider(height: 0.5, color: Colors.black26),
+                            Divider(
+                              height: 5.0,
+                              color: Colors.transparent,
                             ),
 
                             // segment height
@@ -178,13 +198,14 @@ class _MBIHomeState extends State<MBIHome> {
 
                         return Card(
                           margin: EdgeInsets.only(
-                              top: resHeight(0.5, 1.0),
-                              left: resHeight(1.0, 2.0),
-                              right: resHeight(1.0, 2.0),
-                              bottom: resHeight(1.0, 2.0)),
+                            top: resHeight(0.5, 1.0),
+                            left: resHeight(1.0, 2.0),
+                            right: resHeight(1.0, 2.0),
+                            bottom: resHeight(1.0, 2.0),
+                          ),
                           elevation: 1,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
+                            borderRadius: BorderRadius.circular(7.0),
                           ),
                           child: _scoreRow(getBmiValueCategory(bmiValue)),
                         );
@@ -201,45 +222,37 @@ class _MBIHomeState extends State<MBIHome> {
   }
 
   Widget _scoreRow(int position) {
-    print("position: $position**************************************");
     return Container(
-      // width: double.infinity,
-      // color: Colors.black12,
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 2),
+      padding: EdgeInsets.symmetric(
+          horizontal: resHeight(_horizPaddingFactorTextForMobile,
+              _horizPaddingFactorTextForTablet),
+          vertical: resHeight(2.0, 2.0)),
       child: Column(
         children: [
           for (int i = 0; i < _scores.length; i++)
             i != position
                 ? Row(
-                    // mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text("${_scores.keys.elementAt(i)}"),
-                      Expanded(
-                        child: Text(
-                          "",
-                        ),
+                      Text(
+                        "${_scores.keys.elementAt(i)}",
+                        style: Theme.of(context).textTheme.subtitle1,
                       ),
-                      Text("${_scores.values.elementAt(i)}"),
+                      Expanded(child: Text("")),
+                      Text(
+                        "${_scores.values.elementAt(i)}",
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
                     ],
                   )
                 : Row(
-                    // mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
                         "${_scores.keys.elementAt(i)}",
                         style: TextStyle(color: Colors.blue),
                       ),
-                      Expanded(
-                        child: Text(
-                          // "----------------",
-                          "<<  >>",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: resText(3.0, 3.0), color: Colors.blue),
-                        ),
-                      ),
+                      Expanded(child: Text("")),
                       Text(
                         "${_scores.values.elementAt(i)}",
                         style: TextStyle(color: Colors.blue),
@@ -252,93 +265,106 @@ class _MBIHomeState extends State<MBIHome> {
   }
 
   int getBmiValueCategory(double _bmivalue) {
-    print("bmi: $_bmivalue*********************************************");
     int _categoryNumber = 0;
     if (_bmivalue <= 18.5) _categoryNumber = 0;
     if (_bmivalue >= 18.5 && _bmivalue <= 25.0) _categoryNumber = 1;
     if (_bmivalue >= 25.0 && _bmivalue <= 30.0) _categoryNumber = 2;
     if (_bmivalue >= 30.0) _categoryNumber = 3;
-    print("categoryNumber: $_categoryNumber*******************************");
     return _categoryNumber;
   }
 
   Widget _propertyRowMobileWeight(int min, int max, {name, unit}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Padding(
-          padding: EdgeInsets.all(0.5 * SizeConfig.heightMultiplier),
-          child: Text(
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: resHeight(
+          _horizPaddingFactorTextForMobile,
+          _horizPaddingFactorTextForTablet,
+        ),
+        vertical: resHeight(.7, 1.0),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
             "$name($unit): ",
+            style: Theme.of(context).textTheme.subtitle1,
           ),
-        ),
-        //*********** decimalNumberPicker segment  ************/
-        TextButton(
-          onPressed: () {
-            return showDialog(
-              context: context,
-              builder: (ctx) {
-                return _DecimalExampleWeight(min, max);
-              },
-            ).then((value) {
-              setState(() {
-                _currentWeightValue = value;
+          //*********** decimalNumberPicker segment  ************/
+
+          InkWell(
+            onTap: () {
+              return showDialog(
+                context: context,
+                builder: (ctx) {
+                  return _DecimalExampleWeight(min, max);
+                },
+              ).then((value) {
+                setState(() {
+                  _currentWeightValue = value;
+                });
               });
-            });
-          },
-          child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
-            builder: (context, state) {
-              final bmiModel =
-                  BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-              _currentWeightValue = bmiModel.weight;
-              return Text(
-                "$_currentWeightValue",
-                style: Theme.of(context).textTheme.bodyText2,
-              );
             },
+            child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
+              builder: (context, state) {
+                final bmiModel =
+                    BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                _currentWeightValue = bmiModel.weight;
+                return Text(
+                  "${_currentWeightValue.toStringAsFixed(1)}",
+                  style: Theme.of(context).textTheme.bodyText1,
+                );
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _propertyRowMobileHeight(int min, int max, {name, unit}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Padding(
-          padding: EdgeInsets.all(0.5 * SizeConfig.heightMultiplier),
-          child: Text(
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: resHeight(
+          _horizPaddingFactorTextForMobile,
+          _horizPaddingFactorTextForTablet,
+        ),
+        vertical: resHeight(.7, 1.0),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
             "$name($unit): ",
+            style: Theme.of(context).textTheme.subtitle1,
           ),
-        ),
-        //*********** decimalNumberPicker segment  ************/
-        TextButton(
-          onPressed: () {
-            return showDialog(
-              context: context,
-              builder: (ctx) {
-                return _DecimalExampleHeight(min, max);
-              },
-            ).then((value) {
-              setState(() {
-                _currentHeightValue = value;
+          //*********** decimalNumberPicker segment  ************/
+          InkWell(
+            onTap: () {
+              return showDialog(
+                context: context,
+                builder: (ctx) {
+                  return _DecimalExampleHeight(min, max);
+                },
+              ).then((value) {
+                setState(() {
+                  _currentHeightValue = value;
+                });
               });
-            });
-          },
-          child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
-            builder: (context, state) {
-              final bmiModel =
-                  BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-              _currentHeightValue = bmiModel.height;
-              return Text(
-                "$_currentHeightValue",
-                style: Theme.of(context).textTheme.bodyText2,
-              );
             },
+            child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
+              builder: (context, state) {
+                final bmiModel =
+                    BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                _currentHeightValue = bmiModel.height;
+                return Text(
+                  "${_currentHeightValue.toStringAsFixed(1)}",
+                  style: Theme.of(context).textTheme.bodyText1,
+                );
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -361,10 +387,10 @@ class _MBIHomeState extends State<MBIHome> {
           flex: 65,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: resWidth(1.0, 2.0),
+              horizontal: resWidth(3.0, 2.0),
             ),
             child: SliderHeightWidget(
-              sliderHeight: 6.0 * SizeConfig.heightMultiplier,
+              sliderHeight: resHeight(5.0, 10.0),
               min: min,
               max: max,
             ),
@@ -386,10 +412,10 @@ class _MBIHomeState extends State<MBIHome> {
           flex: 65,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: resWidth(1.0, 2.0),
+              horizontal: resWidth(3.0, 2.0),
             ),
             child: SliderWeightWidget(
-              sliderHeight: 6.0 * SizeConfig.heightMultiplier,
+              sliderHeight: resHeight(5.0, 10.0),
               min: min,
               max: max,
             ),
@@ -401,122 +427,39 @@ class _MBIHomeState extends State<MBIHome> {
 
   Widget _ageAndGender() {
     return Padding(
-      padding: EdgeInsets.all(resHeight(1.0, 1.0)),
+      padding: EdgeInsets.symmetric(
+          horizontal: resHeight(_horizPaddingFactorTextForMobile,
+              _horizPaddingFactorTextForTablet)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
-            flex: 30,
-            child: Text("age & gender"),
-          ),
+          Text("age:", style: Theme.of(context).textTheme.subtitle1),
           BlocBuilder<BmiCalcBloc, BmiCalcState>(builder: (context, state) {
             final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-            return Flexible(
-              flex: 65,
-              child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: resWidth(1.0, 2.0)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      FlutterToggleTab(
-                        isScroll: false,
-                        width: resWidth(7.0, 2.8),
-                        height: resHeight(6.0, 5.5),
-                        borderRadius: 15,
-                        initialIndex: 0,
-                        selectedTextStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: resText(2.5, 3.5),
-                            fontWeight: FontWeight.w600),
-                        unSelectedTextStyle: TextStyle(
-                            color: Colors.blue,
-                            fontSize: resText(2.5, 3.5),
-                            fontWeight: FontWeight.w400),
-                        labels: ["-21", "+21"],
-                        selectedLabelIndex: (index) {
-                          bmiModel.ageCategory =
-                              index == 0 ? Age.lessThan21 : Age.greaterThan21;
-                          BlocProvider.of<BmiCalcBloc>(context).add(
-                            DataInputChanged(bmiModel),
-                          );
-                          print("Selected Index $index");
-                        },
-                      ),
-                      // Spacer(),
-                      FlutterToggleTab(
-                        isScroll: false,
-                        width: resWidth(7.0, 2.8),
-                        height: resHeight(6.0, 5.5),
-                        borderRadius: 15,
-                        initialIndex: 0,
-                        selectedTextStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: resText(2.0, 3.5),
-                            fontWeight: FontWeight.w600),
-                        unSelectedTextStyle: TextStyle(
-                            color: Colors.blue,
-                            fontSize: resText(2.0, 3.5),
-                            fontWeight: FontWeight.w400),
-                        labels: ["male", "female"],
-                        selectedLabelIndex: (index) {
-                          bmiModel.genderCategory =
-                              index == 0 ? Gender.male : Gender.female;
-                          BlocProvider.of<BmiCalcBloc>(context)
-                              .add(DataInputChanged(bmiModel));
-                          print("Selected Index $index");
-                        },
-                      ),
-                    ],
-                  )),
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: resWidth(1.0, 2.0)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(5),
+                    child: Text("+20",
+                        style: Theme.of(context).textTheme.subtitle1),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(5),
+                    child: Text("-20",
+                        style: Theme.of(context).textTheme.subtitle1),
+                  ),
+                  // Spacer(),
+                ],
+              ),
             );
           }),
-
-          // Row(
-          //   children: [
-          //     SvgPicture.asset(
-          //       "assets/images/woman.svg",
-          //       color: Colors.red,
-          //     ),
-          //     SizedBox(
-          //       width: resWidth(2.0, 4.0),
-          //     ),
-          //     VerticalDivider(
-          //       width: 1,
-          //       color: Colors.black,
-          //     ),
-          //     SvgPicture.asset(
-          //         "assets/images/man.svg"),
-          //   ],
-          // ),
         ],
       ),
     );
   }
-
-  // _handleValueChanged(num value) {
-  //   print("$value ***************************");
-  //   if (value != null) {
-  //     setState(() => _currentDoubleValue = value);
-  //     // decimalNumberPicker.animateDecimalAndInteger(value);
-
-  //   }
-  // }
-  // Future _showDoubleDialog() async {
-  // await showDialog<double>(
-
-  //   context: context,
-  //   builder: (BuildContext context) {
-  //     return DecimalNumberPicker.(
-  //       minValue: 1,
-  //       maxValue: 5,
-  //       decimalPlaces: 2,
-  //       initialDoubleValue: _currentDoubleValue,
-  //       title: new Text("Pick a decimal value"),
-  //     );
-  //   },
-  // ).then(_handleValueChangedExternally);
-  // }
-
 }
 
 // ignore: must_be_immutable

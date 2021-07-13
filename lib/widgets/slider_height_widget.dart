@@ -37,12 +37,12 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
       height: (this.widget.sliderHeight),
       decoration: new BoxDecoration(
         borderRadius: new BorderRadius.all(
-          Radius.circular((this.widget.sliderHeight * .3)),
+          Radius.circular((this.widget.sliderHeight * .15)),
         ),
         gradient: new LinearGradient(
             colors: [
-              const Color(0xFF00c6ff),
-              const Color(0xFF00ffaa),
+              const Color(0xaa00c6ff),
+              const Color(0xFF00ddaa),
             ],
             begin: const FractionalOffset(0.0, 0.0),
             end: const FractionalOffset(1.0, 1.00),
@@ -75,12 +75,14 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
                   data: SliderTheme.of(context).copyWith(
                     activeTrackColor: Colors.white.withOpacity(1),
                     inactiveTrackColor: Colors.white.withOpacity(.5),
-                    trackHeight: 10.0,
-                    thumbShape: CustomSliderThumbCircle(
-                      thumbRadius: this.widget.sliderHeight * .4,
-                      min: this.widget.min,
-                      max: this.widget.max,
-                    ),
+                    trackHeight: 6.0,
+                    thumbColor: Colors.red,
+                    // thumbShape: SliderComponentShape.noThumb,
+                    // CustomSliderThumbCircle(
+                    //   thumbRadius: this.widget.sliderHeight * .4,
+                    //   min: this.widget.min,
+                    //   max: this.widget.max,
+                    // ),
                     // overlayShape: CustomSliderThumbCircle(
                     //   thumbRadius: this.widget.sliderHeight * .3,
                     //   min: this.widget.min,

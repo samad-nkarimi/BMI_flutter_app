@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
               home: AnnotatedRegion<SystemUiOverlayStyle>(
                 value: SystemUiOverlayStyle(
                   statusBarColor: Colors.transparent,
+
                   // systemNavigationBarColor: Color(0xff75C28C),
                   // systemNavigationBarDividerColor: Colors.transparent,
                   // systemNavigationBarIconBrightness: Brightness.light,
