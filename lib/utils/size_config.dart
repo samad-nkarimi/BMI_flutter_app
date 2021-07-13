@@ -19,7 +19,8 @@ class SizeConfig {
       _screenWidth = constraints.maxWidth;
       _screenHeight = constraints.maxHeight;
       isPortrait = true;
-      if (_screenWidth < 450) {
+      // choose a correct range!!
+      if (_screenWidth < 500) {
         isMobilePortrait = true;
       }
     } else {

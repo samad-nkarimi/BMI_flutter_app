@@ -48,7 +48,7 @@ class BmiCalcBloc extends Bloc<BmiCalcEvent, BmiCalcState> {
     double _weight = bmiCalcModel.weight / 0.4536; //kg -> lb
     double _height = bmiCalcModel.height / 2.54; //cm -> in
 
-    if (bmiCalcModel.ageCategory == Age.lessThan21) _constant = 703;
+    if (bmiCalcModel.age <= 18) _constant = 703;
 
     //formula  w:lb , h:in
     _bmiValue = (_weight * _constant) / (pow(_height, 2));

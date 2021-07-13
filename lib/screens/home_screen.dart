@@ -23,6 +23,7 @@ class _MBIHomeState extends State<MBIHome> {
   // var _gaugeValue = 12.0;
   double _currentWeightValue = 58.3;
   double _currentHeightValue = 110.6;
+  int _currentAgeValue = 20;
   double _horizPaddingFactorTextForMobile = 5.0;
   double _horizPaddingFactorTextForTablet = 5.0;
   // NumberPicker decimalNumberPicker;
@@ -161,6 +162,14 @@ class _MBIHomeState extends State<MBIHome> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            // segment age & gender
+                            _ageAndGender(),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 18.0),
+                              child:
+                                  Divider(height: 0.5, color: Colors.black26),
+                            ),
                             // segment weight
                             if (SizeConfig.isMobilePortrait)
                               _propertyRowMobileWeight(20, 200,
@@ -178,14 +187,6 @@ class _MBIHomeState extends State<MBIHome> {
                                   name: "height", unit: "cm"),
                             _sliderTotalHeight(130, 220,
                                 name: "height", unit: "cm"),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 18.0),
-                              child:
-                                  Divider(height: 0.5, color: Colors.black26),
-                            ),
-                            // segment age & gender
-                            _ageAndGender(),
                           ],
                         ),
                       ),
@@ -296,7 +297,7 @@ class _MBIHomeState extends State<MBIHome> {
               return showDialog(
                 context: context,
                 builder: (ctx) {
-                  return _DecimalExampleWeight(min, max);
+                  return WeightDataPicker(min, max);
                 },
               ).then((value) {
                 setState(() {
@@ -343,7 +344,7 @@ class _MBIHomeState extends State<MBIHome> {
               return showDialog(
                 context: context,
                 builder: (ctx) {
-                  return _DecimalExampleHeight(min, max);
+                  return HeightDataPicker(min, max);
                 },
               ).then((value) {
                 setState(() {
@@ -428,34 +429,52 @@ class _MBIHomeState extends State<MBIHome> {
   Widget _ageAndGender() {
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: resHeight(_horizPaddingFactorTextForMobile,
-              _horizPaddingFactorTextForTablet)),
+        horizontal: resHeight(
+            _horizPaddingFactorTextForMobile, _horizPaddingFactorTextForTablet),
+        vertical: resHeight(2.0, 3.0),
+      ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          // age section
           Text("age:", style: Theme.of(context).textTheme.subtitle1),
-          BlocBuilder<BmiCalcBloc, BmiCalcState>(builder: (context, state) {
-            final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: resWidth(1.0, 2.0)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text("+20",
-                        style: Theme.of(context).textTheme.subtitle1),
+          BlocBuilder<BmiCalcBloc, BmiCalcState>(
+            builder: (context, state) {
+              final bmiModel =
+                  BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+              _currentAgeValue = bmiModel.age;
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: resWidth(1.0, 2.0)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: InkWell(
+                    onTap: () {
+                      return showDialog(
+                        context: context,
+                        builder: (ctx) {
+                          return AgeDataPicker(2, 100);
+                        },
+                      ).then((ageValue) {
+                        setState(() {
+                          _currentAgeValue = ageValue;
+                        });
+                      });
+                    },
+                    child: Text(
+                      "${_currentAgeValue.toStringAsFixed(0)}",
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text("-20",
-                        style: Theme.of(context).textTheme.subtitle1),
-                  ),
-                  // Spacer(),
-                ],
-              ),
-            );
-          }),
+                ),
+              );
+            },
+          ),
+
+          // spacer for fill space
+          Spacer(),
+
+          // gender section
+          FemaleMaleToggle(),
         ],
       ),
     );
@@ -463,17 +482,17 @@ class _MBIHomeState extends State<MBIHome> {
 }
 
 // ignore: must_be_immutable
-class _DecimalExampleWeight extends StatefulWidget {
+class WeightDataPicker extends StatefulWidget {
   // double _value;
   int _min;
   int _max;
 
-  _DecimalExampleWeight(this._min, this._max);
+  WeightDataPicker(this._min, this._max);
   @override
-  __DecimalExampleWeightState createState() => __DecimalExampleWeightState();
+  _WeightDataPickerState createState() => _WeightDataPickerState();
 }
 
-class __DecimalExampleWeightState extends State<_DecimalExampleWeight> {
+class _WeightDataPickerState extends State<WeightDataPicker> {
   double _currentValue;
 
   @override
@@ -523,28 +542,17 @@ class __DecimalExampleWeightState extends State<_DecimalExampleWeight> {
   }
 }
 
-class _DecimalExampleHeight extends StatefulWidget {
+class HeightDataPicker extends StatefulWidget {
   // double _value;
-  int _min;
-  int _max;
+  final int _min;
+  final int _max;
 
-  _DecimalExampleHeight(this._min, this._max);
+  HeightDataPicker(this._min, this._max);
   @override
-  __DecimalExampleHeightState createState() => __DecimalExampleHeightState();
+  _HeightDataPickerState createState() => _HeightDataPickerState();
 }
 
-class __DecimalExampleHeightState extends State<_DecimalExampleHeight> {
-  // double _currentValue;
-  int _minValue;
-  int _maxValue;
-  @override
-  void initState() {
-    // _currentDoubleValue = widget._value;
-    _minValue = widget._min;
-    _maxValue = widget._max;
-    super.initState();
-  }
-
+class _HeightDataPickerState extends State<HeightDataPicker> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BmiCalcBloc, BmiCalcState>(
@@ -555,14 +563,6 @@ class __DecimalExampleHeightState extends State<_DecimalExampleHeight> {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText1),
           actions: [
-            // TextButton(
-            //   onPressed: () {
-            //     Navigator.pop(
-            //       context,
-            //     );
-            //   },
-            //   child: Text("cancell", style: Theme.of(context).textTheme.button),
-            // ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context, bmiModel.height);
@@ -576,8 +576,8 @@ class __DecimalExampleHeightState extends State<_DecimalExampleHeight> {
           ],
           content: DecimalNumberPicker(
               value: bmiModel.height,
-              minValue: _minValue,
-              maxValue: _maxValue,
+              minValue: widget._min,
+              maxValue: widget._max,
               itemCount: 3,
               decimalPlaces: 1,
               onChanged: (value) {
@@ -590,6 +590,100 @@ class __DecimalExampleHeightState extends State<_DecimalExampleHeight> {
               }),
         );
       },
+    );
+  }
+}
+
+class AgeDataPicker extends StatefulWidget {
+  // int _value;
+  final int _min;
+  final int _max;
+
+  AgeDataPicker(this._min, this._max);
+  @override
+  _AgeDataPickerState createState() => _AgeDataPickerState();
+}
+
+class _AgeDataPickerState extends State<AgeDataPicker> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<BmiCalcBloc, BmiCalcState>(
+      builder: (context, state) {
+        final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+        return AlertDialog(
+          title: Text('select age',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyText1),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, bmiModel.age);
+              },
+              child: Text(
+                "ok",
+                style: Theme.of(context).textTheme.button,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+          content: NumberPicker(
+            value: bmiModel.age,
+            minValue: widget._min,
+            maxValue: widget._max,
+            itemCount: 3,
+            onChanged: (value) {
+              bmiModel.age = value;
+              BlocProvider.of<BmiCalcBloc>(context).add(
+                DataInputChanged(bmiModel),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
+
+class FemaleMaleToggle extends StatefulWidget {
+  FemaleMaleToggle({Key key}) : super(key: key);
+
+  @override
+  _FemaleMaleToggleState createState() => _FemaleMaleToggleState();
+}
+
+class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
+  bool maleToggle = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                maleToggle = true;
+              });
+            },
+            child: Text("male",
+                style: maleToggle
+                    ? Theme.of(context).textTheme.bodyText1
+                    : Theme.of(context).textTheme.subtitle1),
+          ),
+          Text(" | ", style: Theme.of(context).textTheme.subtitle1),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                maleToggle = false;
+              });
+            },
+            child: Text("female",
+                style: !maleToggle
+                    ? Theme.of(context).textTheme.bodyText1
+                    : Theme.of(context).textTheme.subtitle1),
+          ),
+        ],
+      ),
     );
   }
 }
