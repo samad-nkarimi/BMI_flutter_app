@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mbi_app/blocs/blocs.dart';
-import 'package:mbi_app/blocs/bmi_calc/bmi_calc_bloc.dart';
-import 'package:mbi_app/utils/size_config.dart';
+import '../blocs/blocs.dart';
+import '../blocs/bmi_calc/bmi_calc_bloc.dart';
+import '../utils/size_config.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class RadialGauge extends StatelessWidget {

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
-import 'package:mbi_app/blocs/blocs.dart';
-import 'package:mbi_app/models/models.dart';
-import 'package:mbi_app/screens/drawer_screen.dart';
-import 'package:mbi_app/utils/size_config.dart';
-import 'package:mbi_app/widgets/slider_weight_widget.dart';
+import '../blocs/blocs.dart';
+import '../models/models.dart';
+import '../screens/drawer_screen.dart';
+import '../utils/size_config.dart';
+import '../widgets/slider_weight_widget.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 import '../widgets/slider_height_widget.dart';
@@ -27,12 +27,18 @@ class _MBIHomeState extends State<MBIHome> {
   double _horizPaddingFactorTextForMobile = 5.0;
   double _horizPaddingFactorTextForTablet = 5.0;
   // NumberPicker decimalNumberPicker;
-  Map<String, String> _scores = {
-    "underweight": "18.5>=",
-    "normal": "18.5 - 25.0",
-    "overweight": "25.0 - 30.0",
-    "obiouse": ">=30.0"
-  };
+  List<String> _weightCategories = [
+    "underweight",
+    "normal",
+    "overweight",
+    "obiouse"
+  ];
+  List<String> _weightCategoryPercentiles = [
+    "<= 18.5",
+    "18.0 - 25.0",
+    "25.0 - 30.0",
+    ">= 30.0"
+  ];
 
   double resHeight(mobileRes, tabletRes) {
     return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) *
@@ -196,6 +202,8 @@ class _MBIHomeState extends State<MBIHome> {
                         final double bmiValue = state is BmiCalculated
                             ? (state.bmiValue ?? 20)
                             : 40;
+                        final bmiModel =
+                            BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
 
                         return Card(
                           margin: EdgeInsets.only(
@@ -208,7 +216,9 @@ class _MBIHomeState extends State<MBIHome> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(7.0),
                           ),
-                          child: _scoreRow(getBmiValueCategory(bmiValue)),
+                          child: _scoreRow(
+                              getBmiValueCategory(bmiValue, bmiModel),
+                              bmiModel),
                         );
                       },
                     )
@@ -222,7 +232,14 @@ class _MBIHomeState extends State<MBIHome> {
     );
   }
 
-  Widget _scoreRow(int position) {
+  Widget _scoreRow(int position, BmiCalcModel bmiModel) {
+    List<String> _weightCategoryPercentiles = [
+      "<= ${bmiModel.percentile5th.toStringAsFixed(1)}",
+      "${bmiModel.percentile5th.toStringAsFixed(1)} - ${bmiModel.percentile85th.toStringAsFixed(1)}",
+      "${bmiModel.percentile85th.toStringAsFixed(1)} - ${bmiModel.percentile95th.toStringAsFixed(1)}",
+      ">= ${bmiModel.percentile95th.toStringAsFixed(1)}"
+    ];
+
     return Container(
       padding: EdgeInsets.symmetric(
           horizontal: resHeight(_horizPaddingFactorTextForMobile,
@@ -230,18 +247,18 @@ class _MBIHomeState extends State<MBIHome> {
           vertical: resHeight(2.0, 2.0)),
       child: Column(
         children: [
-          for (int i = 0; i < _scores.length; i++)
+          for (int i = 0; i < _weightCategories.length; i++)
             i != position
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        "${_scores.keys.elementAt(i)}",
+                        "${_weightCategories[i]}",
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                       Expanded(child: Text("")),
                       Text(
-                        "${_scores.values.elementAt(i)}",
+                        "${_weightCategoryPercentiles[i]}",
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                     ],
@@ -250,12 +267,12 @@ class _MBIHomeState extends State<MBIHome> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        "${_scores.keys.elementAt(i)}",
+                        "${_weightCategories[i]}",
                         style: TextStyle(color: Colors.blue),
                       ),
                       Expanded(child: Text("")),
                       Text(
-                        "${_scores.values.elementAt(i)}",
+                        "${_weightCategoryPercentiles[i]}",
                         style: TextStyle(color: Colors.blue),
                       ),
                     ],
@@ -265,12 +282,14 @@ class _MBIHomeState extends State<MBIHome> {
     );
   }
 
-  int getBmiValueCategory(double _bmivalue) {
+  int getBmiValueCategory(double _bmivalue, BmiCalcModel _bmiModel) {
     int _categoryNumber = 0;
-    if (_bmivalue <= 18.5) _categoryNumber = 0;
-    if (_bmivalue >= 18.5 && _bmivalue <= 25.0) _categoryNumber = 1;
-    if (_bmivalue >= 25.0 && _bmivalue <= 30.0) _categoryNumber = 2;
-    if (_bmivalue >= 30.0) _categoryNumber = 3;
+    if (_bmivalue <= _bmiModel.percentile5th) _categoryNumber = 0;
+    if (_bmivalue >= _bmiModel.percentile5th &&
+        _bmivalue <= _bmiModel.percentile85th) _categoryNumber = 1;
+    if (_bmivalue >= _bmiModel.percentile85th &&
+        _bmivalue <= _bmiModel.percentile95th) _categoryNumber = 2;
+    if (_bmivalue >= _bmiModel.percentile95th) _categoryNumber = 3;
     return _categoryNumber;
   }
 
@@ -438,36 +457,36 @@ class _MBIHomeState extends State<MBIHome> {
         children: [
           // age section
           Text("age:", style: Theme.of(context).textTheme.subtitle1),
-          BlocBuilder<BmiCalcBloc, BmiCalcState>(
-            builder: (context, state) {
-              final bmiModel =
-                  BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-              _currentAgeValue = bmiModel.age;
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: resWidth(1.0, 2.0)),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 30),
-                  child: InkWell(
-                    onTap: () {
-                      return showDialog(
-                        context: context,
-                        builder: (ctx) {
-                          return AgeDataPicker(2, 100);
-                        },
-                      ).then((ageValue) {
-                        setState(() {
-                          _currentAgeValue = ageValue;
-                        });
-                      });
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: resWidth(1.0, 2.0)),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 30),
+              child: InkWell(
+                onTap: () {
+                  return showDialog(
+                    context: context,
+                    builder: (ctx) {
+                      return AgeDataPicker(2, 100, _currentAgeValue);
                     },
-                    child: Text(
+                  ).then((ageValue) {
+                    setState(() {
+                      _currentAgeValue = ageValue;
+                    });
+                  });
+                },
+                child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
+                  builder: (context, state) {
+                    final bmiModel =
+                        BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                    _currentAgeValue = bmiModel.age;
+                    return Text(
                       "${_currentAgeValue.toStringAsFixed(0)}",
                       style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                  ),
+                    );
+                  },
                 ),
-              );
-            },
+              ),
+            ),
           ),
 
           // spacer for fill space
@@ -575,19 +594,18 @@ class _HeightDataPickerState extends State<HeightDataPicker> {
             ),
           ],
           content: DecimalNumberPicker(
-              value: bmiModel.height,
-              minValue: widget._min,
-              maxValue: widget._max,
-              itemCount: 3,
-              decimalPlaces: 1,
-              onChanged: (value) {
-                // setState(
-                //   () => _currentDoubleValue = value,
-                // );
-                bmiModel.height = value;
-                BlocProvider.of<BmiCalcBloc>(context)
-                    .add(DataInputChanged(bmiModel));
-              }),
+            value: bmiModel.height,
+            minValue: widget._min,
+            maxValue: widget._max,
+            itemCount: 3,
+            decimalPlaces: 1,
+            onChanged: (value) {
+              bmiModel.height = value;
+              BlocProvider.of<BmiCalcBloc>(context).add(
+                DataInputChanged(bmiModel),
+              );
+            },
+          ),
         );
       },
     );
@@ -598,8 +616,9 @@ class AgeDataPicker extends StatefulWidget {
   // int _value;
   final int _min;
   final int _max;
+  int _age;
 
-  AgeDataPicker(this._min, this._max);
+  AgeDataPicker(this._min, this._max, this._age);
   @override
   _AgeDataPickerState createState() => _AgeDataPickerState();
 }
@@ -611,9 +630,14 @@ class _AgeDataPickerState extends State<AgeDataPicker> {
       builder: (context, state) {
         final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
         return AlertDialog(
-          title: Text('select age',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyText1),
+          title: Container(
+            color: Colors.amber,
+            child: Expanded(
+              child: Text('select age',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText1),
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -626,17 +650,23 @@ class _AgeDataPickerState extends State<AgeDataPicker> {
               ),
             ),
           ],
-          content: NumberPicker(
-            value: bmiModel.age,
-            minValue: widget._min,
-            maxValue: widget._max,
-            itemCount: 3,
-            onChanged: (value) {
-              bmiModel.age = value;
-              BlocProvider.of<BmiCalcBloc>(context).add(
-                DataInputChanged(bmiModel),
-              );
-            },
+          content: Container(
+            color: Colors.blue,
+            child: NumberPicker(
+              value: widget._age,
+              minValue: widget._min,
+              maxValue: widget._max,
+              itemCount: 3,
+              onChanged: (value) {
+                setState(() {
+                  widget._age = value;
+                });
+                bmiModel.age = value;
+                BlocProvider.of<BmiCalcBloc>(context).add(
+                  DataInputChanged(bmiModel),
+                );
+              },
+            ),
           ),
         );
       },

@@ -3,12 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mbi_app/blocs/blocs.dart';
-import 'package:mbi_app/models/drawer_item.dart';
+import '../blocs/blocs.dart';
+import '../models/drawer_item.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'package:mbi_app/utils/constants.dart';
-import 'package:mbi_app/utils/images.dart';
-import 'package:mbi_app/utils/size_config.dart';
+import '../utils/constants.dart';
+import '../utils/images.dart';
+import '../utils/size_config.dart';
 import 'package:share/share.dart';
 import 'package:store_redirect/store_redirect.dart';
 

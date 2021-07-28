@@ -1,10 +1,10 @@
 import 'dart:math';
 
+import 'package:BMI/models/bmi_calc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:mbi_app/blocs/bmi_calc/bmi_calc_event.dart';
-import 'package:mbi_app/blocs/bmi_calc/bmi_calc_state.dart';
-import 'package:mbi_app/models/bmi_calc.dart';
+import './bmi_calc_event.dart';
+import './bmi_calc_state.dart';
 
 class BmiCalcBloc extends Bloc<BmiCalcEvent, BmiCalcState> {
   BmiCalcModel bmiCalcModel;
@@ -47,24 +47,25 @@ class BmiCalcBloc extends Bloc<BmiCalcEvent, BmiCalcState> {
     bmiCalcModel = bmiModel;
     double _weight = bmiCalcModel.weight / 0.4536; //kg -> lb
     double _height = bmiCalcModel.height / 2.54; //cm -> in
+    int _age = bmiCalcModel.age;
     double _percentile5th = bmiModel.percentile5th;
     double _percentile85th = bmiModel.percentile85th;
     double _percentile95th = bmiModel.percentile95th;
 
     // for adults
-    if (bmiCalcModel.age > 18) {
+    if (_age > 18) {
       //formula  w:lb , h:in
       _bmiValue = (_weight * _constant) / (pow(_height, 2));
     } else {
       _constant = 703;
       if (bmiModel.genderCategory == Gender.male) {
-        _percentile5th = _boysPercentile5th(bmiModel.age);
-        _percentile85th = _boysPercentile85th(bmiModel.age);
-        _percentile95th = _boysPercentile95th(bmiModel.age);
+        _percentile5th = _boysPercentile5th(_age);
+        _percentile85th = _boysPercentile85th(_age);
+        _percentile95th = _boysPercentile95th(_age);
       } else {
-        _percentile5th = _girlsPercentile5th(bmiModel.age);
-        _percentile85th = _girlsPercentile85th(bmiModel.age);
-        _percentile95th = _girlsPercentile95th(bmiModel.age);
+        _percentile5th = _girlsPercentile5th(_age);
+        _percentile85th = _girlsPercentile85th(_age);
+        _percentile95th = _girlsPercentile95th(_age);
       }
       _bmiValue = (_weight * _constant) / (pow(_height, 2));
     }

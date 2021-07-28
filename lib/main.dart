@@ -2,14 +2,14 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mbi_app/blocs/bmi_calc/bmi_calc_bloc.dart';
-import 'package:mbi_app/models/bmi_calc.dart';
-import 'package:mbi_app/utils/app_theme.dart';
-import 'package:mbi_app/blocs/blocs.dart';
-import 'package:mbi_app/blocs/simple_bloc_observer.dart';
-import 'package:mbi_app/screens/home_screen.dart';
-import 'package:mbi_app/utils/size_config.dart';
-import 'package:mbi_app/utils/styling.dart';
+import './blocs/bmi_calc/bmi_calc_bloc.dart';
+import './models/bmi_calc.dart';
+import './utils/app_theme.dart';
+import './blocs/blocs.dart';
+import './blocs/simple_bloc_observer.dart';
+import './screens/home_screen.dart';
+import './utils/size_config.dart';
+import './utils/styling.dart';
 
 void main() {
   Bloc.observer = SimpleBlocObserver();

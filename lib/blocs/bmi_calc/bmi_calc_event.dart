@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:mbi_app/models/models.dart';
+import 'package:BMI/models/models.dart';
 
 abstract class BmiCalcEvent extends Equatable {
   const BmiCalcEvent();
