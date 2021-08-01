@@ -35,6 +35,16 @@ class RadialGauge extends StatelessWidget {
       builder: (context, state) {
         final double bmiValue =
             state is BmiCalculated ? (state.bmiValue ?? 20) : 24;
+        final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+
+        // calvulate min,max
+        double _normalMin =
+            double.parse("${bmiModel.percentile5th.toStringAsFixed(1)}");
+        double _normalMax =
+            double.parse("${bmiModel.percentile85th.toStringAsFixed(1)}");
+        double _normalDomain = _normalMax - _normalMin;
+        double _min = _normalMin - _normalDomain;
+        double _max = _normalMax + _normalDomain;
 
         return SfRadialGauge(
           axes: <RadialAxis>[
@@ -43,9 +53,9 @@ class RadialGauge extends StatelessWidget {
                 fontSize: resText(1.5, 1.5),
               ),
               tickOffset: resHeight(7.0, 9.2),
-              minimum: 12.0,
-              maximum: 42.0,
-              interval: 5.0,
+              minimum: _min,
+              maximum: _max,
+              interval: _normalDomain,
               startAngle: 180,
               endAngle: 0,
               ranges: <GaugeRange>[
@@ -56,8 +66,8 @@ class RadialGauge extends StatelessWidget {
                     color: Colors.white,
                   ),
                   rangeOffset: 0,
-                  startValue: 12,
-                  endValue: 22,
+                  startValue: _min,
+                  endValue: _normalMin,
                   color: Colors.blue,
                   startWidth: _width,
                   endWidth: _width,
@@ -68,8 +78,8 @@ class RadialGauge extends StatelessWidget {
                     fontSize: resText(2.0, 2.0),
                     color: Colors.white,
                   ),
-                  startValue: 22,
-                  endValue: 32,
+                  startValue: _normalMin,
+                  endValue: _normalMax,
                   color: Colors.green,
                   startWidth: _width,
                   endWidth: _width,
@@ -80,8 +90,8 @@ class RadialGauge extends StatelessWidget {
                     fontSize: resText(2.0, 2.0),
                     color: Colors.white,
                   ),
-                  startValue: 32,
-                  endValue: 42,
+                  startValue: _normalMax,
+                  endValue: _max,
                   color: Colors.orange,
                   startWidth: _width,
                   endWidth: _width,

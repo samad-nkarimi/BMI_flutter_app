@@ -23,6 +23,10 @@ class _MBIHomeState extends State<MBIHome> {
   // var _gaugeValue = 12.0;
   double _currentWeightValue = 58.3;
   double _currentHeightValue = 110.6;
+  int _minSliderHeight = 40;
+  int _maxSliderHeight = 220;
+  int _minSliderWeight = 10;
+  int _maxSliderWeight = 150;
   int _currentAgeValue = 20;
   double _horizPaddingFactorTextForMobile = 5.0;
   double _horizPaddingFactorTextForTablet = 5.0;
@@ -180,7 +184,8 @@ class _MBIHomeState extends State<MBIHome> {
                             if (SizeConfig.isMobilePortrait)
                               _propertyRowMobileWeight(20, 200,
                                   name: "weight", unit: "kg"),
-                            _sliderTotalWeight(20, 200,
+                            _sliderTotalWeight(
+                                _minSliderWeight, _maxSliderWeight,
                                 name: "weight", unit: "kg"),
                             Divider(
                               height: 5.0,
@@ -191,7 +196,8 @@ class _MBIHomeState extends State<MBIHome> {
                             if (SizeConfig.isMobilePortrait)
                               _propertyRowMobileHeight(130, 220,
                                   name: "height", unit: "cm"),
-                            _sliderTotalHeight(130, 220,
+                            _sliderTotalHeight(
+                                _minSliderHeight, _maxSliderHeight,
                                 name: "height", unit: "cm"),
                           ],
                         ),
@@ -239,6 +245,7 @@ class _MBIHomeState extends State<MBIHome> {
       "${bmiModel.percentile85th.toStringAsFixed(1)} - ${bmiModel.percentile95th.toStringAsFixed(1)}",
       ">= ${bmiModel.percentile95th.toStringAsFixed(1)}"
     ];
+    print(_weightCategoryPercentiles.toString());
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -630,14 +637,9 @@ class _AgeDataPickerState extends State<AgeDataPicker> {
       builder: (context, state) {
         final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
         return AlertDialog(
-          title: Container(
-            color: Colors.amber,
-            child: Expanded(
-              child: Text('select age',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyText1),
-            ),
-          ),
+          title: Text('select age',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyText1),
           actions: [
             TextButton(
               onPressed: () {
@@ -650,23 +652,20 @@ class _AgeDataPickerState extends State<AgeDataPicker> {
               ),
             ),
           ],
-          content: Container(
-            color: Colors.blue,
-            child: NumberPicker(
-              value: widget._age,
-              minValue: widget._min,
-              maxValue: widget._max,
-              itemCount: 3,
-              onChanged: (value) {
-                setState(() {
-                  widget._age = value;
-                });
-                bmiModel.age = value;
-                BlocProvider.of<BmiCalcBloc>(context).add(
-                  DataInputChanged(bmiModel),
-                );
-              },
-            ),
+          content: NumberPicker(
+            value: widget._age,
+            minValue: widget._min,
+            maxValue: widget._max,
+            itemCount: 3,
+            onChanged: (value) {
+              setState(() {
+                widget._age = value;
+              });
+              bmiModel.age = value;
+              BlocProvider.of<BmiCalcBloc>(context).add(
+                DataInputChanged(bmiModel),
+              );
+            },
           ),
         );
       },

@@ -13,7 +13,7 @@ class SliderWeightWidget extends StatefulWidget {
   SliderWeightWidget({
     this.sliderHeight = 48,
     this.max = 220,
-    this.min = 20,
+    this.min = 10,
     this.fullWidth = true,
   });
 

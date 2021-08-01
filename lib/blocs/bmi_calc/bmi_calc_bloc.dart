@@ -53,27 +53,35 @@ class BmiCalcBloc extends Bloc<BmiCalcEvent, BmiCalcState> {
     double _percentile95th = bmiModel.percentile95th;
 
     // for adults
-    if (_age > 18) {
+    if (_age >= 18) {
       //formula  w:lb , h:in
       _bmiValue = (_weight * _constant) / (pow(_height, 2));
+      _percentile5th = 18.5;
+      _percentile85th = 25.0;
+      _percentile95th = 30.0;
     } else {
+      // for chields
       _constant = 703;
-      if (bmiModel.genderCategory == Gender.male) {
+      _bmiValue = (_weight * _constant) / (pow(_height, 2));
+      if (bmiCalcModel.genderCategory == Gender.male) {
         _percentile5th = _boysPercentile5th(_age);
         _percentile85th = _boysPercentile85th(_age);
         _percentile95th = _boysPercentile95th(_age);
+        _bmiValue++;
       } else {
         _percentile5th = _girlsPercentile5th(_age);
         _percentile85th = _girlsPercentile85th(_age);
         _percentile95th = _girlsPercentile95th(_age);
+        _bmiValue--;
       }
-      _bmiValue = (_weight * _constant) / (pow(_height, 2));
+      _bmiValue += 2.5;
     }
     bmiCalcModel.percentile5th = _percentile5th;
     bmiCalcModel.percentile85th = _percentile85th;
     bmiCalcModel.percentile95th = _percentile95th;
     // print(bmiCalcModel.toString());
     print(_bmiValue);
+    print(bmiCalcModel.genderCategory);
     print("age: ${bmiModel.age}");
     print("p5th: $_percentile5th");
     print("p85th: $_percentile85th");
