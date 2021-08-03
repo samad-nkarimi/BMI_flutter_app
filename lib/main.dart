@@ -24,7 +24,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => DrawerItemsBloc()),
         BlocProvider(
-            create: (context) => BmiCalcBloc(bmiCalcModel: BmiCalcModel())),
+            create: (context) => BmiCalcBloc(
+                bmiCalcModel: BmiCalcModel(
+                    bmiValue: 26.1, age: 25, height: 55, weight: 120))),
       ],
       child: LayoutBuilder(
         builder: (context, constraints) {

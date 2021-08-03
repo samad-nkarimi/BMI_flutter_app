@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:BMI/models/bmi_calc.dart';
+import 'package:BMI/models/models.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import './bmi_calc_event.dart';
@@ -8,7 +8,7 @@ import './bmi_calc_state.dart';
 
 class BmiCalcBloc extends Bloc<BmiCalcEvent, BmiCalcState> {
   BmiCalcModel bmiCalcModel;
-  BmiCalcBloc({@required this.bmiCalcModel}) : super(BmiCalculating());
+  BmiCalcBloc({@required this.bmiCalcModel}) : super(BmiCalculating(5.5));
 
   @override
   Stream<BmiCalcState> mapEventToState(BmiCalcEvent event) async* {
@@ -24,9 +24,9 @@ class BmiCalcBloc extends Bloc<BmiCalcEvent, BmiCalcState> {
   }
 
   Stream<BmiCalcState> _mapDataToState(DataInputChanged event) async* {
-    double bmiValue = _calculate(event.bmiCalcModel);
+    BmiCalcModel _bmiCalcModel = _calculate(event.bmiCalcModel);
 
-    yield BmiCalculated(bmiValue);
+    yield BmiCalculated(_bmiCalcModel);
   }
 
   // Stream<BmiCalcState> _mapWeightSettedToState(WeightSetted event) async* {
@@ -41,16 +41,18 @@ class BmiCalcBloc extends Bloc<BmiCalcEvent, BmiCalcState> {
   //   yield BmiCalculated(bmiValue);
   // }
 
-  double _calculate(BmiCalcModel bmiModel) {
+  BmiCalcModel _calculate(BmiCalcModel bmiModel) {
     double _bmiValue;
     double _constant = 705; // for adults
-    bmiCalcModel = bmiModel;
+    BmiCalcModel bmiCalcModel = new BmiCalcModel();
+    // bmiCalcModel = state.bmiCalcModel;
+
     double _weight = bmiCalcModel.weight / 0.4536; //kg -> lb
     double _height = bmiCalcModel.height / 2.54; //cm -> in
     int _age = bmiCalcModel.age;
-    double _percentile5th = bmiModel.percentile5th;
-    double _percentile85th = bmiModel.percentile85th;
-    double _percentile95th = bmiModel.percentile95th;
+    double _percentile5th = bmiCalcModel.percentile5th;
+    double _percentile85th = bmiCalcModel.percentile85th;
+    double _percentile95th = bmiCalcModel.percentile95th;
 
     // for adults
     if (_age >= 18) {
@@ -67,26 +69,25 @@ class BmiCalcBloc extends Bloc<BmiCalcEvent, BmiCalcState> {
         _percentile5th = _boysPercentile5th(_age);
         _percentile85th = _boysPercentile85th(_age);
         _percentile95th = _boysPercentile95th(_age);
-        _bmiValue++;
       } else {
         _percentile5th = _girlsPercentile5th(_age);
         _percentile85th = _girlsPercentile85th(_age);
         _percentile95th = _girlsPercentile95th(_age);
-        _bmiValue--;
       }
-      _bmiValue += 2.5;
     }
+    bmiCalcModel.bmiValue = _bmiValue;
     bmiCalcModel.percentile5th = _percentile5th;
     bmiCalcModel.percentile85th = _percentile85th;
     bmiCalcModel.percentile95th = _percentile95th;
     // print(bmiCalcModel.toString());
     print(_bmiValue);
     print(bmiCalcModel.genderCategory);
+    print("Height: ${bmiCalcModel.height}");
     print("age: ${bmiModel.age}");
     print("p5th: $_percentile5th");
     print("p85th: $_percentile85th");
     print("p95th: $_percentile95th");
-    return _bmiValue;
+    return bmiCalcModel;
   }
 
   double _boysPercentile5th(int x) {

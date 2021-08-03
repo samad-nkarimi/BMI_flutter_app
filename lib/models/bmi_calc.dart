@@ -5,6 +5,7 @@ enum Gender { male, female }
 // enum Unit { english, SI }
 
 class BmiCalcModel extends Equatable {
+  double bmiValue;
   double weight;
   double height;
   Gender genderCategory;
@@ -14,6 +15,7 @@ class BmiCalcModel extends Equatable {
   double percentile95th;
 
   BmiCalcModel({
+    this.bmiValue = 24.5,
     this.weight = 50.0,
     this.height = 160.0,
     this.genderCategory = Gender.male,
@@ -24,10 +26,10 @@ class BmiCalcModel extends Equatable {
   });
 
   @override
-  List<Object> get props => [weight, height, genderCategory, age];
+  List<Object> get props => [bmiValue, weight, height, genderCategory, age];
 
   @override
   String toString() {
-    return "<<< weight:$weight - height:$height - gender:$genderCategory - age:$age >>>";
+    return "<<< BMI:$bmiValue - weight:$weight - height:$height - gender:$genderCategory - age:$age >>>";
   }
 }

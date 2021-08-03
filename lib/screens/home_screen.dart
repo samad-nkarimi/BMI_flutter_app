@@ -205,9 +205,6 @@ class _MBIHomeState extends State<MBIHome> {
                     ),
                     BlocBuilder<BmiCalcBloc, BmiCalcState>(
                       builder: (context, state) {
-                        final double bmiValue = state is BmiCalculated
-                            ? (state.bmiValue ?? 20)
-                            : 40;
                         final bmiModel =
                             BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
 
@@ -223,8 +220,7 @@ class _MBIHomeState extends State<MBIHome> {
                             borderRadius: BorderRadius.circular(7.0),
                           ),
                           child: _scoreRow(
-                              getBmiValueCategory(bmiValue, bmiModel),
-                              bmiModel),
+                              getBmiValueCategory(bmiModel), bmiModel),
                         );
                       },
                     )
@@ -289,14 +285,15 @@ class _MBIHomeState extends State<MBIHome> {
     );
   }
 
-  int getBmiValueCategory(double _bmivalue, BmiCalcModel _bmiModel) {
+  int getBmiValueCategory(BmiCalcModel _bmiModel) {
     int _categoryNumber = 0;
-    if (_bmivalue <= _bmiModel.percentile5th) _categoryNumber = 0;
-    if (_bmivalue >= _bmiModel.percentile5th &&
-        _bmivalue <= _bmiModel.percentile85th) _categoryNumber = 1;
-    if (_bmivalue >= _bmiModel.percentile85th &&
-        _bmivalue <= _bmiModel.percentile95th) _categoryNumber = 2;
-    if (_bmivalue >= _bmiModel.percentile95th) _categoryNumber = 3;
+    double _bmiValue = _bmiModel.bmiValue;
+    if (_bmiValue <= _bmiModel.percentile5th) _categoryNumber = 0;
+    if (_bmiValue >= _bmiModel.percentile5th &&
+        _bmiValue <= _bmiModel.percentile85th) _categoryNumber = 1;
+    if (_bmiValue >= _bmiModel.percentile85th &&
+        _bmiValue <= _bmiModel.percentile95th) _categoryNumber = 2;
+    if (_bmiValue >= _bmiModel.percentile95th) _categoryNumber = 3;
     return _categoryNumber;
   }
 
@@ -380,9 +377,12 @@ class _MBIHomeState extends State<MBIHome> {
             },
             child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
               builder: (context, state) {
-                final bmiModel =
-                    BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-                _currentHeightValue = bmiModel.height;
+                // final bmiModel =
+                //     (state as BmiCalculated).bmiCalcModel;
+                if (state is BmiCalculated)
+                  _currentHeightValue = state.bmiCalcModel.height;
+                // print("BMI: ${(state as BmiCalculating).value}");
+
                 return Text(
                   "${_currentHeightValue.toStringAsFixed(1)}",
                   style: Theme.of(context).textTheme.bodyText1,
@@ -579,6 +579,7 @@ class HeightDataPicker extends StatefulWidget {
 }
 
 class _HeightDataPickerState extends State<HeightDataPicker> {
+  double _currentValue;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BmiCalcBloc, BmiCalcState>(
@@ -591,7 +592,7 @@ class _HeightDataPickerState extends State<HeightDataPicker> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context, bmiModel.height);
+                Navigator.pop(context, _currentValue);
               },
               child: Text(
                 "ok",
@@ -607,7 +608,8 @@ class _HeightDataPickerState extends State<HeightDataPicker> {
             itemCount: 3,
             decimalPlaces: 1,
             onChanged: (value) {
-              bmiModel.height = value;
+              setState(() => _currentValue = value);
+              bmiModel.height = _currentValue;
               BlocProvider.of<BmiCalcBloc>(context).add(
                 DataInputChanged(bmiModel),
               );

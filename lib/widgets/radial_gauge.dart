@@ -33,10 +33,8 @@ class RadialGauge extends StatelessWidget {
     print("gauge repainted ------------------------------------- ");
     return BlocBuilder<BmiCalcBloc, BmiCalcState>(
       builder: (context, state) {
-        final double bmiValue =
-            state is BmiCalculated ? (state.bmiValue ?? 20) : 24;
         final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-
+        print(bmiModel);
         // calvulate min,max
         double _normalMin =
             double.parse("${bmiModel.percentile5th.toStringAsFixed(1)}");
@@ -99,7 +97,7 @@ class RadialGauge extends StatelessWidget {
               ],
               pointers: <GaugePointer>[
                 MarkerPointer(
-                  value: bmiValue,
+                  value: bmiModel.bmiValue,
                   markerHeight: resHeight(3.0, 4.0),
                   markerWidth: resHeight(3.0, 4.0),
                   markerType: MarkerType.triangle,
@@ -115,7 +113,7 @@ class RadialGauge extends StatelessWidget {
                     //     border: Border.all(color: Colors.blueAccent, width: 3),
                     //     borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Text(
-                      '${bmiValue.toStringAsFixed(1)}',
+                      '${bmiModel.bmiValue.toStringAsFixed(1)}',
                       style: TextStyle(
                           fontSize: resText(4.0, 4.0),
                           fontWeight: FontWeight.bold),
