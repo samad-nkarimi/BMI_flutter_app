@@ -7,12 +7,12 @@ abstract class BmiCalcEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class WeightSetted extends BmiCalcEvent {
-  final BmiCalcModel bmiCalcModel;
+class WeightHasBeenSet extends BmiCalcEvent {
+  final double weight;
 
-  WeightSetted(this.bmiCalcModel);
+  WeightHasBeenSet(this.weight);
   @override
-  List<Object> get props => [bmiCalcModel];
+  List<Object> get props => [weight];
 }
 
 class DataInputChanged extends BmiCalcEvent {
@@ -23,16 +23,30 @@ class DataInputChanged extends BmiCalcEvent {
   List<Object> get props => [bmiCalcModel];
 }
 
-class HeightSetted extends BmiCalcEvent {
-  final BmiCalcModel bmiCalcModel;
+class HeightHasBeenSet extends BmiCalcEvent {
+  final double height;
 
-  HeightSetted(this.bmiCalcModel);
+  HeightHasBeenSet(this.height);
   @override
-  List<Object> get props => [bmiCalcModel];
+  List<Object> get props => [height];
 }
 
-class AgeSetted extends BmiCalcEvent {}
+class AgeHasBeenSet extends BmiCalcEvent {
+  final int age;
 
-class GenderSetted extends BmiCalcEvent {}
+  AgeHasBeenSet(this.age);
+  @override
+  List<Object> get props => [age];
+}
 
-class UnitSetted extends BmiCalcEvent {}
+class GenderHasBeenSet extends BmiCalcEvent {
+  final Gender gender;
+
+  GenderHasBeenSet(this.gender);
+  @override
+  List<Object> get props => [gender];
+}
+
+
+
+// class UnitSetted extends BmiCalcEvent {}

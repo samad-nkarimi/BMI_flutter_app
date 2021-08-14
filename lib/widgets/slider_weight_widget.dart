@@ -23,6 +23,7 @@ class SliderWeightWidget extends StatefulWidget {
 
 class _SliderWeightWidgetState extends State<SliderWeightWidget> {
   double _value = 0.0;
+  double _weight = 50;
 
   @override
   Widget build(BuildContext context) {
@@ -98,25 +99,26 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
                   ),
                   child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
                     builder: (context, state) {
-                      final bmiModel =
-                          BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-                      _value = bmiModel.weight;
-
+                      // final bmiModel =
+                      //     BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                      // if (state is WeightChanged) _weight = state.weight;
+                      // print(
+                      //     "$_weight vvvvvv**********************************************************");
                       return Slider(
                         value:
-                            (_value - widget.min) / (widget.max - widget.min),
-                        // label: '${(_value).toStringAsFixed(1)}',
+                            (_weight - widget.min) / (widget.max - widget.min),
+                        // label: '${(_weight).toStringAsFixed(1)}',
                         divisions: (widget.max - widget.min) * 2,
                         onChanged: (value) {
                           setState(() {
                             _value = value;
                           });
 
-                          bmiModel.weight =
+                          _weight =
                               widget.min + value * (widget.max - widget.min);
 
                           BlocProvider.of<BmiCalcBloc>(context)
-                              .add(DataInputChanged(bmiModel));
+                              .add(WeightHasBeenSet(_weight));
                         },
                       );
                     },

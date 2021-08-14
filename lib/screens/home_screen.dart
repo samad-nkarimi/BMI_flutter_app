@@ -182,7 +182,8 @@ class _MBIHomeState extends State<MBIHome> {
                             ),
                             // segment weight
                             if (SizeConfig.isMobilePortrait)
-                              _propertyRowMobileWeight(20, 200,
+                              _propertyRowMobileWeight(
+                                  _minSliderWeight, _maxSliderWeight,
                                   name: "weight", unit: "kg"),
                             _sliderTotalWeight(
                                 _minSliderWeight, _maxSliderWeight,
@@ -194,7 +195,8 @@ class _MBIHomeState extends State<MBIHome> {
 
                             // segment height
                             if (SizeConfig.isMobilePortrait)
-                              _propertyRowMobileHeight(130, 220,
+                              _propertyRowMobileHeight(
+                                  _minSliderHeight, _maxSliderHeight,
                                   name: "height", unit: "cm"),
                             _sliderTotalHeight(
                                 _minSliderHeight, _maxSliderHeight,
@@ -379,8 +381,7 @@ class _MBIHomeState extends State<MBIHome> {
               builder: (context, state) {
                 // final bmiModel =
                 //     (state as BmiCalculated).bmiCalcModel;
-                if (state is BmiCalculated)
-                  _currentHeightValue = state.bmiCalcModel.height;
+                if (state is HeightChanged) _currentHeightValue = state.height;
                 // print("BMI: ${(state as BmiCalculating).value}");
 
                 return Text(
@@ -525,8 +526,9 @@ class _WeightDataPickerState extends State<WeightDataPicker> {
   Widget build(BuildContext context) {
     return BlocBuilder<BmiCalcBloc, BmiCalcState>(
       builder: (context, state) {
-        final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-        _currentValue = bmiModel.weight;
+        // final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+        // _currentValue = bmiModel.weight;
+        if (state is WeightChanged) _currentValue = state.weight;
         return AlertDialog(
           title: Text('select weight',
               style: Theme.of(context).textTheme.bodyText1),
@@ -556,10 +558,10 @@ class _WeightDataPickerState extends State<WeightDataPicker> {
             decimalPlaces: 1,
             onChanged: (value) {
               setState(() => _currentValue = value);
-              bmiModel.weight = _currentValue;
+              // bmiModel.weight = _currentValue;
 
               BlocProvider.of<BmiCalcBloc>(context)
-                  .add(DataInputChanged(bmiModel));
+                  .add(WeightHasBeenSet(value));
             },
           ),
         );
@@ -570,8 +572,8 @@ class _WeightDataPickerState extends State<WeightDataPicker> {
 
 class HeightDataPicker extends StatefulWidget {
   // double _value;
-  final int _min;
-  final int _max;
+  int _min;
+  int _max;
 
   HeightDataPicker(this._min, this._max);
   @override
@@ -580,16 +582,24 @@ class HeightDataPicker extends StatefulWidget {
 
 class _HeightDataPickerState extends State<HeightDataPicker> {
   double _currentValue;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BmiCalcBloc, BmiCalcState>(
       builder: (context, state) {
-        final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+        // final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+        // _currentValue = bmiModel.weight;
+        if (state is HeightChanged) _currentValue = state.height;
         return AlertDialog(
-          title: Text('select weight',
-              textAlign: TextAlign.center,
+          title: Text('select height',
               style: Theme.of(context).textTheme.bodyText1),
           actions: [
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //   },
+            //   child: Text("cancell", style: Theme.of(context).textTheme.button),
+            // ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context, _currentValue);
@@ -602,17 +612,17 @@ class _HeightDataPickerState extends State<HeightDataPicker> {
             ),
           ],
           content: DecimalNumberPicker(
-            value: bmiModel.height,
+            value: _currentValue,
             minValue: widget._min,
             maxValue: widget._max,
             itemCount: 3,
             decimalPlaces: 1,
             onChanged: (value) {
               setState(() => _currentValue = value);
-              bmiModel.height = _currentValue;
-              BlocProvider.of<BmiCalcBloc>(context).add(
-                DataInputChanged(bmiModel),
-              );
+              // bmiModel.weight = _currentValue;
+
+              BlocProvider.of<BmiCalcBloc>(context)
+                  .add(HeightHasBeenSet(value));
             },
           ),
         );
@@ -620,6 +630,60 @@ class _HeightDataPickerState extends State<HeightDataPicker> {
     );
   }
 }
+
+// class HeightDataPicker extends StatefulWidget {
+//   // double _value;
+//   final int _min;
+//   final int _max;
+
+//   HeightDataPicker(this._min, this._max);
+//   @override
+//   _HeightDataPickerState createState() => _HeightDataPickerState();
+// }
+
+// class _HeightDataPickerState extends State<HeightDataPicker> {
+//   double _currentValue;
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<BmiCalcBloc, BmiCalcState>(
+//       builder: (context, state) {
+//         // final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+//         if (state is HeightChanged) _currentValue = state.height;
+//         return AlertDialog(
+//           title: Text('select height',
+//               textAlign: TextAlign.center,
+//               style: Theme.of(context).textTheme.bodyText1),
+//           actions: [
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.pop(context, _currentValue);
+//               },
+//               child: Text(
+//                 "ok",
+//                 style: Theme.of(context).textTheme.button,
+//                 textAlign: TextAlign.center,
+//               ),
+//             ),
+//           ],
+//           content: DecimalNumberPicker(
+//             value: _currentValue,
+//             minValue: widget._min,
+//             maxValue: widget._max,
+//             itemCount: 3,
+//             decimalPlaces: 1,
+//             onChanged: (value) {
+//               setState(() => _currentValue = value);
+//               // bmiModel.height = _currentValue;
+//               BlocProvider.of<BmiCalcBloc>(context).add(
+//                 HeightHasBeenSet(value),
+//               );
+//             },
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
 class AgeDataPicker extends StatefulWidget {
   // int _value;
@@ -665,7 +729,7 @@ class _AgeDataPickerState extends State<AgeDataPicker> {
               });
               bmiModel.age = value;
               BlocProvider.of<BmiCalcBloc>(context).add(
-                DataInputChanged(bmiModel),
+                AgeHasBeenSet(value),
               );
             },
           ),
@@ -684,6 +748,7 @@ class FemaleMaleToggle extends StatefulWidget {
 
 class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
   bool maleToggle = true;
+  Gender _genderCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -698,9 +763,9 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                   setState(() {
                     maleToggle = true;
                   });
-                  bmiModel.genderCategory = Gender.male;
+                  _genderCategory = Gender.male;
                   BlocProvider.of<BmiCalcBloc>(context).add(
-                    DataInputChanged(bmiModel),
+                    GenderHasBeenSet(_genderCategory),
                   );
                 },
                 child: Text(
@@ -716,9 +781,9 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                   setState(() {
                     maleToggle = false;
                   });
-                  bmiModel.genderCategory = Gender.female;
+                  _genderCategory = Gender.female;
                   BlocProvider.of<BmiCalcBloc>(context).add(
-                    DataInputChanged(bmiModel),
+                    GenderHasBeenSet(_genderCategory),
                   );
                 },
                 child: Text(

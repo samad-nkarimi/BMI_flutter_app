@@ -12,7 +12,7 @@ class SliderHeightWidget extends StatefulWidget {
 
   SliderHeightWidget({
     this.sliderHeight = 48,
-    this.max = 150,
+    this.max = 220,
     this.min = 40,
     this.fullWidth = true,
   });
@@ -23,6 +23,7 @@ class SliderHeightWidget extends StatefulWidget {
 
 class _SliderHeightWidgetState extends State<SliderHeightWidget> {
   double _value = 0.0;
+  double _height = 150.0;
 
   @override
   Widget build(BuildContext context) {
@@ -100,25 +101,25 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
                   ),
                   child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
                     builder: (context, state) {
-                      final bmiModel =
-                          BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-                      _value = bmiModel.height;
-                      print(
-                          "$_value *******************************************");
+                      // final bmiModel =
+                      //     BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                      // _value = bmiModel.height;
+                      // print(
+                      //     "$_value *******************************************");
                       return Slider(
                         value:
-                            (_value - widget.min) / (widget.max - widget.min),
-                        label: '${(_value).toStringAsFixed(1)}',
+                            (_height - widget.min) / (widget.max - widget.min),
+                        label: '${(_height).toStringAsFixed(1)}',
                         divisions: (widget.max - widget.min) * 2,
                         onChanged: (value) {
                           setState(() {
                             _value = value;
                           });
 
-                          bmiModel.height =
+                          _height =
                               widget.min + value * (widget.max - widget.min);
                           BlocProvider.of<BmiCalcBloc>(context)
-                              .add(DataInputChanged(bmiModel));
+                              .add(HeightHasBeenSet(_height));
                         },
                       );
                     },
