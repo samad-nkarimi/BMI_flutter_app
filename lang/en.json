@@ -1,0 +1,21 @@
+{
+  "weight": "weight",
+  "height": "height",
+  "male": "male",
+  "female": "female",
+  "age": "age",
+  "normal_weight": "normal weight",
+  "normal": "normal",
+  "underweight": "underweight",
+  "overweight": "overweight",
+  "obese": "obese",
+  "help_and_feedback": "help & feedback",
+  "share_app": "share app",
+  "more_apps": "more apps",
+  "about_us": "about us",
+  "about_us_description": "about us description",
+  "ok": "ok",
+  "select_height": "select height",
+  "select_weight": "select weight",
+  "select_age": "select age"
+}

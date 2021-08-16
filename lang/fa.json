@@ -1,0 +1,21 @@
+{
+  "weight": "وزن",
+  "height": "قد",
+  "male": "آقا",
+  "female": "خانم",
+  "age": "سن",
+  "normal_weight": "وزن نرمال",
+  "normal": "نرمال",
+  "underweight": "کمبود وزن",
+  "overweight": "اضافه وزن",
+  "obese": "چاق",
+  "help_and_feedback": "کمک و بازخورد",
+  "share_app": "اشتراک برنامه",
+  "more_apps": "برنامه های بیشتر",
+  "about_us": "درباره برنامه",
+  "about_us_description": "خوشحایم که اینجایید",
+  "ok": "تایید",
+  "select_height": "انتخاب قد",
+  "select_weight": "انتخاب وزن",
+  "select_age": "انتخاب سن"
+}
