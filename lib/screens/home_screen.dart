@@ -1,16 +1,18 @@
+import 'package:BMI/utils/app_localizations.dart';
+import 'package:BMI/utils/languages.dart';
+import 'package:BMI/utils/translation_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
+import 'package:numberpicker/numberpicker.dart';
+
 import '../blocs/blocs.dart';
 import '../models/models.dart';
 import '../screens/drawer_screen.dart';
 import '../utils/size_config.dart';
-import '../widgets/slider_weight_widget.dart';
-import 'package:numberpicker/numberpicker.dart';
-
-import '../widgets/slider_height_widget.dart';
 import '../widgets/radial_gauge.dart';
+import '../widgets/slider_height_widget.dart';
+import '../widgets/slider_weight_widget.dart';
 
 class MBIHome extends StatefulWidget {
   MBIHome({Key key}) : super(key: key);
@@ -30,33 +32,31 @@ class _MBIHomeState extends State<MBIHome> {
   int _currentAgeValue = 20;
   double _horizPaddingFactorTextForMobile = 5.0;
   double _horizPaddingFactorTextForTablet = 5.0;
+
   // NumberPicker decimalNumberPicker;
-  List<String> _weightCategories = [
-    "underweight",
-    "normal",
-    "overweight",
-    "obiouse"
-  ];
-  List<String> _weightCategoryPercentiles = [
-    "<= 18.5",
-    "18.0 - 25.0",
-    "25.0 - 30.0",
-    ">= 30.0"
-  ];
+  List<String> _weightCategories = [];
+  List<String> _weightCategoryPercentiles = ["<= 18.5", "18.0 - 25.0", "25.0 - 30.0", ">= 30.0"];
+
+  // initState() {
+  //   super.initState();
+  //   List<String> _weightCategories = [
+  //     "${AppLocalizations.of(context).translate("underweight")}",
+  //     "${AppLocalizations.of(context).translate("normal")}",
+  //     "${AppLocalizations.of(context).translate("overweight")}",
+  //     "${AppLocalizations.of(context).translate("obese")}"
+  //   ];
+  // }
 
   double resHeight(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) *
-        SizeConfig.heightMultiplier;
+    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.heightMultiplier;
   }
 
   double resWidth(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) *
-        SizeConfig.widthMultiplier;
+    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.widthMultiplier;
   }
 
   double resText(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) *
-        SizeConfig.textMultiplier;
+    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.textMultiplier;
   }
 
   @override
@@ -72,8 +72,8 @@ class _MBIHomeState extends State<MBIHome> {
               children: [
                 Builder(
                   builder: (context) => Container(
-                    padding: const EdgeInsets.all(10.0),
-                    margin: const EdgeInsets.all(10.0),
+                    // padding: const EdgeInsets.all(10.0),
+                    // margin: const EdgeInsets.all(10.0),
                     alignment: Alignment.topLeft,
                     child: Container(
                       width: resWidth(12.0, 8.0),
@@ -86,6 +86,14 @@ class _MBIHomeState extends State<MBIHome> {
                     ),
                   ),
                 ),
+                ToggleButtons(
+                  children: [ Text("english"),Text("persian")],
+                  isSelected: [true, false],
+                  onPressed: (index) => BlocProvider.of<LanguageBloc>(context).add(
+                    ToggleLanguageEvent(Languages.languages[index]),
+                  ),
+                ),
+
                 Positioned(
                   top: 0,
                   right: 0,
@@ -106,8 +114,7 @@ class _MBIHomeState extends State<MBIHome> {
               Container(
                 // color: Colors.black26,
                 width: double.maxFinite,
-                padding: EdgeInsets.only(
-                    top: resWidth(5.0, 0.0), left: 10.0, right: 10.0),
+                padding: EdgeInsets.only(top: resWidth(5.0, 0.0), left: 10.0, right: 10.0),
                 height: resHeight(50.0, 55.0),
                 child: RadialGauge(
                     // value: bmiValue,
@@ -122,13 +129,11 @@ class _MBIHomeState extends State<MBIHome> {
                   children: [
                     BlocBuilder<BmiCalcBloc, BmiCalcState>(
                       builder: (context, state) {
-                        final bmiModel =
-                            BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                        final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                         return Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal: resHeight(
-                              _horizPaddingFactorTextForMobile +
-                                  1.0, // adding 1.0 for card margin
+                              _horizPaddingFactorTextForMobile + 1.0, // adding 1.0 for card margin
                               _horizPaddingFactorTextForTablet + 1.0,
                             ),
                           ),
@@ -136,7 +141,7 @@ class _MBIHomeState extends State<MBIHome> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "normal weight(kg)",
+                                "${AppLocalizations.of(context).translate(TranslationConstants.normal_weight)}(kg)",
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle1
@@ -167,26 +172,21 @@ class _MBIHomeState extends State<MBIHome> {
                         // side: BorderSide(width: 5, color: Colors.green),
                       ),
                       child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: resHeight(1.0, 2.5)),
+                        padding: EdgeInsets.symmetric(vertical: resHeight(1.0, 2.5)),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             // segment age & gender
                             _ageAndGender(),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 18.0),
-                              child:
-                                  Divider(height: 0.5, color: Colors.black26),
+                              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                              child: Divider(height: 0.5, color: Colors.black26),
                             ),
                             // segment weight
                             if (SizeConfig.isMobilePortrait)
-                              _propertyRowMobileWeight(
-                                  _minSliderWeight, _maxSliderWeight,
+                              _propertyRowMobileWeight(_minSliderWeight, _maxSliderWeight,
                                   name: "weight", unit: "kg"),
-                            _sliderTotalWeight(
-                                _minSliderWeight, _maxSliderWeight,
+                            _sliderTotalWeight(_minSliderWeight, _maxSliderWeight,
                                 name: "weight", unit: "kg"),
                             Divider(
                               height: 5.0,
@@ -195,11 +195,9 @@ class _MBIHomeState extends State<MBIHome> {
 
                             // segment height
                             if (SizeConfig.isMobilePortrait)
-                              _propertyRowMobileHeight(
-                                  _minSliderHeight, _maxSliderHeight,
+                              _propertyRowMobileHeight(_minSliderHeight, _maxSliderHeight,
                                   name: "height", unit: "cm"),
-                            _sliderTotalHeight(
-                                _minSliderHeight, _maxSliderHeight,
+                            _sliderTotalHeight(_minSliderHeight, _maxSliderHeight,
                                 name: "height", unit: "cm"),
                           ],
                         ),
@@ -207,8 +205,7 @@ class _MBIHomeState extends State<MBIHome> {
                     ),
                     BlocBuilder<BmiCalcBloc, BmiCalcState>(
                       builder: (context, state) {
-                        final bmiModel =
-                            BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                        final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
 
                         return Card(
                           margin: EdgeInsets.only(
@@ -221,8 +218,7 @@ class _MBIHomeState extends State<MBIHome> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(7.0),
                           ),
-                          child: _scoreRow(
-                              getBmiValueCategory(bmiModel), bmiModel),
+                          child: _scoreRow(getBmiValueCategory(bmiModel), bmiModel),
                         );
                       },
                     )
@@ -243,12 +239,17 @@ class _MBIHomeState extends State<MBIHome> {
       "${bmiModel.percentile85th.toStringAsFixed(1)} - ${bmiModel.percentile95th.toStringAsFixed(1)}",
       ">= ${bmiModel.percentile95th.toStringAsFixed(1)}"
     ];
+      List<String> _weightCategories = [
+        "${AppLocalizations.of(context).translate(TranslationConstants.underweight)}",
+        "${AppLocalizations.of(context).translate(TranslationConstants.normal)}",
+        "${AppLocalizations.of(context).translate(TranslationConstants.overweight)}",
+        "${AppLocalizations.of(context).translate(TranslationConstants.obese)}"
+      ];
     print(_weightCategoryPercentiles.toString());
 
     return Container(
       padding: EdgeInsets.symmetric(
-          horizontal: resHeight(_horizPaddingFactorTextForMobile,
-              _horizPaddingFactorTextForTablet),
+          horizontal: resHeight(_horizPaddingFactorTextForMobile, _horizPaddingFactorTextForTablet),
           vertical: resHeight(2.0, 2.0)),
       child: Column(
         children: [
@@ -291,10 +292,10 @@ class _MBIHomeState extends State<MBIHome> {
     int _categoryNumber = 0;
     double _bmiValue = _bmiModel.bmiValue;
     if (_bmiValue <= _bmiModel.percentile5th) _categoryNumber = 0;
-    if (_bmiValue >= _bmiModel.percentile5th &&
-        _bmiValue <= _bmiModel.percentile85th) _categoryNumber = 1;
-    if (_bmiValue >= _bmiModel.percentile85th &&
-        _bmiValue <= _bmiModel.percentile95th) _categoryNumber = 2;
+    if (_bmiValue >= _bmiModel.percentile5th && _bmiValue <= _bmiModel.percentile85th)
+      _categoryNumber = 1;
+    if (_bmiValue >= _bmiModel.percentile85th && _bmiValue <= _bmiModel.percentile95th)
+      _categoryNumber = 2;
     if (_bmiValue >= _bmiModel.percentile95th) _categoryNumber = 3;
     return _categoryNumber;
   }
@@ -312,7 +313,7 @@ class _MBIHomeState extends State<MBIHome> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "$name($unit): ",
+            "${AppLocalizations.of(context).translate("$name")} ($unit): ",
             style: Theme.of(context).textTheme.subtitle1,
           ),
           //*********** decimalNumberPicker segment  ************/
@@ -332,8 +333,7 @@ class _MBIHomeState extends State<MBIHome> {
             },
             child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
               builder: (context, state) {
-                final bmiModel =
-                    BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                 _currentWeightValue = bmiModel.weight;
                 return Text(
                   "${_currentWeightValue.toStringAsFixed(1)}",
@@ -360,7 +360,7 @@ class _MBIHomeState extends State<MBIHome> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "$name($unit): ",
+            "${AppLocalizations.of(context).translate("$name")} ($unit): ",
             style: Theme.of(context).textTheme.subtitle1,
           ),
           //*********** decimalNumberPicker segment  ************/
@@ -456,15 +456,15 @@ class _MBIHomeState extends State<MBIHome> {
   Widget _ageAndGender() {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: resHeight(
-            _horizPaddingFactorTextForMobile, _horizPaddingFactorTextForTablet),
+        horizontal: resHeight(_horizPaddingFactorTextForMobile, _horizPaddingFactorTextForTablet),
         vertical: resHeight(2.0, 3.0),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           // age section
-          Text("age:", style: Theme.of(context).textTheme.subtitle1),
+          Text("${AppLocalizations.of(context).translate(TranslationConstants.age)}",
+              style: Theme.of(context).textTheme.subtitle1),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: resWidth(1.0, 2.0)),
             child: Padding(
@@ -484,8 +484,7 @@ class _MBIHomeState extends State<MBIHome> {
                 },
                 child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
                   builder: (context, state) {
-                    final bmiModel =
-                        BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                    final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                     _currentAgeValue = bmiModel.age;
                     return Text(
                       "${_currentAgeValue.toStringAsFixed(0)}",
@@ -515,6 +514,7 @@ class WeightDataPicker extends StatefulWidget {
   int _max;
 
   WeightDataPicker(this._min, this._max);
+
   @override
   _WeightDataPickerState createState() => _WeightDataPickerState();
 }
@@ -530,7 +530,7 @@ class _WeightDataPickerState extends State<WeightDataPicker> {
         // _currentValue = bmiModel.weight;
         if (state is WeightChanged) _currentValue = state.weight;
         return AlertDialog(
-          title: Text('select weight',
+          title: Text('${AppLocalizations.of(context).translate(TranslationConstants.select_weight)}',
               style: Theme.of(context).textTheme.bodyText1),
           actions: [
             // TextButton(
@@ -544,7 +544,7 @@ class _WeightDataPickerState extends State<WeightDataPicker> {
                 Navigator.pop(context, _currentValue);
               },
               child: Text(
-                "ok",
+                "${AppLocalizations.of(context).translate(TranslationConstants.ok)}",
                 style: Theme.of(context).textTheme.button,
                 textAlign: TextAlign.center,
               ),
@@ -560,8 +560,7 @@ class _WeightDataPickerState extends State<WeightDataPicker> {
               setState(() => _currentValue = value);
               // bmiModel.weight = _currentValue;
 
-              BlocProvider.of<BmiCalcBloc>(context)
-                  .add(WeightHasBeenSet(value));
+              BlocProvider.of<BmiCalcBloc>(context).add(WeightHasBeenSet(value));
             },
           ),
         );
@@ -576,12 +575,13 @@ class HeightDataPicker extends StatefulWidget {
   int _max;
 
   HeightDataPicker(this._min, this._max);
+
   @override
   _HeightDataPickerState createState() => _HeightDataPickerState();
 }
 
 class _HeightDataPickerState extends State<HeightDataPicker> {
-  double _currentValue;
+  double _currentValue = 130;
 
   @override
   Widget build(BuildContext context) {
@@ -591,7 +591,7 @@ class _HeightDataPickerState extends State<HeightDataPicker> {
         // _currentValue = bmiModel.weight;
         if (state is HeightChanged) _currentValue = state.height;
         return AlertDialog(
-          title: Text('select height',
+          title: Text('${AppLocalizations.of(context).translate(TranslationConstants.select_height)}',
               style: Theme.of(context).textTheme.bodyText1),
           actions: [
             // TextButton(
@@ -605,7 +605,7 @@ class _HeightDataPickerState extends State<HeightDataPicker> {
                 Navigator.pop(context, _currentValue);
               },
               child: Text(
-                "ok",
+                "${AppLocalizations.of(context).translate(TranslationConstants.ok)}",
                 style: Theme.of(context).textTheme.button,
                 textAlign: TextAlign.center,
               ),
@@ -621,8 +621,7 @@ class _HeightDataPickerState extends State<HeightDataPicker> {
               setState(() => _currentValue = value);
               // bmiModel.weight = _currentValue;
 
-              BlocProvider.of<BmiCalcBloc>(context)
-                  .add(HeightHasBeenSet(value));
+              BlocProvider.of<BmiCalcBloc>(context).add(HeightHasBeenSet(value));
             },
           ),
         );
@@ -692,6 +691,7 @@ class AgeDataPicker extends StatefulWidget {
   int _age;
 
   AgeDataPicker(this._min, this._max, this._age);
+
   @override
   _AgeDataPickerState createState() => _AgeDataPickerState();
 }
@@ -703,16 +703,15 @@ class _AgeDataPickerState extends State<AgeDataPicker> {
       builder: (context, state) {
         final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
         return AlertDialog(
-          title: Text('select age',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyText1),
+          title: Text('${AppLocalizations.of(context).translate(TranslationConstants.select_age)}',
+              textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyText1),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context, bmiModel.age);
               },
               child: Text(
-                "ok",
+                "${AppLocalizations.of(context).translate(TranslationConstants.ok)}",
                 style: Theme.of(context).textTheme.button,
                 textAlign: TextAlign.center,
               ),
@@ -769,7 +768,7 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                   );
                 },
                 child: Text(
-                  "male",
+                  "${AppLocalizations.of(context).translate(TranslationConstants.male)}",
                   style: maleToggle
                       ? Theme.of(context).textTheme.bodyText1
                       : Theme.of(context).textTheme.subtitle1,
@@ -787,7 +786,7 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                   );
                 },
                 child: Text(
-                  "female",
+                  "${AppLocalizations.of(context).translate(TranslationConstants.female)}",
                   style: !maleToggle
                       ? Theme.of(context).textTheme.bodyText1
                       : Theme.of(context).textTheme.subtitle1,

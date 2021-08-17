@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:BMI/utils/app_localizations.dart';
+import 'package:BMI/utils/languages.dart';
+import 'package:BMI/utils/translation_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -80,10 +83,11 @@ class _MbiDrawerState extends State<MbiDrawer> {
   Widget _aboutUsSection() {
     return Column(
       children: [
-        Text("About Us", style: Theme.of(context).textTheme.subtitle2),
+        Text("${AppLocalizations.of(context).translate(TranslationConstants.about_us)}", style: Theme.of(context).textTheme.subtitle2),
         SizedBox(height: 15),
         Text(
-          Constants.ABOUT_US_BODY,
+          // Constants.ABOUT_US_BODY,
+      "${AppLocalizations.of(context).translate(TranslationConstants.about_us_description)}",
           style: Theme.of(context).textTheme.bodyText1,
           textAlign: TextAlign.center,
         ),
@@ -105,7 +109,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Text(
-                  "OK",
+                  "${AppLocalizations.of(context).translate(TranslationConstants.ok)}",
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ),
@@ -119,19 +123,20 @@ class _MbiDrawerState extends State<MbiDrawer> {
   Widget _drawerBottomSection() {
     return Column(
       children: [
-        drawerItem("Help&Feedback", () => FlutterEmailSender.send(email)),
+
+        drawerItem("${AppLocalizations.of(context).translate(TranslationConstants.help_and_feedback)}", () => FlutterEmailSender.send(email)),
         SizedBox(height: resHeight(1.0, 3.0)),
-        drawerItem("Share App", () => Share.share(Constants.APP_LINK)),
+        drawerItem("${AppLocalizations.of(context).translate(TranslationConstants.share_app)}", () => Share.share(Constants.APP_LINK)),
         SizedBox(height: resHeight(1.0, 3.0)),
         drawerItem(
-            "More Apps",
+            "${AppLocalizations.of(context).translate(TranslationConstants.more_apps)}",
             () => StoreRedirect.redirect(
                   androidAppId: Constants.STORE_ANDROID_APP_ID,
                   iOSAppId: Constants.STORE_IOS_APP_ID,
                 )),
         SizedBox(height: resHeight(1.0, 3.0)),
         drawerItem(
-          "About Us",
+          "${AppLocalizations.of(context).translate(TranslationConstants.about_us)}",
           () => setState(() {
             _showAboutUs = !_showAboutUs;
           }),

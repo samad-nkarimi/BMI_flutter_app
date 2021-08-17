@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'size_config.dart';
 
 class AppTheme {
-  AppTheme._();
+  // static final  lang;
+  // AppTheme(this.lang);
+
+  // var lang = Localizations.localeOf(context).languageCode;
+
+
+
 
   static const Color appBackgroundColor = Color(0xFFFFF7EC);
   static const Color topBarBackgroundColor = Color(0xFFFFD974);
@@ -11,10 +17,11 @@ class AppTheme {
   static const Color subTitleTextColor = Color(0xFF75C28C);
   static const Color subTitleSmallTextColor = Color(0x99000000);
 
-  static final ThemeData lightTheme = ThemeData(
+    static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: AppTheme.appBackgroundColor,
     brightness: Brightness.light,
     textTheme: lightTextTheme,
+      // fontFamily: lang == 'fa'? 'FrutigerLTArabic' : 'ProximaNova'
   );
 
   static final ThemeData darkTheme = ThemeData(

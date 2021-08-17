@@ -1,3 +1,5 @@
+import 'package:BMI/utils/app_localizations.dart';
+import 'package:BMI/utils/translation_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/blocs.dart';
@@ -58,7 +60,7 @@ class RadialGauge extends StatelessWidget {
               endAngle: 0,
               ranges: <GaugeRange>[
                 GaugeRange(
-                  label: "underweight",
+                  label: AppLocalizations.of(context).translate(TranslationConstants.underweight),
                   labelStyle: GaugeTextStyle(
                     fontSize: resText(2.0, 2.0),
                     color: Colors.white,
@@ -71,7 +73,8 @@ class RadialGauge extends StatelessWidget {
                   endWidth: _width,
                 ),
                 GaugeRange(
-                  label: "normal",
+                  // label: "normal",
+                  label: AppLocalizations.of(context).translate(TranslationConstants.normal),
                   labelStyle: GaugeTextStyle(
                     fontSize: resText(2.0, 2.0),
                     color: Colors.white,
@@ -83,7 +86,7 @@ class RadialGauge extends StatelessWidget {
                   endWidth: _width,
                 ),
                 GaugeRange(
-                  label: "overweight",
+                  label:  AppLocalizations.of(context).translate(TranslationConstants.overweight),
                   labelStyle: GaugeTextStyle(
                     fontSize: resText(2.0, 2.0),
                     color: Colors.white,

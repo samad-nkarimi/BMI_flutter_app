@@ -34,6 +34,10 @@ dependencies:
   flutter_svg: ^0.22.0
   flutter_toggle_tab: ^1.1.2
   numberpicker: ^2.1.1
+  flutter_localizations: 
+    sdk: flutter  
+  intl: ^0.17.0 # Add this line
+  # generate: true # Add this line
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -67,6 +71,8 @@ flutter:
     - assets/images/woman.svg
     - assets/images/back_icon.svg
     - assets/images/menu_icon.svg
+    - assets/lang/en.json
+    - assets/lang/fa.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
