@@ -1,4 +1,5 @@
 import 'package:BMI/utils/app_localizations.dart';
+import 'package:BMI/utils/styling.dart';
 import 'package:BMI/utils/translation_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,7 +38,7 @@ class RadialGauge extends StatelessWidget {
       builder: (context, state) {
         final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
         print(bmiModel);
-        // calvulate min,max
+        // calculate min,max
         double _normalMin =
             double.parse("${bmiModel.percentile5th.toStringAsFixed(1)}");
         double _normalMax =
@@ -51,6 +52,7 @@ class RadialGauge extends StatelessWidget {
             RadialAxis(
               axisLabelStyle: GaugeTextStyle(
                 fontSize: resText(1.5, 1.5),
+
               ),
               tickOffset: resHeight(7.0, 9.2),
               minimum: _min,

@@ -104,6 +104,8 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
                       // if (state is WeightChanged) _weight = state.weight;
                       // print(
                       //     "$_weight vvvvvv**********************************************************");
+                      if(state is WeightChanged)
+                        _weight = state.weight;
                       return Slider(
                         value:
                             (_weight - widget.min) / (widget.max - widget.min),

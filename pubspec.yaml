@@ -89,6 +89,15 @@ flutter:
     - family: ANasr
       fonts:
         - asset: assets/fonts/ANasr.ttf
+
+    - family: IRANSansDN
+      fonts:
+        - asset: assets/fonts/IRANSansDN.ttf
+
+    - family: IRANSansFaNum_Medium
+      fonts:
+        - asset: assets/fonts/IRANSansFaNum_Medium.ttf
+          weight: 800
     - family: SFProDisplay
       fonts:
         - asset: assets/fonts/SFProDisplay.ttf

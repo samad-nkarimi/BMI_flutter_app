@@ -38,11 +38,11 @@ class MyApp extends StatelessWidget {
             SizeConfig().init(constraints, orient);
             return BlocBuilder<LanguageBloc, LanguageState>(builder: (context, state) {
               if (state is LanguageLoaded) {
-                print("${state.locale} ****************************************");
+                
                 var lang = state.locale.languageCode;
                 return MaterialApp(
                   title: 'MBI Calc',
-                  theme: AppTheme.lightTheme,
+                  theme: AppTheme().lightTheme(lang),
                   debugShowCheckedModeBanner: false,
                   locale:state.locale,
                   //localization

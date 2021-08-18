@@ -106,6 +106,8 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
                       // _value = bmiModel.height;
                       // print(
                       //     "$_value *******************************************");
+                      if(state is HeightChanged)
+                        _height = state.height;
                       return Slider(
                         value:
                             (_height - widget.min) / (widget.max - widget.min),
