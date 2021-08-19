@@ -177,7 +177,7 @@ class _MBIHomeState extends State<MBIHome> {
                                 style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.blue),
                               ),
                               Text(
-                                "${((24.5 * bmiModel.height * bmiModel.height * 0.4356) / (703 * 2.54 * 2.54)).toStringAsFixed(1)} - ${((30.5 * bmiModel.height * bmiModel.height * 0.4356) / (703 * 2.54 * 2.54)).toStringAsFixed(1)}",
+                                "${bmiModel.minimumNormalWeight().toStringAsFixed(1)} - ${bmiModel.maximumNormalWeight().toStringAsFixed(1)}",
                                 style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.blue),
                               )
                             ],
