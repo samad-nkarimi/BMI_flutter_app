@@ -1,4 +1,6 @@
+import 'dart:math' as math;
 import 'package:BMI/utils/app_localizations.dart';
+import 'package:BMI/utils/language_entity.dart';
 import 'package:BMI/utils/languages.dart';
 import 'package:BMI/utils/translation_constants.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +34,7 @@ class _MBIHomeState extends State<MBIHome> {
   int _currentAgeValue = 20;
   double _horizPaddingFactorTextForMobile = 5.0;
   double _horizPaddingFactorTextForTablet = 5.0;
+  int _languageIndex = 0;
 
   // NumberPicker decimalNumberPicker;
   List<String> _weightCategories = [];
@@ -66,53 +69,82 @@ class _MBIHomeState extends State<MBIHome> {
         child: Scaffold(
           drawer: MbiDrawer(),
           appBar: PreferredSize(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Builder(
-                  builder: (context) => Container(
-                    // padding: const EdgeInsets.all(10.0),
-                    // margin: const EdgeInsets.all(10.0),
-                    alignment: Alignment.topLeft,
-                    child: Container(
-                      width: resWidth(12.0, 8.0),
-                      height: resWidth(12.0, 8.0),
-                      child: IconButton(
-                        // iconSize: 10 * SizeConfig.heightMultiplier,
-                        icon: SvgPicture.asset("assets/images/menu_icon.svg"),
-                        onPressed: () => Scaffold.of(context).openDrawer(),
+            preferredSize: Size(double.infinity, resHeight(8.0, 10.0)),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: resWidth(3.0, 3.0)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Builder(
+                    builder: (context) => Container(
+                      // padding: const EdgeInsets.all(10.0),
+                      // margin: const EdgeInsets.all(10.0),
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: resWidth(12.0, 8.0),
+                        height: resWidth(12.0, 8.0),
+                        child: IconButton(
+                          // iconSize: 10 * SizeConfig.heightMultiplier,
+                          icon: Transform(
+                            alignment: Alignment.center,
+                            child: SvgPicture.asset("assets/images/menu_icon.svg"),
+                            transform: _languageIndex==0? Matrix4.rotationY(0):Matrix4.rotationY(math.pi),
+                          ),
+                          onPressed: () => Scaffold.of(context).openDrawer(),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                ToggleButtons(
-                  children: [ Text("english"),Text("persian")],
-                  isSelected: [true, false],
-                  onPressed: (index) => BlocProvider.of<LanguageBloc>(context).add(
-                    ToggleLanguageEvent(Languages.languages[index]),
-                  ),
-                ),
-
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Container(
+                  Container(
                     // color: Colors.black12,
-                    width: resWidth(50.0, 40.0),
-                    height: resHeight(20.0, 15.0),
-                    child: SvgPicture.asset("assets/images/bmi_name.svg"),
+                    // width: resWidth(50.0, 40.0),
+                    // height: resHeight(20.0, 15.0),
+                    child:
+                        // SvgPicture.asset("assets/images/bmi_name.svg"),
+                        DropdownButton<LanguageEntity>(
+                      items: Languages.languages
+                          .map<DropdownMenuItem<LanguageEntity>>(
+                            (e) => DropdownMenuItem<LanguageEntity>(
+                              value: e,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text(e.value),
+                                  Image.asset(
+                                    e.flag,
+                                    height: resHeight(4.0, 4.0),
+                                    width: resHeight(4.0, 4.0),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      underline: SizedBox(),
+                      icon: Image.asset(
+                        _languageIndex == 0 ? "assets/images/flag_english.png" : "assets/images/flag_persian.png",
+                        width: resHeight(5.0, 5.0),
+                        height: resHeight(5.0, 5.0),
+                      ),
+                      onChanged: (index) {
+                        // index is LanguageEntity
+                        BlocProvider.of<LanguageBloc>(context).add(
+                          ToggleLanguageEvent(index),
+                        );
+                        _languageIndex = index.code == 'en' ? 0 : 1;
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            preferredSize: Size(double.infinity, resHeight(10, 10.0)),
           ),
           body: Stack(
             // alignment: Alignment.topCenter,
             children: [
               Container(
-                // color: Colors.black26,
+                // color: Colors.white,
                 width: double.maxFinite,
                 padding: EdgeInsets.only(top: resWidth(5.0, 0.0), left: 10.0, right: 10.0),
                 height: resHeight(50.0, 55.0),
@@ -121,7 +153,7 @@ class _MBIHomeState extends State<MBIHome> {
                     ),
               ),
               Container(
-                // color: Colors.amber.withOpacity(0.4),
+                // color: Colors.white,
                 height: double.infinity,
                 width: double.infinity,
                 child: Column(
@@ -142,17 +174,11 @@ class _MBIHomeState extends State<MBIHome> {
                             children: [
                               Text(
                                 "${AppLocalizations.of(context).translate(TranslationConstants.normal_weight)}(kg)",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1
-                                    .copyWith(color: Colors.blue),
+                                style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.blue),
                               ),
                               Text(
                                 "${((24.5 * bmiModel.height * bmiModel.height * 0.4356) / (703 * 2.54 * 2.54)).toStringAsFixed(1)} - ${((30.5 * bmiModel.height * bmiModel.height * 0.4356) / (703 * 2.54 * 2.54)).toStringAsFixed(1)}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1
-                                    .copyWith(color: Colors.blue),
+                                style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.blue),
                               )
                             ],
                           ),
@@ -162,10 +188,7 @@ class _MBIHomeState extends State<MBIHome> {
                     // box marbout be seekha
                     Card(
                       margin: EdgeInsets.only(
-                          top: resHeight(1.0, 2.0),
-                          left: resHeight(1.0, 2.0),
-                          right: resHeight(1.0, 2.0),
-                          bottom: resHeight(0.5, 1.0)),
+                          top: resHeight(1.0, 2.0), left: resHeight(1.0, 2.0), right: resHeight(1.0, 2.0), bottom: resHeight(0.5, 1.0)),
                       elevation: 1,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7.0),
@@ -183,22 +206,16 @@ class _MBIHomeState extends State<MBIHome> {
                               child: Divider(height: 0.5, color: Colors.black26),
                             ),
                             // segment weight
-                            if (SizeConfig.isMobilePortrait)
-                              _propertyRowMobileWeight(_minSliderWeight, _maxSliderWeight,
-                                  name: "weight", unit: "kg"),
-                            _sliderTotalWeight(_minSliderWeight, _maxSliderWeight,
-                                name: "weight", unit: "kg"),
+                            if (SizeConfig.isMobilePortrait) _propertyRowMobileWeight(_minSliderWeight, _maxSliderWeight, name: "weight", unit: "kg"),
+                            _sliderTotalWeight(_minSliderWeight, _maxSliderWeight, name: "weight", unit: "kg"),
                             Divider(
                               height: 5.0,
                               color: Colors.transparent,
                             ),
 
                             // segment height
-                            if (SizeConfig.isMobilePortrait)
-                              _propertyRowMobileHeight(_minSliderHeight, _maxSliderHeight,
-                                  name: "height", unit: "cm"),
-                            _sliderTotalHeight(_minSliderHeight, _maxSliderHeight,
-                                name: "height", unit: "cm"),
+                            if (SizeConfig.isMobilePortrait) _propertyRowMobileHeight(_minSliderHeight, _maxSliderHeight, name: "height", unit: "cm"),
+                            _sliderTotalHeight(_minSliderHeight, _maxSliderHeight, name: "height", unit: "cm"),
                           ],
                         ),
                       ),
@@ -239,18 +256,17 @@ class _MBIHomeState extends State<MBIHome> {
       "${bmiModel.percentile85th.toStringAsFixed(1)} - ${bmiModel.percentile95th.toStringAsFixed(1)}",
       ">= ${bmiModel.percentile95th.toStringAsFixed(1)}"
     ];
-      List<String> _weightCategories = [
-        "${AppLocalizations.of(context).translate(TranslationConstants.underweight)}",
-        "${AppLocalizations.of(context).translate(TranslationConstants.normal)}",
-        "${AppLocalizations.of(context).translate(TranslationConstants.overweight)}",
-        "${AppLocalizations.of(context).translate(TranslationConstants.obese)}"
-      ];
+    List<String> _weightCategories = [
+      "${AppLocalizations.of(context).translate(TranslationConstants.underweight)}",
+      "${AppLocalizations.of(context).translate(TranslationConstants.normal)}",
+      "${AppLocalizations.of(context).translate(TranslationConstants.overweight)}",
+      "${AppLocalizations.of(context).translate(TranslationConstants.obese)}"
+    ];
     print(_weightCategoryPercentiles.toString());
 
     return Container(
       padding: EdgeInsets.symmetric(
-          horizontal: resHeight(_horizPaddingFactorTextForMobile, _horizPaddingFactorTextForTablet),
-          vertical: resHeight(2.0, 2.0)),
+          horizontal: resHeight(_horizPaddingFactorTextForMobile, _horizPaddingFactorTextForTablet), vertical: resHeight(2.0, 2.0)),
       child: Column(
         children: [
           for (int i = 0; i < _weightCategories.length; i++)
@@ -292,10 +308,8 @@ class _MBIHomeState extends State<MBIHome> {
     int _categoryNumber = 0;
     double _bmiValue = _bmiModel.bmiValue;
     if (_bmiValue <= _bmiModel.percentile5th) _categoryNumber = 0;
-    if (_bmiValue >= _bmiModel.percentile5th && _bmiValue <= _bmiModel.percentile85th)
-      _categoryNumber = 1;
-    if (_bmiValue >= _bmiModel.percentile85th && _bmiValue <= _bmiModel.percentile95th)
-      _categoryNumber = 2;
+    if (_bmiValue >= _bmiModel.percentile5th && _bmiValue <= _bmiModel.percentile85th) _categoryNumber = 1;
+    if (_bmiValue >= _bmiModel.percentile85th && _bmiValue <= _bmiModel.percentile95th) _categoryNumber = 2;
     if (_bmiValue >= _bmiModel.percentile95th) _categoryNumber = 3;
     return _categoryNumber;
   }
@@ -463,8 +477,7 @@ class _MBIHomeState extends State<MBIHome> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           // age section
-          Text("${AppLocalizations.of(context).translate(TranslationConstants.age)}",
-              style: Theme.of(context).textTheme.subtitle1),
+          Text("${AppLocalizations.of(context).translate(TranslationConstants.age)}", style: Theme.of(context).textTheme.subtitle1),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: resWidth(1.0, 2.0)),
             child: Padding(
@@ -530,8 +543,7 @@ class _WeightDataPickerState extends State<WeightDataPicker> {
         // _currentValue = bmiModel.weight;
         if (state is WeightChanged) _currentValue = state.weight;
         return AlertDialog(
-          title: Text('${AppLocalizations.of(context).translate(TranslationConstants.select_weight)}',
-              style: Theme.of(context).textTheme.bodyText1),
+          title: Text('${AppLocalizations.of(context).translate(TranslationConstants.select_weight)}', style: Theme.of(context).textTheme.bodyText1),
           actions: [
             // TextButton(
             //   onPressed: () {
@@ -591,8 +603,7 @@ class _HeightDataPickerState extends State<HeightDataPicker> {
         // _currentValue = bmiModel.weight;
         if (state is HeightChanged) _currentValue = state.height;
         return AlertDialog(
-          title: Text('${AppLocalizations.of(context).translate(TranslationConstants.select_height)}',
-              style: Theme.of(context).textTheme.bodyText1),
+          title: Text('${AppLocalizations.of(context).translate(TranslationConstants.select_height)}', style: Theme.of(context).textTheme.bodyText1),
           actions: [
             // TextButton(
             //   onPressed: () {
@@ -769,9 +780,7 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                 },
                 child: Text(
                   "${AppLocalizations.of(context).translate(TranslationConstants.male)}",
-                  style: maleToggle
-                      ? Theme.of(context).textTheme.bodyText1
-                      : Theme.of(context).textTheme.subtitle1,
+                  style: maleToggle ? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.subtitle1,
                 ),
               ),
               Text(" | ", style: Theme.of(context).textTheme.subtitle1),
@@ -787,9 +796,7 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                 },
                 child: Text(
                   "${AppLocalizations.of(context).translate(TranslationConstants.female)}",
-                  style: !maleToggle
-                      ? Theme.of(context).textTheme.bodyText1
-                      : Theme.of(context).textTheme.subtitle1,
+                  style: !maleToggle ? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.subtitle1,
                 ),
               ),
             ],

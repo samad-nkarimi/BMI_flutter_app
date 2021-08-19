@@ -18,7 +18,7 @@ class AppTheme {
   static double languageFontTextMultiplier=1;
 
    ThemeData lightTheme(String lang) {
-    languageFontTextMultiplier = (lang == 'fa' ? 0.8 : 1.2);
+    languageFontTextMultiplier = (lang == 'fa' ? 1.0 : 0.8);
     print("$languageFontTextMultiplier    8888888888888888888888888888888888");
     return ThemeData(
         scaffoldBackgroundColor: AppTheme.appBackgroundColor,

@@ -1,19 +1,19 @@
 import 'dart:ui';
 
 import 'package:BMI/utils/app_localizations.dart';
-import 'package:BMI/utils/languages.dart';
 import 'package:BMI/utils/translation_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:share/share.dart';
+import 'package:store_redirect/store_redirect.dart';
+
 import '../blocs/blocs.dart';
 import '../models/drawer_item.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
 import '../utils/constants.dart';
 import '../utils/images.dart';
 import '../utils/size_config.dart';
-import 'package:share/share.dart';
-import 'package:store_redirect/store_redirect.dart';
 
 class MbiDrawer extends StatefulWidget {
   MbiDrawer({Key key}) : super(key: key);
@@ -36,18 +36,28 @@ class _MbiDrawerState extends State<MbiDrawer> {
   );
 
   double resHeight(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) *
-        SizeConfig.heightMultiplier;
+    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.heightMultiplier;
   }
 
   double resWidth(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) *
-        SizeConfig.widthMultiplier;
+    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.widthMultiplier;
   }
 
   Widget drawerItem(String title, Function func) {
     return InkWell(
-      child: Text(title, style: Theme.of(context).textTheme.subtitle2),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            // color: Colors.red,
+            height: resHeight(7.0, 8.0),
+            child: Text(title, style: Theme.of(context).textTheme.subtitle2),
+          ),
+        ],
+      ),
       onTap: func,
     );
   }
@@ -82,59 +92,77 @@ class _MbiDrawerState extends State<MbiDrawer> {
 
   Widget _aboutUsSection() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      // mainAxisSize: MainAxisSize.max,
       children: [
         Text("${AppLocalizations.of(context).translate(TranslationConstants.about_us)}", style: Theme.of(context).textTheme.subtitle2),
         SizedBox(height: 15),
         Text(
           // Constants.ABOUT_US_BODY,
-      "${AppLocalizations.of(context).translate(TranslationConstants.about_us_description)}",
+          "${AppLocalizations.of(context).translate(TranslationConstants.about_us_description)}",
           style: Theme.of(context).textTheme.bodyText1,
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 15),
         Container(
+          // alignment: Alignment.bottomCenter,
+          margin: EdgeInsets.all(resHeight(8.0, 8.0)),
           width: resWidth(30.0, 20.0),
           height: resWidth(15.0, 10.0),
-          child: GestureDetector(
-            onTap: () => setState(() {
+          child: ElevatedButton(
+            onPressed: () => setState(() {
               _showAboutUs = !_showAboutUs;
             }),
-            child: Stack(alignment: Alignment.center, children: [
-              Image.asset(
-                "assets/images/back_btn.png",
-                width: resWidth(30.0, 20.0),
-                height: resWidth(15.0, 10.0),
-                fit: BoxFit.fill,
+            style: ElevatedButton.styleFrom(
+              primary: Color(0xFF75C28C),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Text(
-                  "${AppLocalizations.of(context).translate(TranslationConstants.ok)}",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-              ),
-            ]),
+            ),
+            child: Text(
+              "${AppLocalizations.of(context).translate(TranslationConstants.ok)}",
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
           ),
         ),
       ],
     );
   }
 
+  // GestureDetector(
+  //   onTap: () => setState(() {
+  //     _showAboutUs = !_showAboutUs;
+  //   }),
+  //   child: Stack(alignment: Alignment.center, children: [
+  //     Image.asset(
+  //       "assets/images/back_btn.png",
+  //       width: resWidth(30.0, 20.0),
+  //       height: resWidth(15.0, 10.0),
+  //       fit: BoxFit.fill,
+  //     ),
+  //     Padding(
+  //       padding: const EdgeInsets.only(bottom: 8),
+  //       child: Text(
+  //         "${AppLocalizations.of(context).translate(TranslationConstants.ok)}",
+  //         style: TextStyle(color: Colors.white, fontSize: 18),
+  //       ),
+  //     ),
+  //   ]),
+  // ),
+
   Widget _drawerBottomSection() {
     return Column(
       children: [
-
         drawerItem("${AppLocalizations.of(context).translate(TranslationConstants.help_and_feedback)}", () => FlutterEmailSender.send(email)),
-        SizedBox(height: resHeight(1.0, 3.0)),
+        // SizedBox(height: resHeight(1.0, 3.0)),
         drawerItem("${AppLocalizations.of(context).translate(TranslationConstants.share_app)}", () => Share.share(Constants.APP_LINK)),
-        SizedBox(height: resHeight(1.0, 3.0)),
+        // SizedBox(height: resHeight(1.0, 3.0)),
         drawerItem(
             "${AppLocalizations.of(context).translate(TranslationConstants.more_apps)}",
             () => StoreRedirect.redirect(
                   androidAppId: Constants.STORE_ANDROID_APP_ID,
                   iOSAppId: Constants.STORE_IOS_APP_ID,
                 )),
-        SizedBox(height: resHeight(1.0, 3.0)),
+        // SizedBox(height: resHeight(1.0, 3.0)),
         drawerItem(
           "${AppLocalizations.of(context).translate(TranslationConstants.about_us)}",
           () => setState(() {
@@ -149,8 +177,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    return BlocBuilder<DrawerItemsBloc, DrawerItem>(
-        builder: (context, drawerItem) {
+    return BlocBuilder<DrawerItemsBloc, DrawerItem>(builder: (context, drawerItem) {
       return Container(
         constraints: BoxConstraints(
           minWidth: screenWidth,
@@ -162,7 +189,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
             children: [
               _drawerTopSection(),
               Divider(color: Colors.black45),
-              SizedBox(height: resHeight(1.4, 1.5)),
+              // SizedBox(height: resHeight(1.4, 1.5)),
               if (_showAboutUs) _aboutUsSection(),
               if (!_showAboutUs) _drawerBottomSection(),
             ],

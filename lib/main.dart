@@ -70,8 +70,8 @@ class MyApp extends StatelessWidget {
                       statusBarColor: Colors.transparent,
 
                       // systemNavigationBarColor: Color(0xff75C28C),
-                      // systemNavigationBarDividerColor: Colors.transparent,
-                      // systemNavigationBarIconBrightness: Brightness.light,
+                      systemNavigationBarDividerColor: Colors.transparent,
+                      systemNavigationBarIconBrightness: Brightness.light,
                     ),
                     child: MBIHome(),
                   ),

@@ -73,6 +73,9 @@ flutter:
     - assets/images/menu_icon.svg
     - assets/lang/en.json
     - assets/lang/fa.json
+    - assets/images/flag_persian.png
+    - assets/images/flag_english.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
