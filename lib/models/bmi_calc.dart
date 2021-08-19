@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 enum Gender { male, female }
 // enum Age { greaterThan21, lessThan21 }
@@ -16,6 +17,7 @@ class BmiCalcModel extends Equatable {
   double percentile85th;
   double percentile95th;
   double constant;
+  // MaterialColor rangeColor;
 
   BmiCalcModel({
     this.bmiValue = 24.5,
@@ -27,6 +29,7 @@ class BmiCalcModel extends Equatable {
     this.percentile85th = 25.0,
     this.percentile95th = 30.0,
     this.constant = 705,
+    // this.rangeColor=Colors.blue,
   });
 
   @override
@@ -35,6 +38,31 @@ class BmiCalcModel extends Equatable {
   @override
   String toString() {
     return "<<< BMI:$bmiValue - weight:$weight - height:$height - gender:$genderCategory - age:$age >>>";
+  }
+
+  // get range color, depends on percentiles
+  MaterialColor get getRangeColor{
+    Color color = Colors.blue;
+    switch(getBmiValueCategory){
+      case 0:color= Colors.blue; break;
+      case 1:color= Colors.green; break;
+      case 2: color=Colors.orange;break;
+      case 3: color=Colors.red;break;
+
+
+    }
+    return color;
+  }
+
+  // calculate bmi category of weight
+  int get getBmiValueCategory {
+    int _categoryNumber = 0;
+
+    if (bmiValue <= percentile5th) _categoryNumber = 0;
+    if (bmiValue >= percentile5th && bmiValue <= percentile85th) _categoryNumber = 1;
+    if (bmiValue >= percentile85th && bmiValue <= percentile95th) _categoryNumber = 2;
+    if (bmiValue >= percentile95th) _categoryNumber = 3;
+    return _categoryNumber;
   }
 
   // calculate normal weight

@@ -1,8 +1,10 @@
 import 'dart:math' as math;
+
 import 'package:BMI/utils/app_localizations.dart';
 import 'package:BMI/utils/language_entity.dart';
 import 'package:BMI/utils/languages.dart';
 import 'package:BMI/utils/translation_constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -89,7 +91,7 @@ class _MBIHomeState extends State<MBIHome> {
                           icon: Transform(
                             alignment: Alignment.center,
                             child: SvgPicture.asset("assets/images/menu_icon.svg"),
-                            transform: _languageIndex==0? Matrix4.rotationY(0):Matrix4.rotationY(math.pi),
+                            transform: _languageIndex == 0 ? Matrix4.rotationY(0) : Matrix4.rotationY(math.pi),
                           ),
                           onPressed: () => Scaffold.of(context).openDrawer(),
                         ),
@@ -235,7 +237,7 @@ class _MBIHomeState extends State<MBIHome> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(7.0),
                           ),
-                          child: _scoreRow(getBmiValueCategory(bmiModel), bmiModel),
+                          child: _scoreRow(bmiModel.getBmiValueCategory, bmiModel),
                         );
                       },
                     )
@@ -250,7 +252,6 @@ class _MBIHomeState extends State<MBIHome> {
   }
 
   Widget _scoreRow(int position, BmiCalcModel bmiModel) {
-    MaterialColor color;
     List<String> _weightCategoryPercentiles = [
       "<= ${bmiModel.percentile5th.toStringAsFixed(1)}",
       "${bmiModel.percentile5th.toStringAsFixed(1)} - ${bmiModel.percentile85th.toStringAsFixed(1)}",
@@ -264,16 +265,13 @@ class _MBIHomeState extends State<MBIHome> {
       "${AppLocalizations.of(context).translate(TranslationConstants.obese)}"
     ];
     print(_weightCategoryPercentiles.toString());
-    List<Color> _rangeColors = [Colors.blue,Colors.green,Colors.orange,Colors.red];
 
     return Container(
       padding: EdgeInsets.symmetric(
           horizontal: resHeight(_horizPaddingFactorTextForMobile, _horizPaddingFactorTextForTablet), vertical: resHeight(2.0, 2.0)),
       child: Column(
         children: [
-
           for (int i = 0; i < _weightCategories.length; i++)
-
             i != position
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -294,28 +292,18 @@ class _MBIHomeState extends State<MBIHome> {
                     children: [
                       Text(
                         "${_weightCategories[i]}",
-                        style:  Theme.of(context).textTheme.subtitle1.copyWith(color: _rangeColors[position]),
+                        style: Theme.of(context).textTheme.subtitle1.copyWith(color: bmiModel.getRangeColor),
                       ),
                       Expanded(child: Text("")),
                       Text(
                         "${_weightCategoryPercentiles[i]}",
-                        style: Theme.of(context).textTheme.subtitle1.copyWith(color:_rangeColors[position]),
+                        style: Theme.of(context).textTheme.subtitle1.copyWith(color: bmiModel.getRangeColor),
                       ),
                     ],
                   ),
         ],
       ),
     );
-  }
-
-  int getBmiValueCategory(BmiCalcModel _bmiModel) {
-    int _categoryNumber = 0;
-    double _bmiValue = _bmiModel.bmiValue;
-    if (_bmiValue <= _bmiModel.percentile5th) _categoryNumber = 0;
-    if (_bmiValue >= _bmiModel.percentile5th && _bmiValue <= _bmiModel.percentile85th) _categoryNumber = 1;
-    if (_bmiValue >= _bmiModel.percentile85th && _bmiValue <= _bmiModel.percentile95th) _categoryNumber = 2;
-    if (_bmiValue >= _bmiModel.percentile95th) _categoryNumber = 3;
-    return _categoryNumber;
   }
 
   Widget _propertyRowMobileWeight(int min, int max, {name, unit}) {
@@ -337,6 +325,7 @@ class _MBIHomeState extends State<MBIHome> {
           //*********** decimalNumberPicker segment  ************/
 
           InkWell(
+            borderRadius: BorderRadius.circular(5.0),
             onTap: () {
               return showDialog(
                 context: context,
@@ -353,9 +342,16 @@ class _MBIHomeState extends State<MBIHome> {
               builder: (context, state) {
                 final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                 _currentWeightValue = bmiModel.weight;
-                return Text(
-                  "${_currentWeightValue.toStringAsFixed(1)}",
-                  style: Theme.of(context).textTheme.bodyText1,
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
+                  decoration: BoxDecoration(
+                      // border: Border.all(color: Colors.red),
+                      borderRadius: BorderRadius.circular(5.0),
+                      color: Colors.black.withOpacity(0.08)),
+                  child: Text(
+                    "${_currentWeightValue.toStringAsFixed(1)}",
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
                 );
               },
             ),

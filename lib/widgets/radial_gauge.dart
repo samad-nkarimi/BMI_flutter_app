@@ -1,12 +1,12 @@
 import 'package:BMI/utils/app_localizations.dart';
-import 'package:BMI/utils/styling.dart';
 import 'package:BMI/utils/translation_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+
 import '../blocs/blocs.dart';
 import '../blocs/bmi_calc/bmi_calc_bloc.dart';
 import '../utils/size_config.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class RadialGauge extends StatelessWidget {
   // double value;
@@ -16,18 +16,15 @@ class RadialGauge extends StatelessWidget {
   }) : super(key: key);
 
   double resHeight(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) *
-        SizeConfig.heightMultiplier;
+    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.heightMultiplier;
   }
 
   double resWidth(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) *
-        SizeConfig.widthMultiplier;
+    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.widthMultiplier;
   }
 
   double resText(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) *
-        SizeConfig.textMultiplier;
+    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.textMultiplier;
   }
 
   @override
@@ -39,10 +36,8 @@ class RadialGauge extends StatelessWidget {
         final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
         print(bmiModel);
         // calculate min,max
-        double _normalMin =
-            double.parse("${bmiModel.percentile5th.toStringAsFixed(1)}");
-        double _normalMax =
-            double.parse("${bmiModel.percentile85th.toStringAsFixed(1)}");
+        double _normalMin = double.parse("${bmiModel.percentile5th.toStringAsFixed(1)}");
+        double _normalMax = double.parse("${bmiModel.percentile85th.toStringAsFixed(1)}");
         double _normalDomain = _normalMax - _normalMin;
         double _min = _normalMin - _normalDomain;
         double _max = _normalMax + _normalDomain;
@@ -52,7 +47,6 @@ class RadialGauge extends StatelessWidget {
             RadialAxis(
               axisLabelStyle: GaugeTextStyle(
                 fontSize: resText(1.5, 1.5),
-
               ),
               tickOffset: resHeight(7.0, 9.2),
               minimum: _min,
@@ -88,7 +82,7 @@ class RadialGauge extends StatelessWidget {
                   endWidth: _width,
                 ),
                 GaugeRange(
-                  label:  AppLocalizations.of(context).translate(TranslationConstants.overweight),
+                  label: AppLocalizations.of(context).translate(TranslationConstants.overweight),
                   labelStyle: GaugeTextStyle(
                     fontSize: resText(2.0, 2.0),
                     color: Colors.white,
@@ -120,8 +114,10 @@ class RadialGauge extends StatelessWidget {
                     child: Text(
                       '${bmiModel.bmiValue.toStringAsFixed(1)}',
                       style: TextStyle(
-                          fontSize: resText(4.0, 4.0),
-                          fontWeight: FontWeight.bold),
+                        fontSize: resText(4.0, 4.0),
+                        fontWeight: FontWeight.bold,
+                        color: bmiModel.getRangeColor,
+                      ),
                     ),
                   ),
                   angle: 90,
