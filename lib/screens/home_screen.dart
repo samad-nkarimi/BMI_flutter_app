@@ -185,7 +185,7 @@ class _MBIHomeState extends State<MBIHome> {
                         );
                       },
                     ),
-                    // box marbout be seekha
+                    // the box relevant to sliders
                     Card(
                       margin: EdgeInsets.only(
                           top: resHeight(1.0, 2.0), left: resHeight(1.0, 2.0), right: resHeight(1.0, 2.0), bottom: resHeight(0.5, 1.0)),
@@ -250,6 +250,7 @@ class _MBIHomeState extends State<MBIHome> {
   }
 
   Widget _scoreRow(int position, BmiCalcModel bmiModel) {
+    MaterialColor color;
     List<String> _weightCategoryPercentiles = [
       "<= ${bmiModel.percentile5th.toStringAsFixed(1)}",
       "${bmiModel.percentile5th.toStringAsFixed(1)} - ${bmiModel.percentile85th.toStringAsFixed(1)}",
@@ -263,13 +264,16 @@ class _MBIHomeState extends State<MBIHome> {
       "${AppLocalizations.of(context).translate(TranslationConstants.obese)}"
     ];
     print(_weightCategoryPercentiles.toString());
+    List<Color> _rangeColors = [Colors.blue,Colors.green,Colors.orange,Colors.red];
 
     return Container(
       padding: EdgeInsets.symmetric(
           horizontal: resHeight(_horizPaddingFactorTextForMobile, _horizPaddingFactorTextForTablet), vertical: resHeight(2.0, 2.0)),
       child: Column(
         children: [
+
           for (int i = 0; i < _weightCategories.length; i++)
+
             i != position
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -290,12 +294,12 @@ class _MBIHomeState extends State<MBIHome> {
                     children: [
                       Text(
                         "${_weightCategories[i]}",
-                        style: TextStyle(color: Colors.blue),
+                        style:  Theme.of(context).textTheme.subtitle1.copyWith(color: _rangeColors[position]),
                       ),
                       Expanded(child: Text("")),
                       Text(
                         "${_weightCategoryPercentiles[i]}",
-                        style: TextStyle(color: Colors.blue),
+                        style: Theme.of(context).textTheme.subtitle1.copyWith(color:_rangeColors[position]),
                       ),
                     ],
                   ),
