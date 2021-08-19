@@ -345,9 +345,10 @@ class _MBIHomeState extends State<MBIHome> {
                 return Container(
                   padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
                   decoration: BoxDecoration(
-                      // border: Border.all(color: Colors.red),
-                      borderRadius: BorderRadius.circular(5.0),
-                      color: Colors.black.withOpacity(0.08)),
+                    // border: Border.all(color: Colors.red),
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: Colors.black.withOpacity(0.08),
+                  ),
                   child: Text(
                     "${_currentWeightValue.toStringAsFixed(1)}",
                     style: Theme.of(context).textTheme.bodyText1,
@@ -379,6 +380,7 @@ class _MBIHomeState extends State<MBIHome> {
           ),
           //*********** decimalNumberPicker segment  ************/
           InkWell(
+            borderRadius: BorderRadius.circular(5.0),
             onTap: () {
               return showDialog(
                 context: context,
@@ -398,9 +400,17 @@ class _MBIHomeState extends State<MBIHome> {
                 if (state is HeightChanged) _currentHeightValue = state.height;
                 // print("BMI: ${(state as BmiCalculating).value}");
 
-                return Text(
-                  "${_currentHeightValue.toStringAsFixed(1)}",
-                  style: Theme.of(context).textTheme.bodyText1,
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
+                  decoration: BoxDecoration(
+                    // border: Border.all(color: Colors.red),
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: Colors.black.withOpacity(0.08),
+                  ),
+                  child: Text(
+                    "${_currentHeightValue.toStringAsFixed(1)}",
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
                 );
               },
             ),
@@ -477,12 +487,13 @@ class _MBIHomeState extends State<MBIHome> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           // age section
-          Text("${AppLocalizations.of(context).translate(TranslationConstants.age)}", style: Theme.of(context).textTheme.subtitle1),
+          Text("${AppLocalizations.of(context).translate(TranslationConstants.age)} :", style: Theme.of(context).textTheme.subtitle1),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: resWidth(1.0, 2.0)),
             child: Padding(
               padding: const EdgeInsets.only(left: 30),
               child: InkWell(
+                borderRadius: BorderRadius.circular(5.0),
                 onTap: () {
                   return showDialog(
                     context: context,
@@ -499,9 +510,17 @@ class _MBIHomeState extends State<MBIHome> {
                   builder: (context, state) {
                     final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                     _currentAgeValue = bmiModel.age;
-                    return Text(
-                      "${_currentAgeValue.toStringAsFixed(0)}",
-                      style: Theme.of(context).textTheme.bodyText1,
+                    return Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
+                      decoration: BoxDecoration(
+                        // border: Border.all(color: Colors.red),
+                        borderRadius: BorderRadius.circular(5.0),
+                        color: Colors.black.withOpacity(0.08),
+                      ),
+                      child: Text(
+                        "${_currentAgeValue.toStringAsFixed(0)}",
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
                     );
                   },
                 ),
@@ -769,6 +788,7 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
           child: Row(
             children: [
               GestureDetector(
+
                 onTap: () {
                   setState(() {
                     maleToggle = true;
@@ -778,9 +798,17 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                     GenderHasBeenSet(_genderCategory),
                   );
                 },
-                child: Text(
-                  "${AppLocalizations.of(context).translate(TranslationConstants.male)}",
-                  style: maleToggle ? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.subtitle1,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
+                  decoration: BoxDecoration(
+                    // border: Border.all(color: Colors.red),
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: Colors.black.withOpacity(0.08),
+                  ),
+                  child: Text(
+                    "${AppLocalizations.of(context).translate(TranslationConstants.male)}",
+                    style: maleToggle ? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.subtitle1,
+                  ),
                 ),
               ),
               Text(" | ", style: Theme.of(context).textTheme.subtitle1),
@@ -794,9 +822,17 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                     GenderHasBeenSet(_genderCategory),
                   );
                 },
-                child: Text(
-                  "${AppLocalizations.of(context).translate(TranslationConstants.female)}",
-                  style: !maleToggle ? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.subtitle1,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
+                  decoration: BoxDecoration(
+                    // border: Border.all(color: Colors.red),
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: Colors.black.withOpacity(0.08),
+                  ),
+                  child: Text(
+                    "${AppLocalizations.of(context).translate(TranslationConstants.female)}",
+                    style: !maleToggle ? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.subtitle1,
+                  ),
                 ),
               ),
             ],

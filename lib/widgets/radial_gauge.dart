@@ -108,6 +108,12 @@ class RadialGauge extends StatelessWidget {
                 GaugeAnnotation(
                   widget: Container(
                     padding: EdgeInsets.all(0.5 * SizeConfig.heightMultiplier),
+                    // padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
+                    decoration: BoxDecoration(
+                      // border: Border.all(color: Colors.red),
+                      borderRadius: BorderRadius.circular(5.0),
+                      color: Colors.black.withOpacity(0.08),
+                    ),
                     // decoration: BoxDecoration(
                     //     border: Border.all(color: Colors.blueAccent, width: 3),
                     //     borderRadius: BorderRadius.all(Radius.circular(15))),
