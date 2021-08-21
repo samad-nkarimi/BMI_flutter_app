@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'size_config.dart';
 
 class AppTheme {
-  final String lang="en";
-  AppTheme();
+  static String lang = "en";
+
+  AppTheme._();
 
   // final  lang =   AppLocalizations().locale.languageCode;
 
@@ -15,15 +16,20 @@ class AppTheme {
   static const Color subTitleTextColor = Color(0xFF75C28C);
   static const Color subTitleSmallTextColor = Color(0x99000000);
 
-  static double languageFontTextMultiplier=1;
+  static double languageFontTextMultiplier = 1.0;
 
-   ThemeData lightTheme(String lang) {
-    languageFontTextMultiplier = (lang == 'fa' ? 1.0 : 0.8);
-    print("$languageFontTextMultiplier    8888888888888888888888888888888888");
+  static ThemeData lightTheme() {
+    languageFontTextMultiplier = lang == 'fa' ? 0.9 : 1.0;
+    // subTitleTextColor =  lang == 'fa' ? Colors.black : Colors.yellow;
+    // subTitleSmallTextColor = ( lang == 'fa' ? Colors.black : Colors.deepOrange);
+    // print("is lang fa: ${lang == 'fa'}");
+    // print("is lang en: ${lang == 'en'}");
+    // print("$languageFontTextMultiplier  $lang    8888888888888888888888888888888888");
+    // print("$subTitleSmallTextColor bbbbbbbbbbbbbbbbbbbbbbbbbb");
     return ThemeData(
         scaffoldBackgroundColor: AppTheme.appBackgroundColor,
         brightness: Brightness.light,
-        textTheme: lightTextTheme,
+        textTheme: lightTextTheme(),
         fontFamily: lang == 'fa' ? 'IRANSansFaNum_Medium' : 'SFProDisplay');
   }
 
@@ -33,16 +39,16 @@ class AppTheme {
     textTheme: darkTextTheme,
   );
 
-    TextTheme lightTextTheme = TextTheme(
-    headline6: _titleLight,
-    subtitle1: _subTitleSmallLight,
-    subtitle2: _subTitleLight(),
-    button: _buttonLight,
-    headline4: _greetingLight,
-    headline3: _searchLight,
-    bodyText1: _selectedTabLight,
-    bodyText2: _unSelectedTabLight,
-  );
+  static TextTheme lightTextTheme() => TextTheme(
+        headline6: _titleLight,
+        subtitle1: _subTitleSmallLight(),
+        subtitle2: _subTitleLight(),
+        button: _buttonLight,
+        headline4: _greetingLight,
+        headline3: _searchLight,
+        bodyText1: _selectedTabLight,
+        bodyText2: _unSelectedTabLight,
+      );
 
   static final TextTheme darkTextTheme = TextTheme(
     headline6: _titleDark,
@@ -60,23 +66,26 @@ class AppTheme {
   );
 
   static TextStyle _subTitleLight() {
-    print(languageFontTextMultiplier);
+    // print("$languageFontTextMultiplier    9999999999999999999999999999999999");
     return TextStyle(
       color: subTitleTextColor,
-      fontSize: 4 * SizeConfig.textMultiplier * languageFontTextMultiplier,
+      fontSize: 3 * SizeConfig.textMultiplier * languageFontTextMultiplier,
       height: 1.5,
     );
   }
 
-  static final TextStyle _subTitleSmallLight = TextStyle(
-    color: subTitleSmallTextColor,
-    fontSize: 2.0 * SizeConfig.textMultiplier * languageFontTextMultiplier,
-    fontWeight: FontWeight.w600,
-    height: 1.5,
-  );
+  static TextStyle _subTitleSmallLight() {
+    // print("$subTitleSmallTextColor  colorrrrrrrrrr");
+    return TextStyle(
+      color: subTitleSmallTextColor,
+      fontSize: 2.0 * SizeConfig.textMultiplier * languageFontTextMultiplier,
+      fontWeight: FontWeight.w600,
+      height: 1.5,
+    );
+  }
 
   static final TextStyle _buttonLight = TextStyle(
-    color: Colors.blue,
+    color: Colors.white,
     fontSize: 2.5 * SizeConfig.textMultiplier * languageFontTextMultiplier,
   );
 

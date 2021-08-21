@@ -2,15 +2,13 @@ import 'dart:ui';
 
 import 'package:BMI/utils/app_localizations.dart';
 import 'package:BMI/utils/translation_constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:share/share.dart';
 import 'package:store_redirect/store_redirect.dart';
 
-import '../blocs/blocs.dart';
-import '../models/drawer_item.dart';
 import '../utils/constants.dart';
 import '../utils/images.dart';
 import '../utils/size_config.dart';
@@ -24,6 +22,7 @@ class MbiDrawer extends StatefulWidget {
 
 class _MbiDrawerState extends State<MbiDrawer> {
   bool _showAboutUs = false;
+  final double _topMenuSizeFraction = 0.3;
 
   final Email email = Email(
     body: Constants.EMAIL_BODY,
@@ -63,68 +62,81 @@ class _MbiDrawerState extends State<MbiDrawer> {
   }
 
   Widget _drawerTopSection() {
-    return Stack(alignment: Alignment.center, children: [
-      Container(
-        width: double.infinity,
-      ),
-      Container(
-        height: MediaQuery.of(context).size.height * 0.4,
-        padding: EdgeInsets.all(50),
-        child: Image.asset(
-          Images.LOGO_IMAGE,
-          fit: BoxFit.cover,
-        ),
-      ),
-      Positioned(
-        top: resHeight(2.0, 4.0),
-        left: resHeight(2.0, 6.0),
-        child: Container(
-          width: resWidth(12.0, 8.0),
-          height: resWidth(12.0, 8.0),
-          child: IconButton(
-            icon: SvgPicture.asset("assets/images/back_icon.svg"),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ),
-      ),
-    ]);
-  }
-
-  Widget _aboutUsSection() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      // mainAxisSize: MainAxisSize.max,
+    return Stack(
+      alignment: Alignment.center,
       children: [
-        Text("${AppLocalizations.of(context).translate(TranslationConstants.about_us)}", style: Theme.of(context).textTheme.subtitle2),
-        SizedBox(height: 15),
-        Text(
-          // Constants.ABOUT_US_BODY,
-          "${AppLocalizations.of(context).translate(TranslationConstants.about_us_description)}",
-          style: Theme.of(context).textTheme.bodyText1,
-          textAlign: TextAlign.center,
+        Container(
+          width: double.infinity,
         ),
         Container(
-          // alignment: Alignment.bottomCenter,
-          margin: EdgeInsets.all(resHeight(8.0, 8.0)),
-          width: resWidth(30.0, 20.0),
-          height: resWidth(15.0, 10.0),
-          child: ElevatedButton(
-            onPressed: () => setState(() {
-              _showAboutUs = !_showAboutUs;
-            }),
-            style: ElevatedButton.styleFrom(
-              primary: Color(0xFF75C28C),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-            ),
-            child: Text(
-              "${AppLocalizations.of(context).translate(TranslationConstants.ok)}",
-              style: TextStyle(color: Colors.white, fontSize: 18),
+          height: MediaQuery.of(context).size.height * _topMenuSizeFraction,
+          padding: EdgeInsets.all(50),
+          child: Image.asset(
+            Images.LOGO_IMAGE,
+            fit: BoxFit.cover,
+          ),
+        ),
+        Positioned(
+          top: resHeight(2.0, 4.0),
+          left: resHeight(2.0, 6.0),
+          child: Container(
+            width: resWidth(12.0, 8.0),
+            height: resWidth(12.0, 8.0),
+            child: IconButton(
+              icon: SvgPicture.asset("assets/images/back_icon.svg"),
+              onPressed: () => Navigator.pop(context),
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _aboutUsSection() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: resWidth(5, 7.0)),
+      // color: Colors.black12,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Column(
+            children: [
+              Text("${AppLocalizations.of(context).translate(TranslationConstants.about_us)}", style: Theme.of(context).textTheme.subtitle2),
+              SizedBox(height: 15),
+              Text(
+                // Constants.ABOUT_US_BODY,
+                "${AppLocalizations.of(context).translate(TranslationConstants.about_us_description)}",
+                style: Theme.of(context).textTheme.bodyText1,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          Container(
+            // color: Colors.yellow,
+
+            // alignment: Alignment.bottomCenter,
+            margin: EdgeInsets.all(resHeight(8.0, 8.0)),
+            width: resWidth(22.0, 20.0),
+            height: resHeight(7.0, 10.0),
+            child: ElevatedButton(
+              onPressed: () => setState(() {
+                _showAboutUs = !_showAboutUs;
+              }),
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xFF75C28C),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: Text(
+                "${AppLocalizations.of(context).translate(TranslationConstants.ok)}",
+                style: Theme.of(context).textTheme.button,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -150,52 +162,56 @@ class _MbiDrawerState extends State<MbiDrawer> {
   // ),
 
   Widget _drawerBottomSection() {
-    return Column(
-      children: [
-        drawerItem("${AppLocalizations.of(context).translate(TranslationConstants.help_and_feedback)}", () => FlutterEmailSender.send(email)),
-        // SizedBox(height: resHeight(1.0, 3.0)),
-        drawerItem("${AppLocalizations.of(context).translate(TranslationConstants.share_app)}", () => Share.share(Constants.APP_LINK)),
-        // SizedBox(height: resHeight(1.0, 3.0)),
-        drawerItem(
+    return Container(
+      // color: Colors.yellow,
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          drawerItem("${AppLocalizations.of(context).translate(TranslationConstants.help_and_feedback)}", () => FlutterEmailSender.send(email)),
+          drawerItem("${AppLocalizations.of(context).translate(TranslationConstants.share_app)}", () => Share.share(Constants.APP_LINK)),
+          drawerItem(
             "${AppLocalizations.of(context).translate(TranslationConstants.more_apps)}",
             () => StoreRedirect.redirect(
-                  androidAppId: Constants.STORE_ANDROID_APP_ID,
-                  iOSAppId: Constants.STORE_IOS_APP_ID,
-                )),
-        // SizedBox(height: resHeight(1.0, 3.0)),
-        drawerItem(
-          "${AppLocalizations.of(context).translate(TranslationConstants.about_us)}",
-          () => setState(() {
-            _showAboutUs = !_showAboutUs;
-          }),
-        ),
-      ],
+              androidAppId: Constants.STORE_ANDROID_APP_ID,
+              iOSAppId: Constants.STORE_IOS_APP_ID,
+            ),
+          ),
+          drawerItem(
+            "${AppLocalizations.of(context).translate(TranslationConstants.about_us)}",
+            () => setState(
+              () {
+                _showAboutUs = !_showAboutUs;
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    print("drawer reloaded   ***********************************");
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    return BlocBuilder<DrawerItemsBloc, DrawerItem>(builder: (context, drawerItem) {
-      return Container(
-        constraints: BoxConstraints(
-          minWidth: screenWidth,
-          minHeight: screenHeight,
+    return Container(
+      // constraints: BoxConstraints(
+      //   minWidth: screenWidth,
+      //   minHeight: screenHeight,
+      // ),
+      // color: Colors.red,
+      child: Drawer(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            _drawerTopSection(),
+            Divider(color: Colors.black45),
+            // SizedBox(height: resHeight(1.4, 1.5)),
+            if (_showAboutUs) Expanded(child: _aboutUsSection()),
+            if (!_showAboutUs) Expanded(child: _drawerBottomSection()),
+          ],
         ),
-        color: Colors.red,
-        child: Drawer(
-          child: Column(
-            children: [
-              _drawerTopSection(),
-              Divider(color: Colors.black45),
-              // SizedBox(height: resHeight(1.4, 1.5)),
-              if (_showAboutUs) _aboutUsSection(),
-              if (!_showAboutUs) _drawerBottomSection(),
-            ],
-          ),
-        ),
-      );
-    });
+      ),
+    );
   }
 }

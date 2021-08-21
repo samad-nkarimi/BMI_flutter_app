@@ -102,13 +102,13 @@ class BmiCalcModel extends Equatable {
       }
     }
 
-    print(bmiValue);
-    print(genderCategory);
-    print("Height: $height");
-    print("age: $age");
-    print("p5th: $percentile5th");
-    print("p85th: $percentile85th");
-    print("p95th: $percentile95th");
+    // print(bmiValue);
+    // print(genderCategory);
+    // print("Height: $height");
+    // print("age: $age");
+    // print("p5th: $percentile5th");
+    // print("p85th: $percentile85th");
+    // print("p95th: $percentile95th");
     return bmiValue;
   }
 

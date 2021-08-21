@@ -34,7 +34,7 @@ class RadialGauge extends StatelessWidget {
     return BlocBuilder<BmiCalcBloc, BmiCalcState>(
       builder: (context, state) {
         final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-        print(bmiModel);
+        // print(bmiModel);
         // calculate min,max
         double _normalMin = double.parse("${bmiModel.percentile5th.toStringAsFixed(1)}");
         double _normalMax = double.parse("${bmiModel.percentile85th.toStringAsFixed(1)}");
