@@ -57,7 +57,8 @@ class RadialGauge extends StatelessWidget {
               ranges: <GaugeRange>[
                 GaugeRange(
                   label: AppLocalizations.of(context).translate(TranslationConstants.underweight),
-                  labelStyle: GaugeTextStyle(
+                  labelStyle:
+                  GaugeTextStyle(
                     fontSize: resText(2.0, 2.0),
                     color: Colors.white,
                   ),
@@ -92,7 +93,7 @@ class RadialGauge extends StatelessWidget {
                   color: Colors.orange,
                   startWidth: _width,
                   endWidth: _width,
-                )
+                ),
               ],
               pointers: <GaugePointer>[
                 MarkerPointer(

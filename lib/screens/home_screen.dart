@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:BMI/utils/app_localizations.dart';
 import 'package:BMI/utils/language_entity.dart';
 import 'package:BMI/utils/languages.dart';
-import 'package:BMI/utils/styling.dart';
 import 'package:BMI/utils/translation_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +36,8 @@ class _MBIHomeState extends State<MBIHome> {
   int _currentAgeValue = 20;
   double _horizPaddingFactorTextForMobile = 5.0;
   double _horizPaddingFactorTextForTablet = 5.0;
-
+  double _mobileSelectableItemsBackgroundWidth = 12.0;
+  double _tabletSelectableItemsBackgroundWidth = 18.0;
 
   // NumberPicker decimalNumberPicker;
   List<String> _weightCategories = [];
@@ -53,213 +53,202 @@ class _MBIHomeState extends State<MBIHome> {
   //   ];
   // }
 
-  double resHeight(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.heightMultiplier;
-  }
-
-  double resWidth(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.widthMultiplier;
-  }
-
-  double resText(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.textMultiplier;
-  }
-
   @override
   Widget build(BuildContext context) {
     var testTheme = Theme.of(context).textTheme.subtitle1.color;
     print("$testTheme tttttttttttttttttttttttt");
-    return BlocBuilder<LanguageBloc,LanguageState>(
-      builder:(context,languageState){
-        var lang="en";
-        if(languageState is LanguageLoaded)
-           lang = languageState.locale.languageCode;
-        return  SafeArea(
-
-
-
-        child: Container(
-          child: Scaffold(
-            drawer: MbiDrawer(),
-            appBar: PreferredSize(
-              preferredSize: Size(double.infinity, resHeight(8.0, 10.0)),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: resWidth(3.0, 3.0)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Builder(
-                      builder: (context) => Container(
-                        // padding: const EdgeInsets.all(10.0),
-                        // margin: const EdgeInsets.all(10.0),
-                        alignment: Alignment.center,
-                        child: Container(
-                          width: resWidth(12.0, 8.0),
-                          height: resWidth(12.0, 8.0),
-                          child: IconButton(
-                            // iconSize: 10 * SizeConfig.heightMultiplier,
-                            icon: Transform(
-                              alignment: Alignment.center,
-                              child: SvgPicture.asset("assets/images/menu_icon.svg"),
-                              transform: lang == 'fa' ? Matrix4.rotationY(math.pi): Matrix4.rotationY(0) ,
-                            ),
-                            onPressed: () => Scaffold.of(context).openDrawer(),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      // color: Colors.black12,
-                      // width: resWidth(50.0, 40.0),
-                      // height: resHeight(20.0, 15.0),
-                      child:
-                          // SvgPicture.asset("assets/images/bmi_name.svg"),
-                          DropdownButton<LanguageEntity>(
-                        items: Languages.languages
-                            .map<DropdownMenuItem<LanguageEntity>>(
-                              (e) => DropdownMenuItem<LanguageEntity>(
-                                value: e,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(e.value),
-                                    Image.asset(
-                                      e.flag,
-                                      height: resHeight(4.0, 4.0),
-                                      width: resHeight(4.0, 4.0),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                            .toList(),
-                        underline: SizedBox(),
-                        icon: Image.asset(
-                          lang == 'en' ? "assets/images/flag_english.png" : "assets/images/flag_persian.png",
-                          width: resHeight(5.0, 5.0),
-                          height: resHeight(5.0, 5.0),
-                        ),
-                        onChanged: (index) {
-                          // index is LanguageEntity
-                          BlocProvider.of<LanguageBloc>(context).add(
-                            ToggleLanguageEvent(index),
-                          );
-
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            body: Stack(
-              // alignment: Alignment.topCenter,
-              children: [
-                Container(
-                  // color: Colors.white,
-                  width: double.maxFinite,
-                  padding: EdgeInsets.only(top: resWidth(5.0, 0.0), left: 10.0, right: 10.0),
-                  height: resHeight(50.0, 55.0),
-                  child: RadialGauge(
-                      // value: bmiValue,
-                      ),
-                ),
-                Container(
-                  // color: Colors.white,
-                  height: double.infinity,
-                  width: double.infinity,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
+    return BlocBuilder<LanguageBloc, LanguageState>(
+      builder: (context, languageState) {
+        var lang = "en";
+        if (languageState is LanguageLoaded) lang = languageState.locale.languageCode;
+        return SafeArea(
+          child: Container(
+            child: Scaffold(
+              drawer: MbiDrawer(),
+              appBar: PreferredSize(
+                preferredSize: Size(double.infinity, SizeConfig.resHeight(8.0, 10.0)),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: SizeConfig.resWidth(3.0, 3.0)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      BlocBuilder<BmiCalcBloc, BmiCalcState>(
-                        builder: (context, state) {
-                          final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: resHeight(
-                                _horizPaddingFactorTextForMobile + 1.0, // adding 1.0 for card margin
-                                _horizPaddingFactorTextForTablet + 1.0,
+                      Builder(
+                        builder: (context) => Container(
+                          // padding: const EdgeInsets.all(10.0),
+                          // margin: const EdgeInsets.all(10.0),
+                          alignment: Alignment.center,
+                          child: Container(
+                            width: SizeConfig.resWidth(12.0, 8.0),
+                            height: SizeConfig.resWidth(12.0, 8.0),
+                            child: IconButton(
+                              // iconSize: 10 * SizeConfig.heightMultiplier,
+                              icon: Transform(
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset("assets/images/menu_icon.svg"),
+                                transform: lang == 'fa' ? Matrix4.rotationY(math.pi) : Matrix4.rotationY(0),
                               ),
+                              onPressed: () => Scaffold.of(context).openDrawer(),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "${AppLocalizations.of(context).translate(TranslationConstants.normal_weight)}(kg)",
-                                  style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.blue),
-                                ),
-                                Text(
-                                  "${bmiModel.minimumNormalWeight().toStringAsFixed(1)} - ${bmiModel.maximumNormalWeight().toStringAsFixed(1)}",
-                                  style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.blue),
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                      // the box relevant to sliders
-                      Card(
-                        margin: EdgeInsets.only(
-                            top: resHeight(1.0, 2.0), left: resHeight(1.0, 2.0), right: resHeight(1.0, 2.0), bottom: resHeight(0.5, 1.0)),
-                        elevation: 1,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7.0),
-                          // side: BorderSide(width: 5, color: Colors.green),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: resHeight(1.0, 2.5)),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              // segment age & gender
-                              _ageAndGender(),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                                child: Divider(height: 0.5, color: Colors.black26),
-                              ),
-                              // segment weight
-                              if (SizeConfig.isMobilePortrait) _propertyRowMobileWeight(_minSliderWeight, _maxSliderWeight, name: "weight", unit: "kg"),
-                              _sliderTotalWeight(_minSliderWeight, _maxSliderWeight, name: "weight", unit: "kg"),
-                              Divider(
-                                height: 5.0,
-                                color: Colors.transparent,
-                              ),
-
-                              // segment height
-                              if (SizeConfig.isMobilePortrait) _propertyRowMobileHeight(_minSliderHeight, _maxSliderHeight, name: "height", unit: "cm"),
-                              _sliderTotalHeight(_minSliderHeight, _maxSliderHeight, name: "height", unit: "cm"),
-                            ],
                           ),
                         ),
                       ),
-                      BlocBuilder<BmiCalcBloc, BmiCalcState>(
-                        builder: (context, state) {
-                          final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-
-                          return Card(
-                            margin: EdgeInsets.only(
-                              top: resHeight(0.5, 1.0),
-                              left: resHeight(1.0, 2.0),
-                              right: resHeight(1.0, 2.0),
-                              bottom: resHeight(1.0, 2.0),
-                            ),
-                            elevation: 1,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(7.0),
-                            ),
-                            child: _scoreRow(bmiModel.getBmiValueCategory, bmiModel),
-                          );
-                        },
-                      )
+                      Container(
+                        // color: Colors.black12,
+                        // width: resWidth(50.0, 40.0),
+                        // height: resHeight(20.0, 15.0),
+                        child:
+                            // SvgPicture.asset("assets/images/bmi_name.svg"),
+                            DropdownButton<LanguageEntity>(
+                          items: Languages.languages
+                              .map<DropdownMenuItem<LanguageEntity>>(
+                                (e) => DropdownMenuItem<LanguageEntity>(
+                                  value: e,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(e.value),
+                                      Image.asset(
+                                        e.flag,
+                                        height: SizeConfig.resHeight(4.0, 4.0),
+                                        width: SizeConfig.resHeight(4.0, 4.0),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          underline: SizedBox(),
+                          icon: Image.asset(
+                            lang == 'en' ? "assets/images/flag_english.png" : "assets/images/flag_persian.png",
+                            width: SizeConfig.resHeight(5.0, 5.0),
+                            height: SizeConfig.resHeight(5.0, 5.0),
+                          ),
+                          onChanged: (index) {
+                            // index is LanguageEntity
+                            BlocProvider.of<LanguageBloc>(context).add(
+                              ToggleLanguageEvent(index),
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
-                )
-              ],
+                ),
+              ),
+              body: Stack(
+                // alignment: Alignment.topCenter,
+                children: [
+                  Container(
+                    // color: Colors.white,
+                    width: double.maxFinite,
+                    padding: EdgeInsets.only(top: SizeConfig.resWidth(5.0, 0.0), left: 10.0, right: 10.0),
+                    height: SizeConfig.resHeight(50.0, 55.0),
+                    child: RadialGauge(
+                        // value: bmiValue,
+                        ),
+                  ),
+                  Container(
+                    // color: Colors.white,
+                    height: double.infinity,
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        BlocBuilder<BmiCalcBloc, BmiCalcState>(
+                          builder: (context, state) {
+                            final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: SizeConfig.resHeight(
+                                  _horizPaddingFactorTextForMobile + 1.0, // adding 1.0 for card margin
+                                  _horizPaddingFactorTextForTablet + 1.0,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "${AppLocalizations.of(context).translate(TranslationConstants.normal_weight)}(kg)",
+                                    style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.blue),
+                                  ),
+                                  Text(
+                                    "${bmiModel.minimumNormalWeight().toStringAsFixed(1)} - ${bmiModel.maximumNormalWeight().toStringAsFixed(1)}",
+                                    style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.blue),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        // the box relevant to sliders
+                        Card(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.resHeight(1.0, 2.0),
+                              left: SizeConfig.resHeight(1.0, 2.0),
+                              right: SizeConfig.resHeight(1.0, 2.0),
+                              bottom: SizeConfig.resHeight(0.5, 1.0)),
+                          elevation: 1,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7.0),
+                            // side: BorderSide(width: 5, color: Colors.green),
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: SizeConfig.resHeight(1.0, 2.5)),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                // segment age & gender
+                                _ageAndGender(),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                                  child: Divider(height: 0.5, color: Colors.black26),
+                                ),
+                                // segment weight
+                                if (SizeConfig.isMobilePortrait)
+                                  _propertyRowMobileWeight(_minSliderWeight, _maxSliderWeight, name: "weight", unit: "kg"),
+                                _sliderTotalWeight(_minSliderWeight, _maxSliderWeight, name: "weight", unit: "kg"),
+                                Divider(
+                                  height: 5.0,
+                                  color: Colors.transparent,
+                                ),
+
+                                // segment height
+                                if (SizeConfig.isMobilePortrait)
+                                  _propertyRowMobileHeight(_minSliderHeight, _maxSliderHeight, name: "height", unit: "cm"),
+                                _sliderTotalHeight(_minSliderHeight, _maxSliderHeight, name: "height", unit: "cm"),
+                              ],
+                            ),
+                          ),
+                        ),
+                        BlocBuilder<BmiCalcBloc, BmiCalcState>(
+                          builder: (context, state) {
+                            final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+
+                            return Card(
+                              margin: EdgeInsets.only(
+                                top: SizeConfig.resHeight(0.5, 1.0),
+                                left: SizeConfig.resHeight(1.0, 2.0),
+                                right: SizeConfig.resHeight(1.0, 2.0),
+                                bottom: SizeConfig.resHeight(1.0, 2.0),
+                              ),
+                              elevation: 1,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7.0),
+                              ),
+                              child: _scoreRow(bmiModel.getBmiValueCategory, bmiModel),
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      );},
+        );
+      },
     );
   }
 
@@ -280,7 +269,9 @@ class _MBIHomeState extends State<MBIHome> {
 
     return Container(
       padding: EdgeInsets.symmetric(
-          horizontal: resHeight(_horizPaddingFactorTextForMobile, _horizPaddingFactorTextForTablet), vertical: resHeight(2.0, 2.0)),
+        horizontal: SizeConfig.resHeight(_horizPaddingFactorTextForMobile, _horizPaddingFactorTextForTablet),
+        vertical: SizeConfig.resHeight(2.0, 2.0),
+      ),
       child: Column(
         children: [
           for (int i = 0; i < _weightCategories.length; i++)
@@ -321,11 +312,11 @@ class _MBIHomeState extends State<MBIHome> {
   Widget _propertyRowMobileWeight(int min, int max, {name, unit}) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: resHeight(
+        horizontal: SizeConfig.resHeight(
           _horizPaddingFactorTextForMobile,
           _horizPaddingFactorTextForTablet,
         ),
-        vertical: resHeight(.7, 1.0),
+        vertical: SizeConfig.resHeight(.7, 1.0),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -355,6 +346,8 @@ class _MBIHomeState extends State<MBIHome> {
                 final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                 _currentWeightValue = bmiModel.weight;
                 return Container(
+                  width: SizeConfig.resWidth(_mobileSelectableItemsBackgroundWidth, _tabletSelectableItemsBackgroundWidth),
+                  alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
                   decoration: BoxDecoration(
                     // border: Border.all(color: Colors.red),
@@ -377,11 +370,11 @@ class _MBIHomeState extends State<MBIHome> {
   Widget _propertyRowMobileHeight(int min, int max, {name, unit}) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: resHeight(
+        horizontal: SizeConfig.resHeight(
           _horizPaddingFactorTextForMobile,
           _horizPaddingFactorTextForTablet,
         ),
-        vertical: resHeight(.7, 1.0),
+        vertical: SizeConfig.resHeight(.7, 1.0),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -413,6 +406,8 @@ class _MBIHomeState extends State<MBIHome> {
                 // print("BMI: ${(state as BmiCalculating).value}");
 
                 return Container(
+                  width: SizeConfig.resWidth(_mobileSelectableItemsBackgroundWidth, _tabletSelectableItemsBackgroundWidth),
+                  alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
                   decoration: BoxDecoration(
                     // border: Border.all(color: Colors.red),
@@ -432,12 +427,6 @@ class _MBIHomeState extends State<MBIHome> {
     );
   }
 
-  // double weightOrHeightValue(String name) {
-  //   if (name == "weight")
-  //     return _currentWeightValue;
-  //   else
-  //     return _currentHeightValue;
-  // }
 // SliderWidgetWidget
   Widget _sliderTotalHeight(int min, int max, {name, unit}) {
     return Row(
@@ -451,10 +440,10 @@ class _MBIHomeState extends State<MBIHome> {
           flex: 65,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: resWidth(3.0, 2.0),
+              horizontal: SizeConfig.resWidth(3.0, 2.0),
             ),
             child: SliderHeightWidget(
-              sliderHeight: resHeight(5.0, 10.0),
+              sliderHeight: SizeConfig.resHeight(5.0, 10.0),
               min: min,
               max: max,
             ),
@@ -476,10 +465,10 @@ class _MBIHomeState extends State<MBIHome> {
           flex: 65,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: resWidth(3.0, 2.0),
+              horizontal: SizeConfig.resWidth(3.0, 2.0),
             ),
             child: SliderWeightWidget(
-              sliderHeight: resHeight(5.0, 10.0),
+              sliderHeight: SizeConfig.resHeight(5.0, 10.0),
               min: min,
               max: max,
             ),
@@ -492,8 +481,8 @@ class _MBIHomeState extends State<MBIHome> {
   Widget _ageAndGender() {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: resHeight(_horizPaddingFactorTextForMobile, _horizPaddingFactorTextForTablet),
-        vertical: resHeight(2.0, 3.0),
+        horizontal: SizeConfig.resHeight(_horizPaddingFactorTextForMobile, _horizPaddingFactorTextForTablet),
+        vertical: SizeConfig.resHeight(2.0, 3.0),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -501,7 +490,7 @@ class _MBIHomeState extends State<MBIHome> {
           // age section
           Text("${AppLocalizations.of(context).translate(TranslationConstants.age)} :", style: Theme.of(context).textTheme.subtitle1),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: resWidth(1.0, 2.0)),
+            padding: EdgeInsets.symmetric(horizontal: SizeConfig.resWidth(1.0, 2.0)),
             child: Padding(
               padding: const EdgeInsets.only(left: 30),
               child: InkWell(
@@ -523,7 +512,9 @@ class _MBIHomeState extends State<MBIHome> {
                     final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                     _currentAgeValue = bmiModel.age;
                     return Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
+                      width: SizeConfig.resWidth(_mobileSelectableItemsBackgroundWidth, _tabletSelectableItemsBackgroundWidth),
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
                       decoration: BoxDecoration(
                         // border: Border.all(color: Colors.red),
                         borderRadius: BorderRadius.circular(5.0),
@@ -576,12 +567,6 @@ class _WeightDataPickerState extends State<WeightDataPicker> {
         return AlertDialog(
           title: Text('${AppLocalizations.of(context).translate(TranslationConstants.select_weight)}', style: Theme.of(context).textTheme.bodyText1),
           actions: [
-            // TextButton(
-            //   onPressed: () {
-            //     Navigator.pop(context);
-            //   },
-            //   child: Text("cancell", style: Theme.of(context).textTheme.button),
-            // ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context, _currentValue);
@@ -672,60 +657,6 @@ class _HeightDataPickerState extends State<HeightDataPicker> {
   }
 }
 
-// class HeightDataPicker extends StatefulWidget {
-//   // double _value;
-//   final int _min;
-//   final int _max;
-
-//   HeightDataPicker(this._min, this._max);
-//   @override
-//   _HeightDataPickerState createState() => _HeightDataPickerState();
-// }
-
-// class _HeightDataPickerState extends State<HeightDataPicker> {
-//   double _currentValue;
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<BmiCalcBloc, BmiCalcState>(
-//       builder: (context, state) {
-//         // final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-//         if (state is HeightChanged) _currentValue = state.height;
-//         return AlertDialog(
-//           title: Text('select height',
-//               textAlign: TextAlign.center,
-//               style: Theme.of(context).textTheme.bodyText1),
-//           actions: [
-//             TextButton(
-//               onPressed: () {
-//                 Navigator.pop(context, _currentValue);
-//               },
-//               child: Text(
-//                 "ok",
-//                 style: Theme.of(context).textTheme.button,
-//                 textAlign: TextAlign.center,
-//               ),
-//             ),
-//           ],
-//           content: DecimalNumberPicker(
-//             value: _currentValue,
-//             minValue: widget._min,
-//             maxValue: widget._max,
-//             itemCount: 3,
-//             decimalPlaces: 1,
-//             onChanged: (value) {
-//               setState(() => _currentValue = value);
-//               // bmiModel.height = _currentValue;
-//               BlocProvider.of<BmiCalcBloc>(context).add(
-//                 HeightHasBeenSet(value),
-//               );
-//             },
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
-
 class AgeDataPicker extends StatefulWidget {
   // int _value;
   final int _min;
@@ -800,7 +731,6 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
           child: Row(
             children: [
               GestureDetector(
-
                 onTap: () {
                   setState(() {
                     maleToggle = true;
@@ -811,6 +741,8 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                   );
                 },
                 child: Container(
+                  width: SizeConfig.resWidth(14.0, 18.0),
+                  alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
                   decoration: BoxDecoration(
                     // border: Border.all(color: Colors.red),
@@ -819,7 +751,7 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                   ),
                   child: Text(
                     "${AppLocalizations.of(context).translate(TranslationConstants.male)}",
-                    style: maleToggle ? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.subtitle1,
+                    style: maleToggle ? Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.blue,fontWeight: FontWeight.bold) : Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black26),
                   ),
                 ),
               ),
@@ -835,6 +767,8 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                   );
                 },
                 child: Container(
+                  width: SizeConfig.resWidth(14.0, 18.0),
+                  alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
                   decoration: BoxDecoration(
                     // border: Border.all(color: Colors.red),
@@ -843,7 +777,7 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                   ),
                   child: Text(
                     "${AppLocalizations.of(context).translate(TranslationConstants.female)}",
-                    style: !maleToggle ? Theme.of(context).textTheme.bodyText1 : Theme.of(context).textTheme.subtitle1,
+                    style: !maleToggle ? Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.blue,fontWeight: FontWeight.bold)   : Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black26),
                   ),
                 ),
               ),

@@ -30,6 +30,7 @@ class AppTheme {
         scaffoldBackgroundColor: AppTheme.appBackgroundColor,
         brightness: Brightness.light,
         textTheme: lightTextTheme(),
+        appBarTheme: AppBarTheme(color: Colors.red,brightness: Brightness.light),
         fontFamily: lang == 'fa' ? 'IRANSansFaNum_Medium' : 'SFProDisplay');
   }
 
@@ -70,7 +71,7 @@ class AppTheme {
     return TextStyle(
       color: subTitleTextColor,
       fontSize: 3 * SizeConfig.textMultiplier * languageFontTextMultiplier,
-      height: 1.5,
+      height: 1.5*languageFontTextMultiplier,
     );
   }
 
@@ -80,7 +81,7 @@ class AppTheme {
       color: subTitleSmallTextColor,
       fontSize: 2.0 * SizeConfig.textMultiplier * languageFontTextMultiplier,
       fontWeight: FontWeight.w600,
-      height: 1.5,
+      height: 1.5*languageFontTextMultiplier,
     );
   }
 
@@ -102,7 +103,7 @@ class AppTheme {
   static final TextStyle _selectedTabLight = TextStyle(
     color: Colors.blue,
     fontWeight: FontWeight.bold,
-    fontSize: 2.5 * SizeConfig.textMultiplier * languageFontTextMultiplier,
+    fontSize: 2.2 * SizeConfig.textMultiplier * languageFontTextMultiplier,
   );
 
   static final TextStyle _unSelectedTabLight = TextStyle(

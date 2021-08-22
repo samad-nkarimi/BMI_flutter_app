@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
                     AppTheme.lang = lang;
                     return MaterialApp(
                       theme: AppTheme.lightTheme(),
+
                       debugShowCheckedModeBanner: false,
                       locale: state.locale,
                       //localization
@@ -55,11 +56,13 @@ class MyApp extends StatelessWidget {
 
                       home: AnnotatedRegion<SystemUiOverlayStyle>(
                         value: SystemUiOverlayStyle(
-                          statusBarColor: Colors.transparent,
 
-                          // systemNavigationBarColor: Color(0xff75C28C),
-                          systemNavigationBarDividerColor: Colors.transparent,
-                          systemNavigationBarIconBrightness: Brightness.light,
+                          statusBarColor: Colors.blue,
+
+                          systemNavigationBarColor: Colors.blue,
+                          //
+                          // systemNavigationBarDividerColor: Colors.transparent,
+                          // systemNavigationBarIconBrightness: Brightness.light,
                         ),
                         child: MBIHome(),
                       ),

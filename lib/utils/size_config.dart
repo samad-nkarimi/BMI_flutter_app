@@ -14,6 +14,18 @@ class SizeConfig {
   static bool isPortrait = true;
   static bool isMobilePortrait = false;
 
+  static double resHeight(mobileRes, tabletRes) {
+    return (isMobilePortrait ? mobileRes : tabletRes) *heightMultiplier;
+  }
+
+  static double resWidth(mobileRes, tabletRes) {
+    return (isMobilePortrait ? mobileRes : tabletRes) *widthMultiplier;
+  }
+
+  static double resText(mobileRes, tabletRes) {
+    return (isMobilePortrait ? mobileRes : tabletRes) * textMultiplier;
+  }
+
   void init(BoxConstraints constraints, Orientation orientation) {
     if (orientation == Orientation.portrait) {
       _screenWidth = constraints.maxWidth;
