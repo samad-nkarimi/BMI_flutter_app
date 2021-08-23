@@ -1,5 +1,6 @@
-import 'package:BMI/utils/language_entity.dart';
 
+
+import 'package:BMI/utils/localization/language_entity.dart';
 
 abstract class Languages {
 

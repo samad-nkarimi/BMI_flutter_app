@@ -1,6 +1,7 @@
 import 'package:BMI/screens/home_screen.dart';
-import 'package:BMI/utils/app_localizations.dart';
-import 'package:BMI/utils/styling.dart';
+import 'package:BMI/utils/localization/app_localizations.dart';
+import 'package:BMI/utils/theme/styling.dart';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +12,7 @@ import './blocs/blocs.dart';
 import './blocs/bmi_calc/bmi_calc_bloc.dart';
 import './blocs/simple_bloc_observer.dart';
 import './models/bmi_calc.dart';
-import './utils/size_config.dart';
+import 'utils/size/size_config.dart';
 
 void main() {
   Bloc.observer = SimpleBlocObserver();
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => BmiCalcBloc(bmiCalcModel: BmiCalcModel(bmiValue: 26.1, age: 25, height: 150, weight: 120))),
+        BlocProvider(create: (context) => BmiCalcBloc(bmiCalcModel: BmiCalcModel(bmiValue: 26.1, age: 20, height: 150, weight: 120))),
         BlocProvider(create: (context) => LanguageBloc()),
       ],
       child: LayoutBuilder(

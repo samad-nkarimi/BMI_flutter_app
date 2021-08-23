@@ -21,4 +21,6 @@ class TranslationConstants{
   static const String select_height= "select_height";
   static const String select_weight= "select_weight";
   static const String select_age= "select_age";
+  static const String weight_unit= "kg";
+  static const String height_unit= "cm";
 }

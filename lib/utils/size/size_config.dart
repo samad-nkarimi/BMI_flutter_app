@@ -14,15 +14,16 @@ class SizeConfig {
   static bool isPortrait = true;
   static bool isMobilePortrait = false;
 
-  static double resHeight(mobileRes, tabletRes) {
+
+  static double responsiveHeight(mobileRes, tabletRes) {
     return (isMobilePortrait ? mobileRes : tabletRes) *heightMultiplier;
   }
 
-  static double resWidth(mobileRes, tabletRes) {
+  static double responsiveWidth(mobileRes, tabletRes) {
     return (isMobilePortrait ? mobileRes : tabletRes) *widthMultiplier;
   }
 
-  static double resText(mobileRes, tabletRes) {
+  static double responsiveText(mobileRes, tabletRes) {
     return (isMobilePortrait ? mobileRes : tabletRes) * textMultiplier;
   }
 

@@ -1,6 +1,6 @@
-import 'package:BMI/utils/language_entity.dart';
+// import 'file:///D:/dev/flutterProjects/mbi_app/lib/utils/localization/language_entity.dart';
+import 'package:BMI/utils/localization/language_entity.dart';
 import 'package:equatable/equatable.dart';
-import 'package:BMI/models/models.dart';
 
 abstract class LanguageEvent extends Equatable {
   const LanguageEvent();

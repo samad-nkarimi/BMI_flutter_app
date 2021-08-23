@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:BMI/models/models.dart';
-import 'package:BMI/utils/languages.dart';
+import 'package:BMI/utils/localization/languages.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 

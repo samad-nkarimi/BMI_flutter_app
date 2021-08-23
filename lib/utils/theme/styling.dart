@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'size_config.dart';
+import '../size/size_config.dart';
 
 class AppTheme {
   static String lang = "en";
+
 
   AppTheme._();
 
@@ -19,12 +20,12 @@ class AppTheme {
   static double languageFontTextMultiplier = 1.0;
 
   static ThemeData lightTheme() {
+    print("$languageFontTextMultiplier  $lang    8888888888888888888888888888888888");
     languageFontTextMultiplier = lang == 'fa' ? 0.9 : 1.0;
     // subTitleTextColor =  lang == 'fa' ? Colors.black : Colors.yellow;
     // subTitleSmallTextColor = ( lang == 'fa' ? Colors.black : Colors.deepOrange);
     // print("is lang fa: ${lang == 'fa'}");
     // print("is lang en: ${lang == 'en'}");
-    // print("$languageFontTextMultiplier  $lang    8888888888888888888888888888888888");
     // print("$subTitleSmallTextColor bbbbbbbbbbbbbbbbbbbbbbbbbb");
     return ThemeData(
         scaffoldBackgroundColor: AppTheme.appBackgroundColor,

@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/blocs.dart';
-
+import '../../blocs/blocs.dart';
 import 'custom_slider_thumb_circle.dart';
 
-class SliderHeightWidget extends StatefulWidget {
+class SliderWeightWidget extends StatefulWidget {
   final double sliderHeight;
   final int min;
   final int max;
   final fullWidth;
+  // final Parameter parameterType;
 
-  SliderHeightWidget({
+  SliderWeightWidget({
     this.sliderHeight = 48,
     this.max = 220,
-    this.min = 40,
+    this.min = 10,
     this.fullWidth = true,
   });
 
   @override
-  _SliderHeightWidgetState createState() => _SliderHeightWidgetState();
+  _SliderWeightWidgetState createState() => _SliderWeightWidgetState();
 }
 
-class _SliderHeightWidgetState extends State<SliderHeightWidget> {
+class _SliderWeightWidgetState extends State<SliderWeightWidget> {
   double _value = 0.0;
-  double _height = 150.0;
+  double _weight = 50;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +42,8 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
         ),
         gradient: new LinearGradient(
             colors: [
-              const Color(0xaa00c6ff),
-              const Color(0xFF00ddaa),
+              const Color(0xFF00c6ff),
+              const Color(0xFF0072ff),
             ],
             begin: const FractionalOffset(0.0, 0.0),
             end: const FractionalOffset(1.0, 1.00),
@@ -77,9 +77,7 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
                     activeTrackColor: Colors.white.withOpacity(1),
                     inactiveTrackColor: Colors.white.withOpacity(.5),
                     trackHeight: 6.0,
-                    thumbColor: Colors.red,
-                    // thumbShape: SliderComponentShape.noThumb,
-                    // CustomSliderThumbCircle(
+                    // thumbShape: CustomSliderThumbCircle(
                     //   thumbRadius: this.widget.sliderHeight * .4,
                     //   min: this.widget.min,
                     //   max: this.widget.max,
@@ -101,27 +99,29 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
                   ),
                   child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
                     builder: (context, state) {
-                      // final bmiModel =
-                      //     BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-                      // _value = bmiModel.height;
+                      final bmiModel =
+                          BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                      _weight = bmiModel.weight;
+                      // if (state is WeightChanged) _weight = state.weight;
                       // print(
-                      //     "$_value *******************************************");
-                      if(state is HeightChanged)
-                        _height = state.height;
+                      //     "$_weight vvvvvv**********************************************************");
+                      if(state is WeightChanged)
+                        _weight = state.weight;
                       return Slider(
                         value:
-                            (_height - widget.min) / (widget.max - widget.min),
-                        label: '${(_height).toStringAsFixed(1)}',
+                            (_weight - widget.min) / (widget.max - widget.min),
+                        // label: '${(_weight).toStringAsFixed(1)}',
                         divisions: (widget.max - widget.min) * 2,
                         onChanged: (value) {
                           setState(() {
                             _value = value;
                           });
 
-                          _height =
+                          _weight =
                               widget.min + value * (widget.max - widget.min);
+
                           BlocProvider.of<BmiCalcBloc>(context)
-                              .add(HeightHasBeenSet(_height));
+                              .add(WeightHasBeenSet(_weight));
                         },
                       );
                     },

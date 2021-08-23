@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:BMI/utils/app_localizations.dart';
-import 'package:BMI/utils/translation_constants.dart';
+import 'package:BMI/utils/constants/translation_constants.dart';
+import 'package:BMI/utils/localization/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
@@ -9,9 +9,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:share/share.dart';
 import 'package:store_redirect/store_redirect.dart';
 
-import '../utils/constants.dart';
-import '../utils/images.dart';
-import '../utils/size_config.dart';
+import '../utils/constants/constants.dart';
+import '../utils/constants/images.dart';
+import '../utils/size/size_config.dart';
 
 class MbiDrawer extends StatefulWidget {
   MbiDrawer({Key key}) : super(key: key);

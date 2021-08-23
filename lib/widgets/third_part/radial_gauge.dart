@@ -1,12 +1,12 @@
-import 'package:BMI/utils/app_localizations.dart';
-import 'package:BMI/utils/translation_constants.dart';
+import 'package:BMI/utils/constants/translation_constants.dart';
+import 'package:BMI/utils/localization/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-import '../blocs/blocs.dart';
-import '../blocs/bmi_calc/bmi_calc_bloc.dart';
-import '../utils/size_config.dart';
+import '../../blocs/blocs.dart';
+import '../../blocs/bmi_calc/bmi_calc_bloc.dart';
+import '../../utils/size/size_config.dart';
 
 class RadialGauge extends StatelessWidget {
   // double value;

@@ -54,6 +54,14 @@ class BmiCalcModel extends Equatable {
     return color;
   }
 
+  // calculate category series
+  List<String> get getPercentileCategories => [
+    "<= ${percentile5th.toStringAsFixed(1)}",
+    "${percentile5th.toStringAsFixed(1)} - ${percentile85th.toStringAsFixed(1)}",
+    "${percentile85th.toStringAsFixed(1)} - ${percentile95th.toStringAsFixed(1)}",
+    ">= ${percentile95th.toStringAsFixed(1)}"
+  ];
+
   // calculate bmi category of weight
   int get getBmiValueCategory {
     int _categoryNumber = 0;

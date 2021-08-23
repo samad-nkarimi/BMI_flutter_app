@@ -1,6 +1,7 @@
+import 'package:BMI/models/models.dart';
 import 'package:bloc/bloc.dart';
 import 'package:BMI/blocs/blocs.dart';
-import '../../models/drawer_item.dart';
+
 
 class DrawerItemsBloc extends Bloc<DrawerItemEvent, DrawerItem> {
   DrawerItemsBloc() : super(DrawerItem.nothing);
