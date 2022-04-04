@@ -1,4 +1,3 @@
-
 import 'package:BMI/utils/constants/size_constants.dart';
 import 'package:BMI/utils/constants/translation_constants.dart';
 import 'package:BMI/utils/localization/app_localizations.dart';
@@ -32,19 +31,24 @@ class _MBIHomeState extends State<MBIHome> {
         child: Scaffold(
           drawer: MbiDrawer(),
           appBar: PreferredSize(
-            preferredSize: Size(double.infinity, SizeConfig.responsiveHeight(8.0, 10.0)),
-            child: CustomisedAppBar(),
+            preferredSize:
+                Size(double.infinity, SizeConfig.responsiveHeight(8.0, 10.0)),
+            child: CustomizedAppBar(),
           ),
           body: Stack(
             // alignment: Alignment.topCenter,
             children: [
               Container(
                 width: double.maxFinite,
-                padding: EdgeInsets.only(top: SizeConfig.responsiveWidth(5.0, 0.0), left: 10.0, right: 10.0),
+                padding: EdgeInsets.only(
+                    top: SizeConfig.responsiveWidth(5.0, 0.0),
+                    left: 10.0,
+                    right: 10.0),
                 height: SizeConfig.responsiveHeight(50.0, 55.0),
                 child: RadialGauge(),
               ),
               Container(
+                color: Colors.orange.withOpacity(0.2),
                 // color: Colors.white,
                 height: double.infinity,
                 width: double.infinity,
@@ -53,13 +57,16 @@ class _MBIHomeState extends State<MBIHome> {
                   children: [
                     BlocBuilder<BmiCalcBloc, BmiCalcState>(
                       builder: (context, state) {
-                        final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                        final bmiModel =
+                            BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                         // showing normal weight on screen
                         return Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal: SizeConfig.responsiveHeight(
-                              SizeConstants.mobileHorizontalPaddingFactorText + 1.0, // adding 1.0 for card margin
-                              SizeConstants.tabletHorizontalPaddingFactorText + 1.0,
+                              SizeConstants.mobileHorizontalPaddingFactorText +
+                                  1.0, // adding 1.0 for card margin
+                              SizeConstants.tabletHorizontalPaddingFactorText +
+                                  1.0,
                             ),
                           ),
                           child: Row(
@@ -67,11 +74,17 @@ class _MBIHomeState extends State<MBIHome> {
                             children: [
                               Text(
                                 "${AppLocalizations.of(context).translate(TranslationConstants.normal_weight)}(kg)",
-                                style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.blue),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1
+                                    .copyWith(color: Colors.blue),
                               ),
                               Text(
                                 "${bmiModel.minimumNormalWeight().toStringAsFixed(1)} - ${bmiModel.maximumNormalWeight().toStringAsFixed(1)}",
-                                style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.blue),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1
+                                    .copyWith(color: Colors.blue),
                               )
                             ],
                           ),
@@ -91,29 +104,34 @@ class _MBIHomeState extends State<MBIHome> {
                         borderRadius: BorderRadius.circular(7.0),
                         // side: BorderSide(width: 5, color: Colors.green),
                       ),
-
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: SizeConfig.responsiveHeight(1.0, 2.5)),
+                        padding: EdgeInsets.symmetric(
+                            vertical: SizeConfig.responsiveHeight(1.0, 2.5)),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             //  age & gender segment
                             AgeAndGender(),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                              child: Divider(height: 0.5, color: Colors.black26),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 18.0),
+                              child:
+                                  Divider(height: 0.5, color: Colors.black26),
                             ),
                             //  weight segment
-                            if (SizeConfig.isMobilePortrait) MobileWeightLabel(),
-                            TotalWeightSlider(), /* for tablets */
+                            if (SizeConfig.isMobilePortrait)
+                              MobileWeightLabel(),
+                            TotalWeightSlider(),
+                            /* for tablets */
                             Divider(
                               height: 5.0,
                               color: Colors.transparent,
                             ),
 
                             //  height segment
-                            if (SizeConfig.isMobilePortrait) MobileHeightLabel(),
-                            TotalHeightSlider(),/* for tablets */
+                            if (SizeConfig.isMobilePortrait)
+                              MobileHeightLabel(),
+                            TotalHeightSlider(), /* for tablets */
                           ],
                         ),
                       ),

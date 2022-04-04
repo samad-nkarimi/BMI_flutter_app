@@ -23,9 +23,7 @@ class TotalWeightSlider extends StatelessWidget {
                 horizontal: SizeConfig.responsiveWidth(3.0, 2.0),
               ),
               child: SliderWeightWidget(
-                sliderHeight: SizeConfig.responsiveHeight(5.0, 10.0),
-                min: CalculationConstants.min_weight,
-                max: CalculationConstants.max_weight,
+
               ),
             ),
           ),

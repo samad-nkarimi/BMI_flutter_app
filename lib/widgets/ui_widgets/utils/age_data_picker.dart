@@ -1,4 +1,5 @@
 import 'package:BMI/blocs/blocs.dart';
+import 'package:BMI/utils/constants/calculation_constants.dart';
 import 'package:BMI/utils/constants/translation_constants.dart';
 import 'package:BMI/utils/localization/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -6,23 +7,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class AgeDataPicker extends StatefulWidget {
-  // int _value;
-  final int _min;
-  final int _max;
-  int _age;
 
-  AgeDataPicker(this._min, this._max, this._age);
+
 
   @override
   _AgeDataPickerState createState() => _AgeDataPickerState();
 }
 
 class _AgeDataPickerState extends State<AgeDataPicker> {
+  int _currentAge;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BmiCalcBloc, BmiCalcState>(
       builder: (context, state) {
         final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+        _currentAge=bmiModel.age;
         return AlertDialog(
           title: Text('${AppLocalizations.of(context).translate(TranslationConstants.select_age)}',
               textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyText1),
@@ -39,13 +38,13 @@ class _AgeDataPickerState extends State<AgeDataPicker> {
             ),
           ],
           content: NumberPicker(
-            value: widget._age,
-            minValue: widget._min,
-            maxValue: widget._max,
+            value: _currentAge,
+            minValue: CalculationConstants.min_age,
+            maxValue: CalculationConstants.max_age,
             itemCount: 3,
             onChanged: (value) {
               setState(() {
-                widget._age = value;
+                _currentAge = value;
               });
               bmiModel.age = value;
               BlocProvider.of<BmiCalcBloc>(context).add(

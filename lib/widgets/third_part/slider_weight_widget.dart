@@ -1,19 +1,16 @@
+import 'package:BMI/utils/constants/calculation_constants.dart';
+import 'package:BMI/utils/size/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../blocs/blocs.dart';
-import 'custom_slider_thumb_circle.dart';
 
 class SliderWeightWidget extends StatefulWidget {
-  final double sliderHeight;
-  final int min;
-  final int max;
+
   final fullWidth;
-  // final Parameter parameterType;
 
   SliderWeightWidget({
-    this.sliderHeight = 48,
-    this.max = 220,
-    this.min = 10,
+
     this.fullWidth = true,
   });
 
@@ -22,8 +19,11 @@ class SliderWeightWidget extends StatefulWidget {
 }
 
 class _SliderWeightWidgetState extends State<SliderWeightWidget> {
-  double _value = 0.0;
+  // double _value = 0.0;
   double _weight = 50;
+  final double sliderHeight= SizeConfig.responsiveHeight(5.0, 10.0);
+  final int min=CalculationConstants.min_weight;
+  final int max= CalculationConstants.max_weight;
 
   @override
   Widget build(BuildContext context) {
@@ -32,36 +32,34 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
     if (this.widget.fullWidth) paddingFactor = .3;
 
     return Container(
-      width: this.widget.fullWidth
-          ? double.infinity
-          : (this.widget.sliderHeight) * 5.5,
-      height: (this.widget.sliderHeight),
+      width: this.widget.fullWidth ? double.infinity : sliderHeight * 5.5,
+      height: sliderHeight,
       decoration: new BoxDecoration(
         borderRadius: new BorderRadius.all(
-          Radius.circular((this.widget.sliderHeight * .15)),
+          Radius.circular((sliderHeight * .15)),
         ),
         gradient: new LinearGradient(
-            colors: [
-              const Color(0xFF00c6ff),
-              const Color(0xFF0072ff),
-            ],
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(1.0, 1.00),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp),
+          colors: [
+            const Color(0xaa00c6ff),
+            const Color(0xFF00ddaa),
+          ],
+          begin: const FractionalOffset(0.0, 0.0),
+          end: const FractionalOffset(1.0, 1.00),
+          stops: [0.0, 1.0],
+          tileMode: TileMode.clamp,
+        ),
       ),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(this.widget.sliderHeight * paddingFactor,
-            2, this.widget.sliderHeight * paddingFactor, 2),
+        padding: EdgeInsets.fromLTRB(sliderHeight * paddingFactor, 2, sliderHeight * paddingFactor, 2),
         child: Row(
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(left: 5),
               child: Text(
-                '${this.widget.min}',
+                '$min',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: this.widget.sliderHeight * .3,
+                  fontSize: sliderHeight * .3,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
@@ -99,29 +97,24 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
                   ),
                   child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
                     builder: (context, state) {
-                      final bmiModel =
-                          BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                      final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                       _weight = bmiModel.weight;
                       // if (state is WeightChanged) _weight = state.weight;
                       // print(
                       //     "$_weight vvvvvv**********************************************************");
-                      if(state is WeightChanged)
-                        _weight = state.weight;
+                      if (state is WeightChanged) _weight = state.weight;
                       return Slider(
-                        value:
-                            (_weight - widget.min) / (widget.max - widget.min),
+                        value: (_weight - min) / (max - min),
                         // label: '${(_weight).toStringAsFixed(1)}',
-                        divisions: (widget.max - widget.min) * 2,
+                        divisions: (max - min) * 2,
                         onChanged: (value) {
-                          setState(() {
-                            _value = value;
-                          });
+                          // setState(() {
+                          //   _value = value;
+                          // });
 
-                          _weight =
-                              widget.min + value * (widget.max - widget.min);
+                          _weight = min + value * (max - min);
 
-                          BlocProvider.of<BmiCalcBloc>(context)
-                              .add(WeightHasBeenSet(_weight));
+                          BlocProvider.of<BmiCalcBloc>(context).add(WeightHasBeenSet(_weight));
                         },
                       );
                     },
@@ -130,13 +123,13 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
               ),
             ),
             SizedBox(
-              width: this.widget.sliderHeight * .05,
+              width: sliderHeight * .05,
             ),
             Text(
-              '${this.widget.max}',
+              '$max',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: this.widget.sliderHeight * .3,
+                fontSize: sliderHeight * .3,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
               ),

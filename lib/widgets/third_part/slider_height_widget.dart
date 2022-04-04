@@ -1,19 +1,16 @@
+import 'package:BMI/utils/constants/calculation_constants.dart';
+import 'package:BMI/utils/size/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../blocs/blocs.dart';
 
-import 'custom_slider_thumb_circle.dart';
-
 class SliderHeightWidget extends StatefulWidget {
-  final double sliderHeight;
-  final int min;
-  final int max;
+
   final fullWidth;
 
   SliderHeightWidget({
-    this.sliderHeight = 48,
-    this.max = 220,
-    this.min = 40,
+
     this.fullWidth = true,
   });
 
@@ -24,6 +21,9 @@ class SliderHeightWidget extends StatefulWidget {
 class _SliderHeightWidgetState extends State<SliderHeightWidget> {
   double _value = 0.0;
   double _height = 150.0;
+  final double sliderHeight = SizeConfig.responsiveHeight(5.0, 10.0);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,36 +32,34 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
     if (this.widget.fullWidth) paddingFactor = .3;
 
     return Container(
-      width: this.widget.fullWidth
-          ? double.infinity
-          : (this.widget.sliderHeight) * 5.5,
-      height: (this.widget.sliderHeight),
+      width: this.widget.fullWidth ? double.infinity : sliderHeight * 5.5,
+      height: sliderHeight,
       decoration: new BoxDecoration(
         borderRadius: new BorderRadius.all(
-          Radius.circular((this.widget.sliderHeight * .15)),
+          Radius.circular((sliderHeight * .15)),
         ),
         gradient: new LinearGradient(
-            colors: [
-              const Color(0xaa00c6ff),
-              const Color(0xFF00ddaa),
-            ],
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(1.0, 1.00),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp),
+          colors: [
+            const Color(0xaa00c6ff),
+            const Color(0xFF00ddaa),
+          ],
+          begin: const FractionalOffset(0.0, 0.0),
+          end: const FractionalOffset(1.0, 1.00),
+          stops: [0.0, 1.0],
+          tileMode: TileMode.clamp,
+        ),
       ),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(this.widget.sliderHeight * paddingFactor,
-            2, this.widget.sliderHeight * paddingFactor, 2),
+        padding: EdgeInsets.fromLTRB(sliderHeight * paddingFactor, 2, sliderHeight * paddingFactor, 2),
         child: Row(
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(left: 5),
               child: Text(
-                '${this.widget.min}',
+                '${CalculationConstants.min_height}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: this.widget.sliderHeight * .3,
+                  fontSize: sliderHeight * .3,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
@@ -77,7 +75,7 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
                     activeTrackColor: Colors.white.withOpacity(1),
                     inactiveTrackColor: Colors.white.withOpacity(.5),
                     trackHeight: 6.0,
-                    thumbColor: Colors.red,
+                    thumbColor: Colors.blue,
                     // thumbShape: SliderComponentShape.noThumb,
                     // CustomSliderThumbCircle(
                     //   thumbRadius: this.widget.sliderHeight * .4,
@@ -101,28 +99,25 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
                   ),
                   child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
                     builder: (context, state) {
-                      final bmiModel =
-                          BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                      final bmiModel = BlocProvider
+                          .of<BmiCalcBloc>(context)
+                          .bmiCalcModel;
                       _height = bmiModel.height;
                       // _value = bmiModel.height;
                       // print(
                       //     "$_value *******************************************");
-                      if(state is HeightChanged)
-                        _height = state.height;
+                      if (state is HeightChanged) _height = state.height;
                       return Slider(
-                        value:
-                            (_height - widget.min) / (widget.max - widget.min),
-                        label: '${(_height).toStringAsFixed(1)}',
-                        divisions: (widget.max - widget.min) * 2,
+                        value: (_height - CalculationConstants.min_height) / (CalculationConstants.max_height - CalculationConstants.min_height),
+                        // label: '${(_height).toStringAsFixed(1)}',
+                        divisions: (CalculationConstants.max_height - CalculationConstants.min_height) * 2,
                         onChanged: (value) {
                           setState(() {
                             _value = value;
                           });
 
-                          _height =
-                              widget.min + value * (widget.max - widget.min);
-                          BlocProvider.of<BmiCalcBloc>(context)
-                              .add(HeightHasBeenSet(_height));
+                          _height = CalculationConstants.min_height + value * (CalculationConstants.max_height - CalculationConstants.min_height);
+                          BlocProvider.of<BmiCalcBloc>(context).add(HeightHasBeenSet(_height));
                         },
                       );
                     },
@@ -131,13 +126,13 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
               ),
             ),
             SizedBox(
-              width: this.widget.sliderHeight * .05,
+              width: sliderHeight * .05,
             ),
             Text(
-              '${this.widget.max}',
+              '${CalculationConstants.max_height}',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: this.widget.sliderHeight * .3,
+                fontSize: sliderHeight * .3,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
               ),

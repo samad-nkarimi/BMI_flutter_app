@@ -26,9 +26,9 @@ dependencies:
   bloc: ^7.0.0
   flutter_bloc: ^7.0.0
   equatable: ^2.0.0
-  flutter_email_sender: ^5.0.0
+  flutter_email_sender: ^5.1.0
   share: ^2.0.1
-  store_redirect: ^1.0.2
+  store_redirect: ^2.0.1
   syncfusion_flutter_gauges: ^19.1.64
   flutter_fluid_slider: ^1.0.3
   flutter_svg: ^0.22.0

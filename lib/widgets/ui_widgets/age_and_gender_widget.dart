@@ -42,7 +42,7 @@ class _AgeAndGenderState extends State<AgeAndGender> {
                   return showDialog(
                     context: context,
                     builder: (ctx) {
-                      return AgeDataPicker(2, 100, currentAge);
+                      return AgeDataPicker();
                     },
                   ).then((ageValue) {
                     setState(() {

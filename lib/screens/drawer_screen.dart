@@ -34,13 +34,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
     isHTML: false,
   );
 
-  double resHeight(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.heightMultiplier;
-  }
 
-  double resWidth(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.widthMultiplier;
-  }
 
   Widget drawerItem(String title, Function func) {
     return InkWell(
@@ -52,7 +46,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
           Container(
             alignment: Alignment.center,
             // color: Colors.red,
-            height: resHeight(7.0, 8.0),
+            height: SizeConfig.responsiveHeight(7.0, 8.0),
             child: Text(title, style: Theme.of(context).textTheme.subtitle2),
           ),
         ],
@@ -77,11 +71,11 @@ class _MbiDrawerState extends State<MbiDrawer> {
           ),
         ),
         Positioned(
-          top: resHeight(2.0, 4.0),
-          left: resHeight(2.0, 6.0),
+          top: SizeConfig.responsiveHeight(2.0, 4.0),
+          left: SizeConfig.responsiveHeight(2.0, 6.0),
           child: Container(
-            width: resWidth(12.0, 8.0),
-            height: resWidth(12.0, 8.0),
+            width: SizeConfig.responsiveWidth(12.0, 8.0),
+            height: SizeConfig.responsiveWidth(12.0, 8.0),
             child: IconButton(
               icon: SvgPicture.asset("assets/images/back_icon.svg"),
               onPressed: () => Navigator.pop(context),
@@ -94,7 +88,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
 
   Widget _aboutUsSection() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: resWidth(5, 7.0)),
+      padding: EdgeInsets.symmetric(horizontal: SizeConfig.responsiveWidth(5, 7.0)),
       // color: Colors.black12,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -116,9 +110,9 @@ class _MbiDrawerState extends State<MbiDrawer> {
             // color: Colors.yellow,
 
             // alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.all(resHeight(8.0, 8.0)),
-            width: resWidth(22.0, 20.0),
-            height: resHeight(7.0, 10.0),
+            margin: EdgeInsets.all(SizeConfig.responsiveHeight(8.0, 8.0)),
+            width: SizeConfig.responsiveHeight(22.0, 20.0),
+            height: SizeConfig.responsiveHeight(7.0, 10.0),
             child: ElevatedButton(
               onPressed: () => setState(() {
                 _showAboutUs = !_showAboutUs;
@@ -192,8 +186,8 @@ class _MbiDrawerState extends State<MbiDrawer> {
   @override
   Widget build(BuildContext context) {
     print("drawer reloaded   ***********************************");
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    // final screenWidth = MediaQuery.of(context).size.width;
+    // final screenHeight = MediaQuery.of(context).size.height;
     return Container(
       // constraints: BoxConstraints(
       //   minWidth: screenWidth,

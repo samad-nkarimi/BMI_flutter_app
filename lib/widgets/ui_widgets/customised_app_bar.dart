@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CustomisedAppBar extends StatelessWidget {
-  CustomisedAppBar({
+class CustomizedAppBar extends StatelessWidget {
+  CustomizedAppBar({
     Key key,
   }) : super(key: key);
 
@@ -20,8 +20,19 @@ class CustomisedAppBar extends StatelessWidget {
     return BlocBuilder<LanguageBloc, LanguageState>(
       builder: (context, state) {
         if (state is LanguageLoaded) lang = state.locale.languageCode;
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: SizeConfig.responsiveWidth(3.0, 3.0)),
+        return Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.orange.withOpacity(0.7),
+                Colors.orange.withOpacity(0.2)
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          padding: EdgeInsets.symmetric(
+              horizontal: SizeConfig.responsiveWidth(3.0, 3.0)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,7 +50,9 @@ class CustomisedAppBar extends StatelessWidget {
                       icon: Transform(
                         alignment: Alignment.center,
                         child: SvgPicture.asset("assets/images/menu_icon.svg"),
-                        transform: lang == 'fa' ? Matrix4.rotationY(math.pi) : Matrix4.rotationY(0),
+                        transform: lang == 'fa'
+                            ? Matrix4.rotationY(math.pi)
+                            : Matrix4.rotationY(0),
                       ),
                       onPressed: () => Scaffold.of(context).openDrawer(),
                     ),
@@ -73,7 +86,9 @@ class CustomisedAppBar extends StatelessWidget {
                       .toList(),
                   underline: SizedBox(),
                   icon: Image.asset(
-                    lang == 'en' ? "assets/images/flag_english.png" : "assets/images/flag_persian.png",
+                    lang == 'en'
+                        ? "assets/images/flag_english.png"
+                        : "assets/images/flag_persian.png",
                     width: SizeConfig.responsiveHeight(5.0, 5.0),
                     height: SizeConfig.responsiveHeight(5.0, 5.0),
                   ),

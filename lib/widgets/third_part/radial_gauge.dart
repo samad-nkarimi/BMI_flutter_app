@@ -9,27 +9,13 @@ import '../../blocs/bmi_calc/bmi_calc_bloc.dart';
 import '../../utils/size/size_config.dart';
 
 class RadialGauge extends StatelessWidget {
-  // double value;
-  RadialGauge({
-    // this.value = 12.0,
-    Key key,
-  }) : super(key: key);
 
-  double resHeight(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.heightMultiplier;
-  }
 
-  double resWidth(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.widthMultiplier;
-  }
 
-  double resText(mobileRes, tabletRes) {
-    return (SizeConfig.isMobilePortrait ? mobileRes : tabletRes) * SizeConfig.textMultiplier;
-  }
 
   @override
   Widget build(BuildContext context) {
-    final _width = resHeight(8.5, 10.0);
+    final _width = SizeConfig.responsiveHeight(8.5, 10.0);
     print("gauge repainted ------------------------------------- ");
     return BlocBuilder<BmiCalcBloc, BmiCalcState>(
       builder: (context, state) {
@@ -46,9 +32,9 @@ class RadialGauge extends StatelessWidget {
           axes: <RadialAxis>[
             RadialAxis(
               axisLabelStyle: GaugeTextStyle(
-                fontSize: resText(1.5, 1.5),
+                fontSize: SizeConfig.responsiveHeight(1.5, 1.5),
               ),
-              tickOffset: resHeight(7.0, 9.2),
+              tickOffset: SizeConfig.responsiveHeight(7.0, 9.2),
               minimum: _min,
               maximum: _max,
               interval: _normalDomain,
@@ -59,7 +45,7 @@ class RadialGauge extends StatelessWidget {
                   label: AppLocalizations.of(context).translate(TranslationConstants.underweight),
                   labelStyle:
                   GaugeTextStyle(
-                    fontSize: resText(2.0, 2.0),
+                    fontSize: SizeConfig.responsiveText(2.0, 2.0),
                     color: Colors.white,
                   ),
                   rangeOffset: 0,
@@ -73,7 +59,7 @@ class RadialGauge extends StatelessWidget {
                   // label: "normal",
                   label: AppLocalizations.of(context).translate(TranslationConstants.normal),
                   labelStyle: GaugeTextStyle(
-                    fontSize: resText(2.0, 2.0),
+                    fontSize: SizeConfig.responsiveText(2.0, 2.0),
                     color: Colors.white,
                   ),
                   startValue: _normalMin,
@@ -85,7 +71,7 @@ class RadialGauge extends StatelessWidget {
                 GaugeRange(
                   label: AppLocalizations.of(context).translate(TranslationConstants.overweight),
                   labelStyle: GaugeTextStyle(
-                    fontSize: resText(2.0, 2.0),
+                    fontSize: SizeConfig.responsiveText(2.0, 2.0),
                     color: Colors.white,
                   ),
                   startValue: _normalMax,
@@ -98,10 +84,10 @@ class RadialGauge extends StatelessWidget {
               pointers: <GaugePointer>[
                 MarkerPointer(
                   value: bmiModel.bmiValue,
-                  markerHeight: resHeight(3.0, 4.0),
-                  markerWidth: resHeight(3.0, 4.0),
+                  markerHeight: SizeConfig.responsiveHeight(3.0, 4.0),
+                  markerWidth: SizeConfig.responsiveHeight(3.0, 4.0),
                   markerType: MarkerType.triangle,
-                  markerOffset: resHeight(6.5, 7.7),
+                  markerOffset: SizeConfig.responsiveHeight(6.5, 7.7),
                   color: Colors.white,
                 )
               ],
@@ -121,7 +107,7 @@ class RadialGauge extends StatelessWidget {
                     child: Text(
                       '${bmiModel.bmiValue.toStringAsFixed(1)}',
                       style: TextStyle(
-                        fontSize: resText(4.0, 4.0),
+                        fontSize: SizeConfig.responsiveText(4.0, 4.0),
                         fontWeight: FontWeight.bold,
                         color: bmiModel.getRangeColor,
                       ),

@@ -22,9 +22,7 @@ class TotalHeightSlider extends StatelessWidget {
                 horizontal: SizeConfig.responsiveWidth(3.0, 2.0),
               ),
               child: SliderHeightWidget(
-                sliderHeight: SizeConfig.responsiveHeight(5.0, 10.0),
-                min: CalculationConstants.min_height,
-                max: CalculationConstants.max_height,
+
               ),
             ),
           ),
