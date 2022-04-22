@@ -34,8 +34,6 @@ class _MbiDrawerState extends State<MbiDrawer> {
     isHTML: false,
   );
 
-
-
   Widget drawerItem(String title, Function func) {
     return InkWell(
       child: Row(
@@ -71,13 +69,16 @@ class _MbiDrawerState extends State<MbiDrawer> {
           ),
         ),
         Positioned(
-          top: SizeConfig.responsiveHeight(2.0, 4.0),
-          left: SizeConfig.responsiveHeight(2.0, 6.0),
+          top: SizeConfig.responsiveHeight(2.0, 2.0),
+          left: SizeConfig.responsiveHeight(2.0, 3.0),
           child: Container(
-            width: SizeConfig.responsiveWidth(12.0, 8.0),
-            height: SizeConfig.responsiveWidth(12.0, 8.0),
             child: IconButton(
-              icon: SvgPicture.asset("assets/images/back_icon.svg"),
+              iconSize: SizeConfig.responsiveWidth(8.0, 8.0),
+              icon: SvgPicture.asset(
+                "assets/images/back_icon.svg",
+                width: SizeConfig.responsiveWidth(8.0, 8.0),
+                height: SizeConfig.responsiveWidth(8.0, 8.0),
+              ),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -88,7 +89,8 @@ class _MbiDrawerState extends State<MbiDrawer> {
 
   Widget _aboutUsSection() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: SizeConfig.responsiveWidth(5, 7.0)),
+      padding:
+          EdgeInsets.symmetric(horizontal: SizeConfig.responsiveWidth(5, 7.0)),
       // color: Colors.black12,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,7 +98,9 @@ class _MbiDrawerState extends State<MbiDrawer> {
         children: [
           Column(
             children: [
-              Text("${AppLocalizations.of(context).translate(TranslationConstants.about_us)}", style: Theme.of(context).textTheme.subtitle2),
+              Text(
+                  "${AppLocalizations.of(context).translate(TranslationConstants.about_us)}",
+                  style: Theme.of(context).textTheme.subtitle2),
               SizedBox(height: 15),
               Text(
                 // Constants.ABOUT_US_BODY,
@@ -161,8 +165,12 @@ class _MbiDrawerState extends State<MbiDrawer> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          drawerItem("${AppLocalizations.of(context).translate(TranslationConstants.help_and_feedback)}", () => FlutterEmailSender.send(email)),
-          drawerItem("${AppLocalizations.of(context).translate(TranslationConstants.share_app)}", () => Share.share(Constants.APP_LINK)),
+          drawerItem(
+              "${AppLocalizations.of(context).translate(TranslationConstants.help_and_feedback)}",
+              () => FlutterEmailSender.send(email)),
+          drawerItem(
+              "${AppLocalizations.of(context).translate(TranslationConstants.share_app)}",
+              () => Share.share(Constants.APP_LINK)),
           drawerItem(
             "${AppLocalizations.of(context).translate(TranslationConstants.more_apps)}",
             () => StoreRedirect.redirect(
@@ -189,6 +197,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
     // final screenWidth = MediaQuery.of(context).size.width;
     // final screenHeight = MediaQuery.of(context).size.height;
     return Container(
+      width: MediaQuery.of(context).size.width * 0.8,
       // constraints: BoxConstraints(
       //   minWidth: screenWidth,
       //   minHeight: screenHeight,

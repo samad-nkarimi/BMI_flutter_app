@@ -1,4 +1,5 @@
 import 'package:BMI/utils/constants/calculation_constants.dart';
+import 'package:BMI/utils/constants/size_constants.dart';
 import 'package:BMI/utils/size/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,7 @@ class SliderHeightWidget extends StatefulWidget {
 class _SliderHeightWidgetState extends State<SliderHeightWidget> {
   double _value = 0.0;
   double _height = 150.0;
-  final double sliderHeight = SizeConfig.responsiveHeight(5.0, 10.0);
+  final double sliderHeight = SizeConstants.sliderHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
 
     return Container(
       width: this.widget.fullWidth ? double.infinity : sliderHeight * 5.5,
-      height: SizeConfig.responsiveHeight(5.0, 10.0),
+      height: SizeConstants.sliderHeight,
       decoration: new BoxDecoration(
         // color: Colors.black26,
         borderRadius: new BorderRadius.all(
@@ -72,8 +73,9 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
                   data: SliderTheme.of(context).copyWith(
                     activeTrackColor: Colors.white.withOpacity(1),
                     inactiveTrackColor: Colors.white.withOpacity(.5),
-                    trackHeight: 6.0,
+                    trackHeight: SizeConfig.isMobilePortrait ? 6.0 : 10,
                     thumbColor: Colors.blue,
+
                     // thumbShape: SliderComponentShape.noThumb,
                     // CustomSliderThumbCircle(
                     //   thumbRadius: this.widget.sliderHeight * .4,

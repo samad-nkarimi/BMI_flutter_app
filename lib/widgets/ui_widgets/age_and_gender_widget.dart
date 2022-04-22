@@ -5,6 +5,7 @@ import 'package:BMI/utils/localization/app_localizations.dart';
 import 'package:BMI/utils/size/size_config.dart';
 import 'package:BMI/widgets/ui_widgets/age_and_gender_toggle.dart';
 import 'package:BMI/widgets/ui_widgets/utils/age_data_picker.dart';
+import 'package:BMI/widgets/ui_widgets/utils/selectable_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -62,20 +63,7 @@ class _AgeAndGenderState extends State<AgeAndGender> {
                     final bmiModel =
                         BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                     currentAge = bmiModel.age;
-                    return Container(
-                      height: SizeConfig.responsiveHeight(5.0, 8.0),
-                      width: SizeConfig.responsiveWidth(
-                        SizeConstants.mobileSelectableItemsBackgroundWidth,
-                        SizeConstants.tabletSelectableItemsBackgroundWidth,
-                      ),
-                      alignment: Alignment.center,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15.0, vertical: 2.0),
-                      decoration: BoxDecoration(
-                        // border: Border.all(color: Colors.red),
-                        borderRadius: BorderRadius.circular(5.0),
-                        color: Colors.black.withOpacity(0.08),
-                      ),
+                    return SelectableContainer(
                       child: Text(
                         "${currentAge.toStringAsFixed(0)}",
                         style: Theme.of(context).textTheme.bodyText1,

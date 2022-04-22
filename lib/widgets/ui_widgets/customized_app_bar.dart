@@ -43,16 +43,20 @@ class CustomizedAppBar extends StatelessWidget {
                   // margin: const EdgeInsets.all(10.0),
                   alignment: Alignment.center,
                   child: Container(
-                    width: SizeConfig.responsiveWidth(12.0, 8.0),
-                    height: SizeConfig.responsiveWidth(12.0, 8.0),
+                    // width: SizeConfig.responsiveWidth(12.0, 16.0),
+                    // height: SizeConfig.responsiveWidth(12.0, 16.0),
                     child: IconButton(
-                      // iconSize: 10 * SizeConfig.heightMultiplier,
+                      iconSize: SizeConfig.responsiveWidth(8.0, 8.0),
                       icon: Transform(
                         alignment: Alignment.center,
-                        child: SvgPicture.asset("assets/images/menu_icon.svg"),
                         transform: lang == 'fa'
                             ? Matrix4.rotationY(math.pi)
                             : Matrix4.rotationY(0),
+                        child: SvgPicture.asset(
+                          "assets/images/menu_icon.svg",
+                          width: SizeConfig.responsiveWidth(8.0, 8.0),
+                          height: SizeConfig.responsiveWidth(8.0, 8.0),
+                        ),
                       ),
                       onPressed: () => Scaffold.of(context).openDrawer(),
                     ),
@@ -70,16 +74,19 @@ class CustomizedAppBar extends StatelessWidget {
                       .map<DropdownMenuItem<LanguageEntity>>(
                         (e) => DropdownMenuItem<LanguageEntity>(
                           value: e,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text(e.value),
-                              Image.asset(
-                                e.flag,
-                                height: SizeConfig.responsiveHeight(4.0, 4.0),
-                                width: SizeConfig.responsiveHeight(4.0, 4.0),
-                              )
-                            ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(e.value),
+                                Image.asset(
+                                  e.flag,
+                                  height: SizeConfig.responsiveHeight(5.0, 6.0),
+                                  width: SizeConfig.responsiveHeight(5.0, 6.0),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       )
@@ -89,8 +96,8 @@ class CustomizedAppBar extends StatelessWidget {
                     lang == 'en'
                         ? "assets/images/flag_english.png"
                         : "assets/images/flag_persian.png",
-                    width: SizeConfig.responsiveHeight(5.0, 5.0),
-                    height: SizeConfig.responsiveHeight(5.0, 5.0),
+                    width: SizeConfig.responsiveHeight(5.0, 6.0),
+                    height: SizeConfig.responsiveHeight(5.0, 6.0),
                   ),
                   onChanged: (index) {
                     // index is LanguageEntity

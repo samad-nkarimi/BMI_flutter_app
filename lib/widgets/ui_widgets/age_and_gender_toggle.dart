@@ -4,6 +4,7 @@ import 'package:BMI/utils/constants/size_constants.dart';
 import 'package:BMI/utils/constants/translation_constants.dart';
 import 'package:BMI/utils/localization/app_localizations.dart';
 import 'package:BMI/utils/size/size_config.dart';
+import 'package:BMI/widgets/ui_widgets/utils/selectable_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,22 +38,7 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                     GenderHasBeenSet(_genderCategory),
                   );
                 },
-                child: Container(
-                  height: SizeConfig.responsiveHeight(5.0, 8.0),
-                  // width: SizeConfig.responsiveWidth(14.0, 18.0),
-                  constraints: BoxConstraints(
-                    minWidth: SizeConfig.responsiveWidth(
-                        SizeConstants.mobileSelectableItemsBackgroundWidth,
-                        SizeConstants.tabletSelectableItemsBackgroundWidth),
-                  ),
-                  alignment: Alignment.center,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.5),
-                  decoration: BoxDecoration(
-                    // border: Border.all(color: Colors.red),
-                    borderRadius: BorderRadius.circular(5.0),
-                    color: Colors.black.withOpacity(0.08),
-                  ),
+                child: SelectableContainer(
                   child: Text(
                     "${AppLocalizations.of(context).translate(TranslationConstants.male)}",
                     style: maleToggle
@@ -77,22 +63,7 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                     GenderHasBeenSet(_genderCategory),
                   );
                 },
-                child: Container(
-                  height: SizeConfig.responsiveHeight(5.0, 8.0),
-                  // width: SizeConfig.responsiveWidth(14.0, 18.0),
-                  constraints: BoxConstraints(
-                    minWidth: SizeConfig.responsiveWidth(
-                        SizeConstants.mobileSelectableItemsBackgroundWidth,
-                        SizeConstants.tabletSelectableItemsBackgroundWidth),
-                  ),
-                  alignment: Alignment.center,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.5),
-                  decoration: BoxDecoration(
-                    // border: Border.all(color: Colors.red),
-                    borderRadius: BorderRadius.circular(5.0),
-                    color: Colors.black.withOpacity(0.08),
-                  ),
+                child: SelectableContainer(
                   child: Text(
                     "${AppLocalizations.of(context).translate(TranslationConstants.female)}",
                     style: !maleToggle

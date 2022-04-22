@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:numberpicker/numberpicker.dart';
 
+import '../../../utils/size/size_config.dart';
+
 class AgeDataPicker extends StatefulWidget {
   @override
   _AgeDataPickerState createState() => _AgeDataPickerState();
@@ -40,16 +42,21 @@ class _AgeDataPickerState extends State<AgeDataPicker> {
             ),
           ],
           content: Container(
+            width: SizeConfig.responsiveWidth(10, 50),
+            height: SizeConfig.responsiveWidth(50, 40),
             decoration: BoxDecoration(
               color: Colors.orange.shade100,
               border: Border.all(width: 1, color: Colors.green),
               borderRadius: BorderRadius.circular(5),
             ),
             child: NumberPicker(
+              // selectedTextStyle:
+              // Theme.of(context).textTheme.subtitle1.copyWith(fontSize: 40),
+
               value: _currentAge,
               minValue: CalculationConstants.min_age,
               maxValue: CalculationConstants.max_age,
-              itemCount: 3,
+              itemCount: SizeConfig.isMobilePortrait ? 3 : 5,
               onChanged: (value) {
                 setState(() {
                   _currentAge = value;

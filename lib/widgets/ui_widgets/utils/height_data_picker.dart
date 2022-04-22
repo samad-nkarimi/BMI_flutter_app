@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:numberpicker/numberpicker.dart';
 
+import '../../../utils/size/size_config.dart';
+
 class HeightDataPicker extends StatefulWidget {
   @override
   _HeightDataPickerState createState() => _HeightDataPickerState();
@@ -46,6 +48,8 @@ class _HeightDataPickerState extends State<HeightDataPicker> {
             ),
           ],
           content: Container(
+            width: SizeConfig.responsiveWidth(10, 50),
+            height: SizeConfig.responsiveWidth(50, 40),
             decoration: BoxDecoration(
               color: Colors.orange.shade100,
               border: Border.all(width: 1, color: Colors.green),
@@ -55,7 +59,7 @@ class _HeightDataPickerState extends State<HeightDataPicker> {
               value: _currentHeight,
               minValue: CalculationConstants.min_height,
               maxValue: CalculationConstants.max_height,
-              itemCount: 3,
+              itemCount: SizeConfig.isMobilePortrait ? 3 : 5,
               decimalPlaces: 1,
               onChanged: (value) {
                 setState(() => _currentHeight = value);

@@ -3,11 +3,11 @@ import 'package:BMI/utils/constants/translation_constants.dart';
 import 'package:BMI/utils/localization/app_localizations.dart';
 import 'package:BMI/widgets/ui_widgets/age_and_gender_widget.dart';
 import 'package:BMI/widgets/ui_widgets/categories_box.dart';
-import 'package:BMI/widgets/ui_widgets/customised_app_bar.dart';
+import 'package:BMI/widgets/ui_widgets/customized_app_bar.dart';
 import 'package:BMI/widgets/ui_widgets/mobile_height_label.dart';
 import 'package:BMI/widgets/ui_widgets/mobile_weight_label.dart';
 import 'package:BMI/widgets/ui_widgets/total_height_slider.dart';
-import 'package:BMI/widgets/ui_widgets/total_weight_slider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -71,6 +71,7 @@ class _MBIHomeState extends State<MBIHome> {
                             border: Border.all(width: 1, color: Colors.green),
                             borderRadius: BorderRadius.circular(5),
                           ),
+                          alignment: Alignment.center,
                           margin: EdgeInsets.symmetric(
                             horizontal: SizeConfig.responsiveHeight(5.0, 10.0),
                           ),
@@ -84,6 +85,7 @@ class _MBIHomeState extends State<MBIHome> {
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
                                 "${AppLocalizations.of(context).translate(TranslationConstants.normal_weight)}(kg)",
@@ -108,10 +110,10 @@ class _MBIHomeState extends State<MBIHome> {
                     // showing controller height/weight/age/gender widgets
                     Card(
                       margin: EdgeInsets.only(
-                          top: SizeConfig.responsiveHeight(1.0, 2.0),
+                          top: SizeConfig.responsiveHeight(1.0, 1.0),
                           left: SizeConfig.responsiveHeight(1.0, 2.0),
                           right: SizeConfig.responsiveHeight(1.0, 2.0),
-                          bottom: SizeConfig.responsiveHeight(0.5, 1.0)),
+                          bottom: SizeConfig.responsiveHeight(0.5, 0.5)),
                       elevation: 1,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7.0),
@@ -136,7 +138,7 @@ class _MBIHomeState extends State<MBIHome> {
                                 height: SizeConfig.responsiveHeight(1.0, 2.0)),
                             if (SizeConfig.isMobilePortrait)
                               MobileWeightLabel(),
-                            TotalWeightSlider(),
+                            TotalHeightOrWeightSlider(heightorweight.weight),
                             /* for tablets */
                             Divider(
                               height: 5.0,
@@ -146,7 +148,8 @@ class _MBIHomeState extends State<MBIHome> {
                             //  height segment
                             if (SizeConfig.isMobilePortrait)
                               MobileHeightLabel(),
-                            TotalHeightSlider(), /* for tablets */
+                            TotalHeightOrWeightSlider(
+                                heightorweight.height), /* for tablets */
                           ],
                         ),
                       ),
@@ -154,7 +157,7 @@ class _MBIHomeState extends State<MBIHome> {
                     // showing category section
                     Card(
                       margin: EdgeInsets.only(
-                        top: SizeConfig.responsiveHeight(0.5, 1.0),
+                        top: SizeConfig.responsiveHeight(0.5, 0.5),
                         left: SizeConfig.responsiveHeight(1.0, 2.0),
                         right: SizeConfig.responsiveHeight(1.0, 2.0),
                         bottom: SizeConfig.responsiveHeight(1.0, 2.0),

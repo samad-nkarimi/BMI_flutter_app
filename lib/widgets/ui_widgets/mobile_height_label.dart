@@ -4,6 +4,7 @@ import 'package:BMI/utils/constants/translation_constants.dart';
 import 'package:BMI/utils/localization/app_localizations.dart';
 import 'package:BMI/utils/size/size_config.dart';
 import 'package:BMI/widgets/ui_widgets/utils/height_data_picker.dart';
+import 'package:BMI/widgets/ui_widgets/utils/selectable_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,11 +19,13 @@ class _MobileHeightLabelState extends State<MobileHeightLabel> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: SizeConfig.responsiveHeight(
-          SizeConstants.mobileHorizontalPaddingFactorText,
-          SizeConstants.tabletHorizontalPaddingFactorText,
-        ),
+      padding: EdgeInsets.only(
+        right: SizeConfig.isMobilePortrait
+            ? SizeConfig.responsiveHeight(
+                SizeConstants.mobileHorizontalPaddingFactorText,
+                SizeConstants.tabletHorizontalPaddingFactorText,
+              )
+            : 0.1,
         // vertical: SizeConfig.responsiveHeight(.7, 1.0),
       ),
       child: Row(
@@ -35,6 +38,7 @@ class _MobileHeightLabelState extends State<MobileHeightLabel> {
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
+
           //*********** decimalNumberPicker segment  ************/
           InkWell(
             borderRadius: BorderRadius.circular(5.0),
@@ -58,24 +62,7 @@ class _MobileHeightLabelState extends State<MobileHeightLabel> {
                 if (state is HeightChanged) currentHeight = state.height;
                 // print("BMI: ${(state as BmiCalculating).value}");
 
-                return Container(
-                  height: SizeConfig.responsiveHeight(5.0, 8.0),
-                  constraints: BoxConstraints(
-                    minWidth: SizeConfig.responsiveWidth(
-                        SizeConstants.mobileSelectableItemsBackgroundWidth,
-                        SizeConstants.tabletSelectableItemsBackgroundWidth),
-                  ),
-                  // width: SizeConfig.responsiveWidth(
-                  //   SizeConstants.mobileSelectableItemsBackgroundWidth,
-                  //   SizeConstants.tabletSelectableItemsBackgroundWidth,
-                  // ),
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 0.0),
-                  decoration: BoxDecoration(
-                    // border: Border.all(color: Colors.red),
-                    borderRadius: BorderRadius.circular(5.0),
-                    color: Colors.black.withOpacity(0.08),
-                  ),
+                return SelectableContainer(
                   child: Text(
                     "${currentHeight.toStringAsFixed(1)}",
                     style: Theme.of(context).textTheme.bodyText1,

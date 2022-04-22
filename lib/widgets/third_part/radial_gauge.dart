@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:BMI/utils/constants/translation_constants.dart';
 import 'package:BMI/utils/localization/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +39,7 @@ class RadialGauge extends StatelessWidget {
               interval: _normalDomain,
               startAngle: 180,
               endAngle: 0,
-              ranges: <GaugeRange>[
+              ranges: [
                 GaugeRange(
                   label: AppLocalizations.of(context)
                       .translate(TranslationConstants.underweight),

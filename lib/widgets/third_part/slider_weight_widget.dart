@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../blocs/blocs.dart';
+import '../../utils/constants/size_constants.dart';
+import 'custom_slider_thumb_circle.dart';
 
 class SliderWeightWidget extends StatefulWidget {
   final fullWidth;
@@ -19,7 +21,7 @@ class SliderWeightWidget extends StatefulWidget {
 class _SliderWeightWidgetState extends State<SliderWeightWidget> {
   // double _value = 0.0;
   double _weight = 50;
-  final double sliderHeight = SizeConfig.responsiveHeight(5.0, 10.0);
+  final double sliderHeight = SizeConstants.sliderHeight;
   final int min = CalculationConstants.min_weight;
   final int max = CalculationConstants.max_weight;
 
@@ -31,7 +33,7 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
 
     return Container(
       width: this.widget.fullWidth ? double.infinity : sliderHeight * 5.5,
-      height: SizeConfig.responsiveHeight(5.0, 10.0),
+      height: SizeConstants.sliderHeight,
       decoration: new BoxDecoration(
         borderRadius: new BorderRadius.all(
           Radius.circular((sliderHeight * .15)),
@@ -75,17 +77,17 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
                   data: SliderTheme.of(context).copyWith(
                     activeTrackColor: Colors.white.withOpacity(1),
                     inactiveTrackColor: Colors.white.withOpacity(.5),
-                    trackHeight: 6.0,
+                    trackHeight: SizeConfig.isMobilePortrait ? 6.0 : 10,
                     // thumbShape: CustomSliderThumbCircle(
-                    //   thumbRadius: this.widget.sliderHeight * .4,
-                    //   min: this.widget.min,
-                    //   max: this.widget.max,
+                    //   thumbRadius: 25,
                     // ),
                     // overlayShape: CustomSliderThumbCircle(
                     //   thumbRadius: this.widget.sliderHeight * .3,
                     //   min: this.widget.min,
                     //   max: this.widget.max,
                     // ),
+                    thumbColor: Colors.blue,
+
                     overlayColor: Colors.white.withOpacity(.4),
                     // thumbColor: Colors.black,
                     activeTickMarkColor: Colors.white,
