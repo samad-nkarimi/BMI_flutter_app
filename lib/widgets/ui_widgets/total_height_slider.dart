@@ -7,27 +7,23 @@ import 'package:flutter/material.dart';
 class TotalHeightSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-      return Row(
-        children: [
-          if (!SizeConfig.isMobilePortrait)
-            Flexible(
-              flex: 30,
-              child: MobileHeightLabel(),
-            ),
+    return Row(
+      children: [
+        if (!SizeConfig.isMobilePortrait)
           Flexible(
             flex: 65,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.responsiveWidth(3.0, 2.0),
-              ),
-              child: SliderHeightWidget(
-
-              ),
-            ),
+            child: MobileHeightLabel(),
           ),
-        ],
-      );
-
+        Flexible(
+          flex: 65,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: SizeConfig.responsiveWidth(3.0, 2.0),
+            ),
+            child: SliderHeightWidget(),
+          ),
+        ),
+      ],
+    );
   }
 }

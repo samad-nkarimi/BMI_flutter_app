@@ -1,4 +1,3 @@
-
 import 'package:BMI/blocs/blocs.dart';
 import 'package:BMI/utils/constants/translation_constants.dart';
 import 'package:BMI/utils/localization/app_localizations.dart';
@@ -29,7 +28,12 @@ class _WeightDataPickerState extends State<WeightDataPicker> {
         _currentWeight = bmiModel.weight;
         // if (state is WeightChanged) _currentWeight = state.weight;
         return AlertDialog(
-          title: Text('${AppLocalizations.of(context).translate(TranslationConstants.select_weight)}', style: Theme.of(context).textTheme.bodyText1),
+          backgroundColor: Colors.orange.shade200,
+          title: Center(
+            child: Text(
+                '${AppLocalizations.of(context).translate(TranslationConstants.select_weight)}',
+                style: Theme.of(context).textTheme.bodyText1),
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -42,22 +46,29 @@ class _WeightDataPickerState extends State<WeightDataPicker> {
               ),
             ),
           ],
-          content: DecimalNumberPicker(
-            value: _currentWeight,
-            minValue: widget._min,
-            maxValue: widget._max,
-            itemCount: 3,
-            decimalPlaces: 1,
-            onChanged: (value) {
-              setState(() => _currentWeight = value);
-              // bmiModel.weight = _currentValue;
+          content: Container(
+            decoration: BoxDecoration(
+              color: Colors.orange.shade100,
+              border: Border.all(width: 1, color: Colors.green),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: DecimalNumberPicker(
+              value: _currentWeight,
+              minValue: widget._min,
+              maxValue: widget._max,
+              itemCount: 3,
+              decimalPlaces: 1,
+              onChanged: (value) {
+                setState(() => _currentWeight = value);
+                // bmiModel.weight = _currentValue;
 
-              BlocProvider.of<BmiCalcBloc>(context).add(WeightHasBeenSet(value));
-            },
+                BlocProvider.of<BmiCalcBloc>(context)
+                    .add(WeightHasBeenSet(value));
+              },
+            ),
           ),
         );
       },
     );
   }
 }
-

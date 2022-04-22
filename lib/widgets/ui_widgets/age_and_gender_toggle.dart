@@ -1,5 +1,6 @@
 import 'package:BMI/blocs/blocs.dart';
 import 'package:BMI/models/models.dart';
+import 'package:BMI/utils/constants/size_constants.dart';
 import 'package:BMI/utils/constants/translation_constants.dart';
 import 'package:BMI/utils/localization/app_localizations.dart';
 import 'package:BMI/utils/size/size_config.dart';
@@ -21,7 +22,7 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
   Widget build(BuildContext context) {
     return BlocBuilder<BmiCalcBloc, BmiCalcState>(
       builder: (context, state) {
-        final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+        // final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
         return Container(
           child: Row(
             children: [
@@ -37,9 +38,16 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                   );
                 },
                 child: Container(
-                  width: SizeConfig.responsiveWidth(14.0, 18.0),
+                  height: SizeConfig.responsiveHeight(5.0, 8.0),
+                  // width: SizeConfig.responsiveWidth(14.0, 18.0),
+                  constraints: BoxConstraints(
+                    minWidth: SizeConfig.responsiveWidth(
+                        SizeConstants.mobileSelectableItemsBackgroundWidth,
+                        SizeConstants.tabletSelectableItemsBackgroundWidth),
+                  ),
                   alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.5),
                   decoration: BoxDecoration(
                     // border: Border.all(color: Colors.red),
                     borderRadius: BorderRadius.circular(5.0),
@@ -47,7 +55,13 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                   ),
                   child: Text(
                     "${AppLocalizations.of(context).translate(TranslationConstants.male)}",
-                    style: maleToggle ? Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.blue,fontWeight: FontWeight.bold) : Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black26),
+                    style: maleToggle
+                        ? Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Colors.blue, fontWeight: FontWeight.bold)
+                        : Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(color: Colors.black26),
                   ),
                 ),
               ),
@@ -64,9 +78,16 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                   );
                 },
                 child: Container(
-                  width: SizeConfig.responsiveWidth(14.0, 18.0),
+                  height: SizeConfig.responsiveHeight(5.0, 8.0),
+                  // width: SizeConfig.responsiveWidth(14.0, 18.0),
+                  constraints: BoxConstraints(
+                    minWidth: SizeConfig.responsiveWidth(
+                        SizeConstants.mobileSelectableItemsBackgroundWidth,
+                        SizeConstants.tabletSelectableItemsBackgroundWidth),
+                  ),
                   alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.5),
                   decoration: BoxDecoration(
                     // border: Border.all(color: Colors.red),
                     borderRadius: BorderRadius.circular(5.0),
@@ -74,7 +95,13 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                   ),
                   child: Text(
                     "${AppLocalizations.of(context).translate(TranslationConstants.female)}",
-                    style: !maleToggle ? Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.blue,fontWeight: FontWeight.bold)   : Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black26),
+                    style: !maleToggle
+                        ? Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Colors.blue, fontWeight: FontWeight.bold)
+                        : Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(color: Colors.black26),
                   ),
                 ),
               ),

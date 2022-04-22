@@ -8,7 +8,6 @@ import 'package:BMI/widgets/ui_widgets/utils/age_data_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class AgeAndGender extends StatefulWidget {
   @override
   _AgeAndGenderState createState() => _AgeAndGenderState();
@@ -19,23 +18,31 @@ class _AgeAndGenderState extends State<AgeAndGender> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: SizeConfig.responsiveHeight(
+    return Container(
+      // color: Colors.amber,
+      padding: EdgeInsets.only(
+        right: SizeConfig.responsiveHeight(
           SizeConstants.mobileHorizontalPaddingFactorText,
           SizeConstants.tabletHorizontalPaddingFactorText,
         ),
-        vertical: SizeConfig.responsiveHeight(2.0, 3.0),
+        left: SizeConfig.responsiveHeight(
+          SizeConstants.mobileHorizontalPaddingFactorText,
+          SizeConstants.tabletHorizontalPaddingFactorText,
+        ),
+        bottom: SizeConfig.responsiveHeight(1.0, 2.0),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           // age section
-          Text("${AppLocalizations.of(context).translate(TranslationConstants.age)} :", style: Theme.of(context).textTheme.subtitle1),
+          Text(
+              "${AppLocalizations.of(context).translate(TranslationConstants.age)} :",
+              style: Theme.of(context).textTheme.subtitle1),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: SizeConfig.responsiveWidth(1.0, 2.0)),
+            padding: EdgeInsets.symmetric(
+                horizontal: SizeConfig.responsiveWidth(1.0, 2.0)),
             child: Padding(
-              padding: const EdgeInsets.only(left: 30),
+              padding: const EdgeInsets.only(left: 15),
               child: InkWell(
                 borderRadius: BorderRadius.circular(5.0),
                 onTap: () {
@@ -52,15 +59,18 @@ class _AgeAndGenderState extends State<AgeAndGender> {
                 },
                 child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
                   builder: (context, state) {
-                    final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                    final bmiModel =
+                        BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                     currentAge = bmiModel.age;
                     return Container(
+                      height: SizeConfig.responsiveHeight(5.0, 8.0),
                       width: SizeConfig.responsiveWidth(
                         SizeConstants.mobileSelectableItemsBackgroundWidth,
                         SizeConstants.tabletSelectableItemsBackgroundWidth,
                       ),
                       alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15.0, vertical: 2.0),
                       decoration: BoxDecoration(
                         // border: Border.all(color: Colors.red),
                         borderRadius: BorderRadius.circular(5.0),

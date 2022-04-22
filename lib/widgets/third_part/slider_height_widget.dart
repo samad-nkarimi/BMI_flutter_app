@@ -6,11 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/blocs.dart';
 
 class SliderHeightWidget extends StatefulWidget {
-
   final fullWidth;
 
   SliderHeightWidget({
-
     this.fullWidth = true,
   });
 
@@ -23,8 +21,6 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
   double _height = 150.0;
   final double sliderHeight = SizeConfig.responsiveHeight(5.0, 10.0);
 
-
-
   @override
   Widget build(BuildContext context) {
     double paddingFactor = .1;
@@ -33,15 +29,16 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
 
     return Container(
       width: this.widget.fullWidth ? double.infinity : sliderHeight * 5.5,
-      height: sliderHeight,
+      height: SizeConfig.responsiveHeight(5.0, 10.0),
       decoration: new BoxDecoration(
+        // color: Colors.black26,
         borderRadius: new BorderRadius.all(
           Radius.circular((sliderHeight * .15)),
         ),
         gradient: new LinearGradient(
           colors: [
-            const Color(0xaa00c6ff),
-            const Color(0xFF00ddaa),
+            Colors.orange.withOpacity(0.3),
+            Colors.orange.withOpacity(0.7),
           ],
           begin: const FractionalOffset(0.0, 0.0),
           end: const FractionalOffset(1.0, 1.00),
@@ -50,7 +47,8 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(sliderHeight * paddingFactor, 2, sliderHeight * paddingFactor, 2),
+        padding: EdgeInsets.fromLTRB(
+            sliderHeight * paddingFactor, 2, sliderHeight * paddingFactor, 2),
         child: Row(
           children: <Widget>[
             Padding(
@@ -99,25 +97,32 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
                   ),
                   child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
                     builder: (context, state) {
-                      final bmiModel = BlocProvider
-                          .of<BmiCalcBloc>(context)
-                          .bmiCalcModel;
+                      final bmiModel =
+                          BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                       _height = bmiModel.height;
                       // _value = bmiModel.height;
                       // print(
                       //     "$_value *******************************************");
                       if (state is HeightChanged) _height = state.height;
                       return Slider(
-                        value: (_height - CalculationConstants.min_height) / (CalculationConstants.max_height - CalculationConstants.min_height),
+                        value: (_height - CalculationConstants.min_height) /
+                            (CalculationConstants.max_height -
+                                CalculationConstants.min_height),
                         // label: '${(_height).toStringAsFixed(1)}',
-                        divisions: (CalculationConstants.max_height - CalculationConstants.min_height) * 2,
+                        divisions: (CalculationConstants.max_height -
+                                CalculationConstants.min_height) *
+                            2,
                         onChanged: (value) {
                           setState(() {
                             _value = value;
                           });
 
-                          _height = CalculationConstants.min_height + value * (CalculationConstants.max_height - CalculationConstants.min_height);
-                          BlocProvider.of<BmiCalcBloc>(context).add(HeightHasBeenSet(_height));
+                          _height = CalculationConstants.min_height +
+                              value *
+                                  (CalculationConstants.max_height -
+                                      CalculationConstants.min_height);
+                          BlocProvider.of<BmiCalcBloc>(context)
+                              .add(HeightHasBeenSet(_height));
                         },
                       );
                     },

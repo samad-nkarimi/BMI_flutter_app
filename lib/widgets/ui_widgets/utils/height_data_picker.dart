@@ -1,5 +1,3 @@
-
-
 import 'package:BMI/blocs/blocs.dart';
 import 'package:BMI/utils/constants/calculation_constants.dart';
 import 'package:BMI/utils/constants/translation_constants.dart';
@@ -9,9 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class HeightDataPicker extends StatefulWidget {
-
-
-
   @override
   _HeightDataPickerState createState() => _HeightDataPickerState();
 }
@@ -27,7 +22,11 @@ class _HeightDataPickerState extends State<HeightDataPicker> {
         _currentHeight = bmiModel.height;
         if (state is HeightChanged) _currentHeight = state.height;
         return AlertDialog(
-          title: Text('${AppLocalizations.of(context).translate(TranslationConstants.select_height)}', style: Theme.of(context).textTheme.bodyText1),
+          backgroundColor: Colors.orange.shade200,
+          title: Center(
+              child: Text(
+                  '${AppLocalizations.of(context).translate(TranslationConstants.select_height)}',
+                  style: Theme.of(context).textTheme.bodyText1)),
           actions: [
             // TextButton(
             //   onPressed: () {
@@ -46,22 +45,29 @@ class _HeightDataPickerState extends State<HeightDataPicker> {
               ),
             ),
           ],
-          content: DecimalNumberPicker(
-            value: _currentHeight,
-            minValue: CalculationConstants.min_height,
-            maxValue: CalculationConstants.max_height,
-            itemCount: 3,
-            decimalPlaces: 1,
-            onChanged: (value) {
-              setState(() => _currentHeight = value);
-              // bmiModel.weight = _currentValue;
+          content: Container(
+            decoration: BoxDecoration(
+              color: Colors.orange.shade100,
+              border: Border.all(width: 1, color: Colors.green),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: DecimalNumberPicker(
+              value: _currentHeight,
+              minValue: CalculationConstants.min_height,
+              maxValue: CalculationConstants.max_height,
+              itemCount: 3,
+              decimalPlaces: 1,
+              onChanged: (value) {
+                setState(() => _currentHeight = value);
+                // bmiModel.weight = _currentValue;
 
-              BlocProvider.of<BmiCalcBloc>(context).add(HeightHasBeenSet(value));
-            },
+                BlocProvider.of<BmiCalcBloc>(context)
+                    .add(HeightHasBeenSet(value));
+              },
+            ),
           ),
         );
       },
     );
   }
 }
-

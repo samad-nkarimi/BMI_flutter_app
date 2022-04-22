@@ -25,7 +25,7 @@ class CustomizedAppBar extends StatelessWidget {
             gradient: LinearGradient(
               colors: [
                 Colors.orange.withOpacity(0.7),
-                Colors.orange.withOpacity(0.2)
+                Colors.orange.withOpacity(0.3),
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,

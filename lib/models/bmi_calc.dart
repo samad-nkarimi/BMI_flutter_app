@@ -20,17 +20,19 @@ class BmiCalcModel extends Equatable {
   // MaterialColor rangeColor;
 
   BmiCalcModel({
-    this.bmiValue = 24.5,
-    this.weight = 50.0,
-    this.height = 160.0,
+    this.bmiValue,
+    this.weight,
+    this.height,
     this.genderCategory = Gender.male,
-    this.age = 20,
+    this.age,
     this.percentile5th = 18.5,
     this.percentile85th = 25.0,
     this.percentile95th = 30.0,
     this.constant = 705,
     // this.rangeColor=Colors.blue,
-  });
+  }) {
+    this.bmiValue = bmiValueCalculation();
+  }
 
   @override
   List<Object> get props => [bmiValue, weight, height, genderCategory, age];
@@ -41,45 +43,55 @@ class BmiCalcModel extends Equatable {
   }
 
   // get range color, depends on percentiles
-  MaterialColor get getRangeColor{
+  MaterialColor get getRangeColor {
     Color color = Colors.blue;
-    switch(getBmiValueCategory){
-      case 0:color= Colors.blue; break;
-      case 1:color= Colors.green; break;
-      case 2: color=Colors.orange;break;
-      case 3: color=Colors.red;break;
-
-
+    switch (getBmiValueCategory) {
+      case 0:
+        color = Colors.blue;
+        break;
+      case 1:
+        color = Colors.green;
+        break;
+      case 2:
+        color = Colors.orange;
+        break;
+      case 3:
+        color = Colors.red;
+        break;
     }
     return color;
   }
 
   // calculate category series
   List<String> get getPercentileCategories => [
-    "<= ${percentile5th.toStringAsFixed(1)}",
-    "${percentile5th.toStringAsFixed(1)} - ${percentile85th.toStringAsFixed(1)}",
-    "${percentile85th.toStringAsFixed(1)} - ${percentile95th.toStringAsFixed(1)}",
-    ">= ${percentile95th.toStringAsFixed(1)}"
-  ];
+        "<= ${percentile5th.toStringAsFixed(1)}",
+        "${percentile5th.toStringAsFixed(1)} - ${percentile85th.toStringAsFixed(1)}",
+        "${percentile85th.toStringAsFixed(1)} - ${percentile95th.toStringAsFixed(1)}",
+        ">= ${percentile95th.toStringAsFixed(1)}"
+      ];
 
   // calculate bmi category of weight
   int get getBmiValueCategory {
     int _categoryNumber = 0;
 
     if (bmiValue <= percentile5th) _categoryNumber = 0;
-    if (bmiValue >= percentile5th && bmiValue <= percentile85th) _categoryNumber = 1;
-    if (bmiValue >= percentile85th && bmiValue <= percentile95th) _categoryNumber = 2;
+    if (bmiValue >= percentile5th && bmiValue <= percentile85th)
+      _categoryNumber = 1;
+    if (bmiValue >= percentile85th && bmiValue <= percentile95th)
+      _categoryNumber = 2;
     if (bmiValue >= percentile95th) _categoryNumber = 3;
     return _categoryNumber;
   }
 
   // calculate normal weight
   double minimumNormalWeight() {
-    return (percentile5th * height * height * 0.4536) / (constant * 2.54 * 2.54);
+    return (percentile5th * height * height * 0.4536) /
+        (constant * 2.54 * 2.54);
   }
 
   double maximumNormalWeight() {
-    return (percentile85th * height * height * 0.4536) / (constant * 2.54 * 2.54);
+    return (percentile85th * height * height * 0.4536) /
+        (constant * 2.54 * 2.54);
   }
 
   // main bmi value calculation method
@@ -122,7 +134,11 @@ class BmiCalcModel extends Equatable {
 
   // percentile calculation methods
   double _boysPercentile5th(int age) {
-    double percentile5th = -0.0001 * pow(age, 4) + 0.0028 * pow(age, 3) + 0.0196 * pow(age, 2) - 0.5195 * age + 15.665;
+    double percentile5th = -0.0001 * pow(age, 4) +
+        0.0028 * pow(age, 3) +
+        0.0196 * pow(age, 2) -
+        0.5195 * age +
+        15.665;
 
     return percentile5th;
   }
@@ -130,7 +146,8 @@ class BmiCalcModel extends Equatable {
   double _boysPercentile85th(int age) {
     double percentile85th;
     if (age <= 8)
-      percentile85th = -0.0093 * pow(age, 3) + 0.2731 * pow(age, 2) - 1.9818 * age + 21.08;
+      percentile85th =
+          -0.0093 * pow(age, 3) + 0.2731 * pow(age, 2) - 1.9818 * age + 21.08;
     else
       percentile85th = -0.0067 * pow(age, 2) + 0.9683 * age + 10.364;
 
@@ -140,7 +157,8 @@ class BmiCalcModel extends Equatable {
   double _boysPercentile95th(int age) {
     double percentile95th;
     if (age <= 8)
-      percentile95th = -0.0222 * pow(age, 3) + 0.5274 * pow(age, 2) - 3.2909 * age + 23.943;
+      percentile95th =
+          -0.0222 * pow(age, 3) + 0.5274 * pow(age, 2) - 3.2909 * age + 23.943;
     else
       percentile95th = -0.0234 * pow(age, 2) + 1.4935 * age + 9.6123;
 
@@ -148,7 +166,8 @@ class BmiCalcModel extends Equatable {
   }
 
   double _girlsPercentile5th(int age) {
-    double girl5th = -0.0022 * pow(age, 3) + 0.0965 * pow(age, 2) - 0.9365 * age + 15.983;
+    double girl5th =
+        -0.0022 * pow(age, 3) + 0.0965 * pow(age, 2) - 0.9365 * age + 15.983;
 
     return girl5th;
   }
@@ -156,7 +175,8 @@ class BmiCalcModel extends Equatable {
   double _girlsPercentile85th(int age) {
     double girl85th;
     if (age <= 8)
-      girl85th = -0.0111 * pow(age, 3) + 0.3167 * pow(age, 2) - 2.1841 * age + 21.193;
+      girl85th =
+          -0.0111 * pow(age, 3) + 0.3167 * pow(age, 2) - 2.1841 * age + 21.193;
     else
       girl85th = -0.0223 * pow(age, 2) + 1.3306 * age + 8.9687;
 
@@ -166,7 +186,8 @@ class BmiCalcModel extends Equatable {
   double _girlsPercentile95th(int age) {
     double girl95th;
     if (age <= 8)
-      girl95th = -0.0167 * pow(age, 3) + 0.4381 * pow(age, 2) - 2.7143 * age + 22.921;
+      girl95th =
+          -0.0167 * pow(age, 3) + 0.4381 * pow(age, 2) - 2.7143 * age + 22.921;
     else
       girl95th = -0.0293 * pow(age, 2) + 1.7324 * age + 8.615;
 

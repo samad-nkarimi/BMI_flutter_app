@@ -7,9 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class AgeDataPicker extends StatefulWidget {
-
-
-
   @override
   _AgeDataPickerState createState() => _AgeDataPickerState();
 }
@@ -21,10 +18,15 @@ class _AgeDataPickerState extends State<AgeDataPicker> {
     return BlocBuilder<BmiCalcBloc, BmiCalcState>(
       builder: (context, state) {
         final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
-        _currentAge=bmiModel.age;
+        _currentAge = bmiModel.age;
         return AlertDialog(
-          title: Text('${AppLocalizations.of(context).translate(TranslationConstants.select_age)}',
-              textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyText1),
+          backgroundColor: Colors.orange.shade200,
+          title: Center(
+            child: Text(
+                '${AppLocalizations.of(context).translate(TranslationConstants.select_age)}',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyText1),
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -37,24 +39,30 @@ class _AgeDataPickerState extends State<AgeDataPicker> {
               ),
             ),
           ],
-          content: NumberPicker(
-            value: _currentAge,
-            minValue: CalculationConstants.min_age,
-            maxValue: CalculationConstants.max_age,
-            itemCount: 3,
-            onChanged: (value) {
-              setState(() {
-                _currentAge = value;
-              });
-              bmiModel.age = value;
-              BlocProvider.of<BmiCalcBloc>(context).add(
-                AgeHasBeenSet(value),
-              );
-            },
+          content: Container(
+            decoration: BoxDecoration(
+              color: Colors.orange.shade100,
+              border: Border.all(width: 1, color: Colors.green),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: NumberPicker(
+              value: _currentAge,
+              minValue: CalculationConstants.min_age,
+              maxValue: CalculationConstants.max_age,
+              itemCount: 3,
+              onChanged: (value) {
+                setState(() {
+                  _currentAge = value;
+                });
+                bmiModel.age = value;
+                BlocProvider.of<BmiCalcBloc>(context).add(
+                  AgeHasBeenSet(value),
+                );
+              },
+            ),
           ),
         );
       },
     );
   }
 }
-

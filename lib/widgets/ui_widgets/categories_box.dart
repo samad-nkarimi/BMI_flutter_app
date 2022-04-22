@@ -6,7 +6,6 @@ import 'package:BMI/utils/size/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class CategoriesBox extends StatefulWidget {
   @override
   _CategoriesBoxState createState() => _CategoriesBoxState();
@@ -33,39 +32,58 @@ class _CategoriesBoxState extends State<CategoriesBox> {
               SizeConstants.mobileHorizontalPaddingFactorText,
               SizeConstants.tabletHorizontalPaddingFactorText,
             ),
-            vertical: SizeConfig.responsiveHeight(2.0, 2.0),
+            vertical: SizeConfig.responsiveHeight(1.0, 2.0),
           ),
           child: Column(
             children: [
               for (int i = 0; i < _weightCategories.length; i++)
                 i != currentCategory
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            "${_weightCategories[i]}",
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
-                          Expanded(child: Text("")),
-                          Text(
-                            "${bmiModel.getPercentileCategories[i]}",
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
-                        ],
+                    ? Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              child: Text(
+                                "${_weightCategories[i]}",
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                            ),
+                            Expanded(child: SizedBox()),
+                            Container(
+                              child: Text(
+                                "${bmiModel.getPercentileCategories[i]}",
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                            ),
+                          ],
+                        ),
                       )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            "${_weightCategories[i]}",
-                            style: Theme.of(context).textTheme.subtitle1.copyWith(color: bmiModel.getRangeColor),
-                          ),
-                          Expanded(child: Text("")),
-                          Text(
-                            "${bmiModel.getPercentileCategories[i]}",
-                            style: Theme.of(context).textTheme.subtitle1.copyWith(color: bmiModel.getRangeColor),
-                          ),
-                        ],
+                    : Container(
+                        // decoration: BoxDecoration(
+                        //   border: Border.all(
+                        //       width: 1, color: Colors.green.shade200),
+                        //   borderRadius: BorderRadius.circular(5),
+                        // ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              "${_weightCategories[i]}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  .copyWith(color: bmiModel.getRangeColor),
+                            ),
+                            Expanded(child: SizedBox()),
+                            Text(
+                              "${bmiModel.getPercentileCategories[i]}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  .copyWith(color: bmiModel.getRangeColor),
+                            ),
+                          ],
+                        ),
                       ),
             ],
           ),

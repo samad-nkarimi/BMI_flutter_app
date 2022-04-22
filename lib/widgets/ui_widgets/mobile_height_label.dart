@@ -15,24 +15,25 @@ class MobileHeightLabel extends StatefulWidget {
 class _MobileHeightLabelState extends State<MobileHeightLabel> {
   double currentHeight;
 
-
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: SizeConfig.responsiveHeight(
           SizeConstants.mobileHorizontalPaddingFactorText,
           SizeConstants.tabletHorizontalPaddingFactorText,
         ),
-        vertical: SizeConfig.responsiveHeight(.7, 1.0),
+        // vertical: SizeConfig.responsiveHeight(.7, 1.0),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            "${AppLocalizations.of(context).translate(TranslationConstants.height)} (${TranslationConstants.height_unit}): ",
-            style: Theme.of(context).textTheme.subtitle1,
+          Padding(
+            padding: const EdgeInsets.only(right: 5),
+            child: Text(
+              "${AppLocalizations.of(context).translate(TranslationConstants.height)} (${TranslationConstants.height_unit}): ",
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
           ),
           //*********** decimalNumberPicker segment  ************/
           InkWell(
@@ -51,18 +52,25 @@ class _MobileHeightLabelState extends State<MobileHeightLabel> {
             },
             child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
               builder: (context, state) {
-                final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                final bmiModel =
+                    BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                 currentHeight = bmiModel.height;
                 if (state is HeightChanged) currentHeight = state.height;
                 // print("BMI: ${(state as BmiCalculating).value}");
 
                 return Container(
-                  width: SizeConfig.responsiveWidth(
-                    SizeConstants.mobileSelectableItemsBackgroundWidth,
-                    SizeConstants.tabletSelectableItemsBackgroundWidth,
+                  height: SizeConfig.responsiveHeight(5.0, 8.0),
+                  constraints: BoxConstraints(
+                    minWidth: SizeConfig.responsiveWidth(
+                        SizeConstants.mobileSelectableItemsBackgroundWidth,
+                        SizeConstants.tabletSelectableItemsBackgroundWidth),
                   ),
+                  // width: SizeConfig.responsiveWidth(
+                  //   SizeConstants.mobileSelectableItemsBackgroundWidth,
+                  //   SizeConstants.tabletSelectableItemsBackgroundWidth,
+                  // ),
                   alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
+                  padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 0.0),
                   decoration: BoxDecoration(
                     // border: Border.all(color: Colors.red),
                     borderRadius: BorderRadius.circular(5.0),
@@ -71,6 +79,7 @@ class _MobileHeightLabelState extends State<MobileHeightLabel> {
                   child: Text(
                     "${currentHeight.toStringAsFixed(1)}",
                     style: Theme.of(context).textTheme.bodyText1,
+                    textAlign: TextAlign.center,
                   ),
                 );
               },

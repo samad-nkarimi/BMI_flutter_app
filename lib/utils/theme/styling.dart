@@ -5,7 +5,6 @@ import '../size/size_config.dart';
 class AppTheme {
   static String lang = "en";
 
-
   AppTheme._();
 
   // final  lang =   AppLocalizations().locale.languageCode;
@@ -20,8 +19,9 @@ class AppTheme {
   static double languageFontTextMultiplier = 1.0;
 
   static ThemeData lightTheme() {
-    print("$languageFontTextMultiplier  $lang    8888888888888888888888888888888888");
-    languageFontTextMultiplier = lang == 'fa' ? 0.9 : 1.0;
+    print(
+        "$languageFontTextMultiplier  $lang    8888888888888888888888888888888888");
+    languageFontTextMultiplier = lang == 'fa' ? 1 : 1.0;
     // subTitleTextColor =  lang == 'fa' ? Colors.black : Colors.yellow;
     // subTitleSmallTextColor = ( lang == 'fa' ? Colors.black : Colors.deepOrange);
     // print("is lang fa: ${lang == 'fa'}");
@@ -31,7 +31,8 @@ class AppTheme {
         scaffoldBackgroundColor: AppTheme.appBackgroundColor,
         brightness: Brightness.light,
         textTheme: lightTextTheme(),
-        appBarTheme: AppBarTheme(color: Colors.red,brightness: Brightness.light),
+        appBarTheme:
+            AppBarTheme(color: Colors.red, brightness: Brightness.light),
         fontFamily: lang == 'fa' ? 'IRANSansFaNum_Medium' : 'SFProDisplay');
   }
 
@@ -72,7 +73,8 @@ class AppTheme {
     return TextStyle(
       color: subTitleTextColor,
       fontSize: 3 * SizeConfig.textMultiplier * languageFontTextMultiplier,
-      height: 1.5*languageFontTextMultiplier,
+      height: 1.5 * languageFontTextMultiplier,
+      fontWeight: FontWeight.w700,
     );
   }
 
@@ -82,12 +84,12 @@ class AppTheme {
       color: subTitleSmallTextColor,
       fontSize: 2.0 * SizeConfig.textMultiplier * languageFontTextMultiplier,
       fontWeight: FontWeight.w600,
-      height: 1.5*languageFontTextMultiplier,
+      height: 1.5 * languageFontTextMultiplier,
     );
   }
 
   static final TextStyle _buttonLight = TextStyle(
-    color: Colors.white,
+    color: Colors.blue,
     fontSize: 2.5 * SizeConfig.textMultiplier * languageFontTextMultiplier,
   );
 
@@ -104,7 +106,7 @@ class AppTheme {
   static final TextStyle _selectedTabLight = TextStyle(
     color: Colors.blue,
     fontWeight: FontWeight.bold,
-    fontSize: 2.2 * SizeConfig.textMultiplier * languageFontTextMultiplier,
+    fontSize: 2.0 * SizeConfig.textMultiplier * languageFontTextMultiplier,
   );
 
   static final TextStyle _unSelectedTabLight = TextStyle(
@@ -114,15 +116,21 @@ class AppTheme {
 
   static final TextStyle _titleDark = _titleLight.copyWith(color: Colors.white);
 
-  static final TextStyle _subTitleDark = _subTitleLight().copyWith(color: Colors.white70);
+  static final TextStyle _subTitleDark =
+      _subTitleLight().copyWith(color: Colors.white70);
 
-  static final TextStyle _buttonDark = _buttonLight.copyWith(color: Colors.black);
+  static final TextStyle _buttonDark =
+      _buttonLight.copyWith(color: Colors.black);
 
-  static final TextStyle _greetingDark = _greetingLight.copyWith(color: Colors.black);
+  static final TextStyle _greetingDark =
+      _greetingLight.copyWith(color: Colors.black);
 
-  static final TextStyle _searchDark = _searchDark.copyWith(color: Colors.black);
+  static final TextStyle _searchDark =
+      _searchDark.copyWith(color: Colors.black);
 
-  static final TextStyle _selectedTabDark = _selectedTabDark.copyWith(color: Colors.white);
+  static final TextStyle _selectedTabDark =
+      _selectedTabDark.copyWith(color: Colors.white);
 
-  static final TextStyle _unSelectedTabDark = _selectedTabDark.copyWith(color: Colors.white70);
+  static final TextStyle _unSelectedTabDark =
+      _selectedTabDark.copyWith(color: Colors.white70);
 }

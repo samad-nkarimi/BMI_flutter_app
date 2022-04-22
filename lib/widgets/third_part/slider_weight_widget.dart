@@ -6,11 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/blocs.dart';
 
 class SliderWeightWidget extends StatefulWidget {
-
   final fullWidth;
 
   SliderWeightWidget({
-
     this.fullWidth = true,
   });
 
@@ -21,9 +19,9 @@ class SliderWeightWidget extends StatefulWidget {
 class _SliderWeightWidgetState extends State<SliderWeightWidget> {
   // double _value = 0.0;
   double _weight = 50;
-  final double sliderHeight= SizeConfig.responsiveHeight(5.0, 10.0);
-  final int min=CalculationConstants.min_weight;
-  final int max= CalculationConstants.max_weight;
+  final double sliderHeight = SizeConfig.responsiveHeight(5.0, 10.0);
+  final int min = CalculationConstants.min_weight;
+  final int max = CalculationConstants.max_weight;
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +31,17 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
 
     return Container(
       width: this.widget.fullWidth ? double.infinity : sliderHeight * 5.5,
-      height: sliderHeight,
+      height: SizeConfig.responsiveHeight(5.0, 10.0),
       decoration: new BoxDecoration(
         borderRadius: new BorderRadius.all(
           Radius.circular((sliderHeight * .15)),
         ),
         gradient: new LinearGradient(
           colors: [
-            const Color(0xaa00c6ff),
-            const Color(0xFF00ddaa),
+            Colors.orange.withOpacity(0.3),
+            Colors.orange.withOpacity(0.7),
+            // const Color(0xaa00c6ff),
+            // const Color(0xFF00ddaa),
           ],
           begin: const FractionalOffset(0.0, 0.0),
           end: const FractionalOffset(1.0, 1.00),
@@ -50,7 +50,8 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(sliderHeight * paddingFactor, 2, sliderHeight * paddingFactor, 2),
+        padding: EdgeInsets.fromLTRB(
+            sliderHeight * paddingFactor, 2, sliderHeight * paddingFactor, 2),
         child: Row(
           children: <Widget>[
             Padding(
@@ -97,7 +98,8 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
                   ),
                   child: BlocBuilder<BmiCalcBloc, BmiCalcState>(
                     builder: (context, state) {
-                      final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
+                      final bmiModel =
+                          BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                       _weight = bmiModel.weight;
                       // if (state is WeightChanged) _weight = state.weight;
                       // print(
@@ -114,7 +116,8 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
 
                           _weight = min + value * (max - min);
 
-                          BlocProvider.of<BmiCalcBloc>(context).add(WeightHasBeenSet(_weight));
+                          BlocProvider.of<BmiCalcBloc>(context)
+                              .add(WeightHasBeenSet(_weight));
                         },
                       );
                     },

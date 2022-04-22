@@ -39,19 +39,24 @@ class _MBIHomeState extends State<MBIHome> {
             // alignment: Alignment.topCenter,
             children: [
               Container(
+                decoration: BoxDecoration(
+                    color: Colors.orange.withOpacity(0.3),
+                    borderRadius:
+                        BorderRadius.vertical(bottom: Radius.circular(50))),
                 width: double.maxFinite,
                 padding: EdgeInsets.only(
-                    top: SizeConfig.responsiveWidth(5.0, 0.0),
+                    // top: SizeConfig.responsiveWidth(5.0, 0.0),
                     left: 10.0,
                     right: 10.0),
                 height: SizeConfig.responsiveHeight(50.0, 55.0),
                 child: RadialGauge(),
               ),
               Container(
-                color: Colors.orange.withOpacity(0.2),
+                // color: Colors.white,
                 // color: Colors.white,
                 height: double.infinity,
                 width: double.infinity,
+
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -60,11 +65,19 @@ class _MBIHomeState extends State<MBIHome> {
                         final bmiModel =
                             BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
                         // showing normal weight on screen
-                        return Padding(
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Colors.orange.shade200,
+                            border: Border.all(width: 1, color: Colors.green),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          margin: EdgeInsets.symmetric(
+                            horizontal: SizeConfig.responsiveHeight(5.0, 10.0),
+                          ),
                           padding: EdgeInsets.symmetric(
+                            vertical: 5,
                             horizontal: SizeConfig.responsiveHeight(
-                              SizeConstants.mobileHorizontalPaddingFactorText +
-                                  1.0, // adding 1.0 for card margin
+                              2, // adding 1.0 for card margin
                               SizeConstants.tabletHorizontalPaddingFactorText +
                                   1.0,
                             ),
@@ -77,14 +90,14 @@ class _MBIHomeState extends State<MBIHome> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle1
-                                    .copyWith(color: Colors.blue),
+                                    .copyWith(color: Colors.black54),
                               ),
                               Text(
                                 "${bmiModel.minimumNormalWeight().toStringAsFixed(1)} - ${bmiModel.maximumNormalWeight().toStringAsFixed(1)}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle1
-                                    .copyWith(color: Colors.blue),
+                                    .copyWith(color: Colors.black54),
                               )
                             ],
                           ),
@@ -119,6 +132,8 @@ class _MBIHomeState extends State<MBIHome> {
                                   Divider(height: 0.5, color: Colors.black26),
                             ),
                             //  weight segment
+                            SizedBox(
+                                height: SizeConfig.responsiveHeight(1.0, 2.0)),
                             if (SizeConfig.isMobilePortrait)
                               MobileWeightLabel(),
                             TotalWeightSlider(),

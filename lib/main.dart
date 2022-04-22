@@ -3,6 +3,7 @@ import 'package:BMI/utils/localization/app_localizations.dart';
 import 'package:BMI/utils/theme/styling.dart';
 
 import 'package:bloc/bloc.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,19 @@ import 'utils/size/size_config.dart';
 void main() {
   Bloc.observer = SimpleBlocObserver();
 
-  runApp(MyApp());
+  runApp(
+    DevicePreview(
+      enabled: true,
+      builder: (context) => MyApp(),
+      isToolbarVisible: true,
+      data: DevicePreviewData(
+        deviceIdentifier: Devices.android.largeTablet.toString(),
+        isFrameVisible: true,
+
+        // locale: 'fr_FR',
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +38,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => BmiCalcBloc(bmiCalcModel: BmiCalcModel(bmiValue: 26.1, age: 20, height: 150, weight: 120))),
+        BlocProvider(
+            create: (context) => BmiCalcBloc(
+                bmiCalcModel: BmiCalcModel(
+                    bmiValue: 26.1, age: 20, height: 175, weight: 80))),
         BlocProvider(create: (context) => LanguageBloc()),
       ],
       child: LayoutBuilder(
@@ -39,7 +55,20 @@ class MyApp extends StatelessWidget {
                     var lang = state.locale.languageCode;
                     AppTheme.lang = lang;
                     return MaterialApp(
-                      theme: AppTheme.lightTheme(),
+                      useInheritedMediaQuery: true,
+                      // locale: DevicePreview.locale(context),
+                      builder: DevicePreview.appBuilder,
+                      theme: AppTheme.lightTheme().copyWith(
+                        appBarTheme: Theme.of(context).appBarTheme.copyWith(
+                              // backgroundColor: Colors.blue,
+                              color: Colors.green,
+                              systemOverlayStyle: SystemUiOverlayStyle(
+                                statusBarColor: Colors.green,
+                                systemStatusBarContrastEnforced: true,
+                                statusBarBrightness: Brightness.light,
+                              ),
+                            ),
+                      ),
 
                       debugShowCheckedModeBanner: false,
                       locale: state.locale,
@@ -52,18 +81,17 @@ class MyApp extends StatelessWidget {
                       ],
                       supportedLocales: [
                         Locale('en', 'US'), // English, no country code
-                        Locale('fa', 'IR'), // Spanish, no country code
+                        Locale('fa', 'IR'), // Persian, no country code
                       ],
 
                       home: AnnotatedRegion<SystemUiOverlayStyle>(
                         value: SystemUiOverlayStyle(
-
-                          statusBarColor: Colors.blue,
-
+                          statusBarColor: Colors.orange,
+                          statusBarBrightness: Brightness.light,
                           systemNavigationBarColor: Colors.blue,
                           //
-                          // systemNavigationBarDividerColor: Colors.transparent,
-                          // systemNavigationBarIconBrightness: Brightness.light,
+                          systemNavigationBarDividerColor: Colors.transparent,
+                          systemNavigationBarIconBrightness: Brightness.light,
                         ),
                         child: MBIHome(),
                       ),
