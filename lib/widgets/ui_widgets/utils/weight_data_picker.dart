@@ -29,7 +29,7 @@ class _WeightDataPickerState extends State<WeightDataPicker> {
         _currentWeight = bmiModel.weight;
         // if (state is WeightChanged) _currentWeight = state.weight;
         return AlertDialog(
-          backgroundColor: Colors.orange.shade200,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           title: Center(
             child: Text(
                 '${AppLocalizations.of(context).translate(TranslationConstants.select_weight)}',
@@ -51,7 +51,7 @@ class _WeightDataPickerState extends State<WeightDataPicker> {
             width: SizeConfig.responsiveWidth(10, 50),
             height: SizeConfig.responsiveWidth(50, 40),
             decoration: BoxDecoration(
-              color: Colors.orange.shade100,
+              color: Theme.of(context).colorScheme.primary,
               border: Border.all(width: 1, color: Colors.green),
               borderRadius: BorderRadius.circular(5),
             ),

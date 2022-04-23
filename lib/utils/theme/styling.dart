@@ -1,3 +1,4 @@
+import 'package:BMI/blocs/blocs.dart';
 import 'package:flutter/material.dart';
 
 import '../size/size_config.dart';
@@ -17,6 +18,14 @@ class AppTheme {
   static const Color subTitleSmallTextColor = Color(0x99000000);
 
   static double languageFontTextMultiplier = 1.0;
+
+  static ThemeData getTheme(themetype theme) {
+    if (theme == themetype.light) {
+      return lightTheme();
+    } else {
+      return darkTheme();
+    }
+  }
 
   static ThemeData lightTheme() {
     print(
@@ -70,9 +79,9 @@ class AppTheme {
           onSecondary: Colors.white,
           error: Colors.red,
           onError: Colors.white,
-          background: Colors.black87,
+          background: Color.fromARGB(255, 59, 54, 54),
           onBackground: Colors.white60,
-          surface: Colors.black45,
+          surface: Color.fromARGB(255, 53, 31, 31),
           onSurface: Colors.black87,
           secondaryContainer: Colors.white.withOpacity(0.25),
         ),
@@ -116,7 +125,7 @@ class AppTheme {
 
   static final TextStyle _subTitleLight = TextStyle(
     color: subTitleTextColor,
-    fontSize: 2 * SizeConfig.textMultiplier * languageFontTextMultiplier,
+    fontSize: 2.5 * SizeConfig.textMultiplier * languageFontTextMultiplier,
     height: 1.5 * languageFontTextMultiplier,
     // fontWeight: FontWeight.w700,
   );
@@ -160,7 +169,7 @@ class AppTheme {
       _subTitleLight.copyWith(color: Colors.white70);
 
   static final TextStyle _buttonDark =
-      _buttonLight.copyWith(color: Colors.black);
+      _buttonLight.copyWith(color: Colors.white70);
 
   static final TextStyle _greetingDark =
       _greetingLight.copyWith(color: Colors.black);
@@ -172,7 +181,7 @@ class AppTheme {
       _selectedTabLight.copyWith(color: Colors.white);
 
   static final TextStyle _unSelectedTabDark =
-      _selectedTabDark.copyWith(color: Colors.white70);
+      _unSelectedTabLight.copyWith(color: Colors.white70);
 
   static final TextStyle _subTitleSmallDark =
       _subTitleSmallLight.copyWith(color: Colors.white70);

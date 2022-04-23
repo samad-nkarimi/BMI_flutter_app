@@ -41,6 +41,7 @@ class TotalHeightOrWeightSlider extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(
                 left: SizeConfig.responsiveWidth(3.0, 1.0),
+                right: SizeConfig.responsiveWidth(3.0, 1.0),
                 // right: SizeConfig.responsiveHeight(
                 //   SizeConstants.mobileHorizontalPaddingFactorText,
                 //   SizeConstants.tabletHorizontalPaddingFactorText,

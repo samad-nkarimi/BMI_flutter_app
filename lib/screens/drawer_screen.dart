@@ -1,13 +1,16 @@
 import 'dart:ui';
 
+import 'package:BMI/blocs/blocs.dart';
 import 'package:BMI/utils/constants/translation_constants.dart';
 import 'package:BMI/utils/localization/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:share/share.dart';
 import 'package:store_redirect/store_redirect.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 import '../utils/constants/constants.dart';
 import '../utils/constants/images.dart';
@@ -22,7 +25,7 @@ class MbiDrawer extends StatefulWidget {
 
 class _MbiDrawerState extends State<MbiDrawer> {
   bool _showAboutUs = false;
-  final double _topMenuSizeFraction = 0.3;
+  final double _topMenuSizeFraction = 0.35;
 
   final Email email = Email(
     body: Constants.EMAIL_BODY,
@@ -55,7 +58,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
 
   Widget _drawerTopSection() {
     return Container(
-      color: Theme.of(context).colorScheme.primary,
+      color: Theme.of(context).colorScheme.surface,
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -67,7 +70,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
             padding: EdgeInsets.all(50),
             child: Image.asset(
               Images.LOGO_IMAGE,
-              fit: BoxFit.cover,
+              fit: BoxFit.fitWidth,
             ),
           ),
           Positioned(
@@ -85,6 +88,40 @@ class _MbiDrawerState extends State<MbiDrawer> {
               ),
             ),
           ),
+          Positioned(
+            bottom: SizeConfig.responsiveHeight(2.0, 2.0),
+            // left: SizeConfig.responsiveHeight(2.0, 3.0),
+
+            child: ToggleSwitch(
+              minWidth: 70.0,
+              minHeight: 50.0,
+              initialLabelIndex: 0,
+              cornerRadius: 20.0,
+              activeFgColor: Colors.white,
+              inactiveBgColor: Colors.grey,
+              inactiveFgColor: Colors.white,
+              totalSwitches: 2,
+              icons: [
+                Icons.light_rounded,
+                Icons.nightlife_rounded,
+              ],
+              iconSize: 30.0,
+              activeBgColors: [
+                [Colors.black45, Colors.black26],
+                [Colors.yellow, Colors.orange]
+              ],
+              animate:
+                  true, // with just animate set to true, default curve = Curves.easeIn
+              curve: Curves
+                  .bounceInOut, // animate must be set to true when using custom curve
+              onToggle: (index) {
+                Future.delayed(Duration.zero, () {
+                  BlocProvider.of<ThemeBloc>(context).add(ThemeChangedEvent(
+                      index == 1 ? themetype.light : themetype.dark));
+                });
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -92,7 +129,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
 
   Widget _aboutUsSection() {
     return Container(
-      color: Theme.of(context).colorScheme.primary,
+      color: Theme.of(context).colorScheme.surface,
       padding:
           EdgeInsets.symmetric(horizontal: SizeConfig.responsiveWidth(5, 7.0)),
       // color: Colors.black12,
@@ -166,7 +203,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
   Widget _drawerBottomSection() {
     return Container(
       // color: Colors.yellow,
-      color: Theme.of(context).colorScheme.primary,
+      color: Theme.of(context).colorScheme.surface,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -203,7 +240,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
     // final screenHeight = MediaQuery.of(context).size.height;
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
-      color: Theme.of(context).colorScheme.primary,
+      color: Theme.of(context).colorScheme.surface,
       // constraints: BoxConstraints(
       //   minWidth: screenWidth,
       //   minHeight: screenHeight,

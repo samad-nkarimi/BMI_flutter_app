@@ -1,5 +1,6 @@
 import 'package:BMI/screens/home_screen.dart';
 import 'package:BMI/utils/localization/app_localizations.dart';
+import 'package:BMI/utils/theme/prefs.dart';
 import 'package:BMI/utils/theme/styling.dart';
 
 import 'package:device_preview/device_preview.dart';
@@ -13,19 +14,36 @@ import './blocs/blocs.dart';
 import './models/bmi_calc.dart';
 import 'utils/size/size_config.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = SimpleBlocObserver();
+  final Prefs prefs = Prefs();
+  themetype theme = await prefs.getThemeType();
 
   runApp(
-    DevicePreview(
-      enabled: true,
-      builder: (context) => MyApp(),
-      isToolbarVisible: true,
-      data: DevicePreviewData(
-        deviceIdentifier: Devices.android.largeTablet.toString(),
-        isFrameVisible: true,
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => BmiCalcBloc(
+            bmiCalcModel:
+                BmiCalcModel(bmiValue: 26.1, age: 20, height: 175, weight: 80),
+          ),
+        ),
+        BlocProvider(create: (context) => LanguageBloc()),
+        BlocProvider(
+          create: (context) => ThemeBloc(theme, prefs),
+        ),
+      ],
+      child: DevicePreview(
+        enabled: true,
+        builder: (context) => MyApp(),
+        isToolbarVisible: true,
+        data: DevicePreviewData(
+          deviceIdentifier: Devices.android.largeTablet.toString(),
+          isFrameVisible: true,
 
-        // locale: 'fr_FR',
+          // locale: 'fr_FR',
+        ),
       ),
     ),
   );
@@ -34,29 +52,23 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-            create: (context) => BmiCalcBloc(
-                bmiCalcModel: BmiCalcModel(
-                    bmiValue: 26.1, age: 20, height: 175, weight: 80))),
-        BlocProvider(create: (context) => LanguageBloc()),
-      ],
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return OrientationBuilder(
-            builder: (context, orient) {
-              SizeConfig().init(constraints, orient);
-              return BlocBuilder<LanguageBloc, LanguageState>(
-                builder: (context, state) {
-                  if (state is LanguageLoaded) {
-                    var lang = state.locale.languageCode;
-                    AppTheme.lang = lang;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return OrientationBuilder(
+          builder: (context, orient) {
+            SizeConfig().init(constraints, orient);
+            return BlocBuilder<LanguageBloc, LanguageState>(
+              builder: (context, state) {
+                if (state is LanguageLoaded) {
+                  var lang = state.locale.languageCode;
+                  AppTheme.lang = lang;
+                  return BlocBuilder<ThemeBloc, ThemeState>(
+                      builder: (context, themeState) {
                     return MaterialApp(
                       useInheritedMediaQuery: true,
                       // locale: DevicePreview.locale(context),
                       builder: DevicePreview.appBuilder,
-                      theme: AppTheme.darkTheme().copyWith(
+                      theme: AppTheme.getTheme(themeState.theme).copyWith(
                         appBarTheme: Theme.of(context).appBarTheme.copyWith(
                               // backgroundColor: Colors.blue,
                               color: Colors.green,
@@ -84,9 +96,9 @@ class MyApp extends StatelessWidget {
 
                       home: AnnotatedRegion<SystemUiOverlayStyle>(
                         value: SystemUiOverlayStyle(
-                          statusBarColor: Colors.orange,
+                          statusBarColor: Colors.green,
                           statusBarBrightness: Brightness.light,
-                          systemNavigationBarColor: Colors.blue,
+                          systemNavigationBarColor: Colors.green,
                           //
                           systemNavigationBarDividerColor: Colors.transparent,
                           systemNavigationBarIconBrightness: Brightness.light,
@@ -94,14 +106,14 @@ class MyApp extends StatelessWidget {
                         child: MBIHome(),
                       ),
                     );
-                  }
-                  return SizedBox.shrink();
-                },
-              );
-            },
-          );
-        },
-      ),
+                  });
+                }
+                return SizedBox.shrink();
+              },
+            );
+          },
+        );
+      },
     );
   }
 }

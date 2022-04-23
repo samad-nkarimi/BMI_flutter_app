@@ -69,7 +69,7 @@ class CustomizedAppBar extends StatelessWidget {
                 child:
                     // SvgPicture.asset("assets/images/bmi_name.svg"),
                     DropdownButton<LanguageEntity>(
-                  dropdownColor: Theme.of(context).colorScheme.primary,
+                  dropdownColor: Theme.of(context).colorScheme.surface,
                   items: Languages.languages
                       .map<DropdownMenuItem<LanguageEntity>>(
                         (e) => DropdownMenuItem<LanguageEntity>(
