@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
                       useInheritedMediaQuery: true,
                       // locale: DevicePreview.locale(context),
                       builder: DevicePreview.appBuilder,
-                      theme: AppTheme.lightTheme().copyWith(
+                      theme: AppTheme.darkTheme().copyWith(
                         appBarTheme: Theme.of(context).appBarTheme.copyWith(
                               // backgroundColor: Colors.blue,
                               color: Colors.green,

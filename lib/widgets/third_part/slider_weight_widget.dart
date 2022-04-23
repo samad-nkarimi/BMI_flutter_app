@@ -40,8 +40,8 @@ class _SliderWeightWidgetState extends State<SliderWeightWidget> {
         ),
         gradient: new LinearGradient(
           colors: [
-            Colors.orange.withOpacity(0.3),
-            Colors.orange.withOpacity(0.7),
+            Theme.of(context).colorScheme.primary,
+            Theme.of(context).colorScheme.secondary,
             // const Color(0xaa00c6ff),
             // const Color(0xFF00ddaa),
           ],

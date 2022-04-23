@@ -23,10 +23,9 @@ class SelectableContainer extends StatelessWidget {
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 0.0),
       decoration: BoxDecoration(
-        // border: Border.all(color: Colors.red),
-        borderRadius: BorderRadius.circular(SizeConstants.sliderHeight * .15),
-        color: Colors.black.withOpacity(0.08),
-      ),
+          // border: Border.all(color: Colors.red),
+          borderRadius: BorderRadius.circular(SizeConstants.sliderHeight * .15),
+          color: Theme.of(context).colorScheme.secondaryContainer),
       child: child,
     );
   }

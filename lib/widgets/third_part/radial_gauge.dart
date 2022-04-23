@@ -32,6 +32,7 @@ class RadialGauge extends StatelessWidget {
             RadialAxis(
               axisLabelStyle: GaugeTextStyle(
                 fontSize: SizeConfig.responsiveHeight(1.5, 1.5),
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
               tickOffset: SizeConfig.responsiveHeight(7.0, 9.2),
               minimum: _min,

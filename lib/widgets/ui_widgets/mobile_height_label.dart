@@ -19,13 +19,14 @@ class _MobileHeightLabelState extends State<MobileHeightLabel> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        right: SizeConfig.isMobilePortrait
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.isMobilePortrait
             ? SizeConfig.responsiveHeight(
                 SizeConstants.mobileHorizontalPaddingFactorText,
                 SizeConstants.tabletHorizontalPaddingFactorText,
               )
             : 0.1,
+
         // vertical: SizeConfig.responsiveHeight(.7, 1.0),
       ),
       child: Row(

@@ -54,41 +54,45 @@ class _MbiDrawerState extends State<MbiDrawer> {
   }
 
   Widget _drawerTopSection() {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Container(
-          width: double.infinity,
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * _topMenuSizeFraction,
-          padding: EdgeInsets.all(50),
-          child: Image.asset(
-            Images.LOGO_IMAGE,
-            fit: BoxFit.cover,
+    return Container(
+      color: Theme.of(context).colorScheme.primary,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            width: double.infinity,
           ),
-        ),
-        Positioned(
-          top: SizeConfig.responsiveHeight(2.0, 2.0),
-          left: SizeConfig.responsiveHeight(2.0, 3.0),
-          child: Container(
-            child: IconButton(
-              iconSize: SizeConfig.responsiveWidth(8.0, 8.0),
-              icon: SvgPicture.asset(
-                "assets/images/back_icon.svg",
-                width: SizeConfig.responsiveWidth(8.0, 8.0),
-                height: SizeConfig.responsiveWidth(8.0, 8.0),
-              ),
-              onPressed: () => Navigator.pop(context),
+          Container(
+            height: MediaQuery.of(context).size.height * _topMenuSizeFraction,
+            padding: EdgeInsets.all(50),
+            child: Image.asset(
+              Images.LOGO_IMAGE,
+              fit: BoxFit.cover,
             ),
           ),
-        ),
-      ],
+          Positioned(
+            top: SizeConfig.responsiveHeight(2.0, 2.0),
+            left: SizeConfig.responsiveHeight(2.0, 3.0),
+            child: Container(
+              child: IconButton(
+                iconSize: SizeConfig.responsiveWidth(8.0, 8.0),
+                icon: SvgPicture.asset(
+                  "assets/images/back_icon.svg",
+                  width: SizeConfig.responsiveWidth(8.0, 8.0),
+                  height: SizeConfig.responsiveWidth(8.0, 8.0),
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _aboutUsSection() {
     return Container(
+      color: Theme.of(context).colorScheme.primary,
       padding:
           EdgeInsets.symmetric(horizontal: SizeConfig.responsiveWidth(5, 7.0)),
       // color: Colors.black12,
@@ -162,6 +166,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
   Widget _drawerBottomSection() {
     return Container(
       // color: Colors.yellow,
+      color: Theme.of(context).colorScheme.primary,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -198,6 +203,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
     // final screenHeight = MediaQuery.of(context).size.height;
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
+      color: Theme.of(context).colorScheme.primary,
       // constraints: BoxConstraints(
       //   minWidth: screenWidth,
       //   minHeight: screenHeight,
@@ -208,7 +214,12 @@ class _MbiDrawerState extends State<MbiDrawer> {
           mainAxisSize: MainAxisSize.max,
           children: [
             _drawerTopSection(),
-            Divider(color: Colors.black45),
+            Container(
+              height: 0.5,
+              width: double.infinity,
+              color: Theme.of(context).colorScheme.onPrimary,
+              // child: Divider(color: Colors.black45),
+            ),
             // SizedBox(height: resHeight(1.4, 1.5)),
             if (_showAboutUs) Expanded(child: _aboutUsSection()),
             if (!_showAboutUs) Expanded(child: _drawerBottomSection()),

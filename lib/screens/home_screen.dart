@@ -7,6 +7,7 @@ import 'package:BMI/widgets/ui_widgets/customized_app_bar.dart';
 import 'package:BMI/widgets/ui_widgets/mobile_height_label.dart';
 import 'package:BMI/widgets/ui_widgets/mobile_weight_label.dart';
 import 'package:BMI/widgets/ui_widgets/total_height_slider.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +30,7 @@ class _MBIHomeState extends State<MBIHome> {
     return SafeArea(
       child: Container(
         child: Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.background,
           drawer: MbiDrawer(),
           appBar: PreferredSize(
             preferredSize:
@@ -40,7 +42,7 @@ class _MBIHomeState extends State<MBIHome> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.3),
+                    color: Theme.of(context).colorScheme.primary,
                     borderRadius:
                         BorderRadius.vertical(bottom: Radius.circular(50))),
                 width: double.maxFinite,
@@ -60,6 +62,7 @@ class _MBIHomeState extends State<MBIHome> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    // if (kIsWeb) SizedBox(height: 400),
                     BlocBuilder<BmiCalcBloc, BmiCalcState>(
                       builder: (context, state) {
                         final bmiModel =
@@ -67,7 +70,10 @@ class _MBIHomeState extends State<MBIHome> {
                         // showing normal weight on screen
                         return Container(
                           decoration: BoxDecoration(
-                            color: Colors.orange.shade200,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.3),
                             border: Border.all(width: 1, color: Colors.green),
                             borderRadius: BorderRadius.circular(5),
                           ),
@@ -88,19 +94,11 @@ class _MBIHomeState extends State<MBIHome> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "${AppLocalizations.of(context).translate(TranslationConstants.normal_weight)}(kg)",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1
-                                    .copyWith(color: Colors.black54),
-                              ),
+                                  "${AppLocalizations.of(context).translate(TranslationConstants.normal_weight)}(kg)",
+                                  style: Theme.of(context).textTheme.subtitle2),
                               Text(
-                                "${bmiModel.minimumNormalWeight().toStringAsFixed(1)} - ${bmiModel.maximumNormalWeight().toStringAsFixed(1)}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1
-                                    .copyWith(color: Colors.black54),
-                              )
+                                  "${bmiModel.minimumNormalWeight().toStringAsFixed(1)} - ${bmiModel.maximumNormalWeight().toStringAsFixed(1)}",
+                                  style: Theme.of(context).textTheme.subtitle2)
                             ],
                           ),
                         );
@@ -109,6 +107,7 @@ class _MBIHomeState extends State<MBIHome> {
                     // the box relevant to sliders
                     // showing controller height/weight/age/gender widgets
                     Card(
+                      color: Theme.of(context).colorScheme.surface,
                       margin: EdgeInsets.only(
                           top: SizeConfig.responsiveHeight(1.0, 1.0),
                           left: SizeConfig.responsiveHeight(1.0, 2.0),
@@ -156,6 +155,7 @@ class _MBIHomeState extends State<MBIHome> {
                     ),
                     // showing category section
                     Card(
+                      color: Theme.of(context).colorScheme.surface,
                       margin: EdgeInsets.only(
                         top: SizeConfig.responsiveHeight(0.5, 0.5),
                         left: SizeConfig.responsiveHeight(1.0, 2.0),

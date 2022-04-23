@@ -24,8 +24,8 @@ class CustomizedAppBar extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Colors.orange.withOpacity(0.7),
-                Colors.orange.withOpacity(0.3),
+                Theme.of(context).colorScheme.secondary,
+                Theme.of(context).colorScheme.primary,
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -63,18 +63,19 @@ class CustomizedAppBar extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                // color: Colors.black12,
+              SizedBox(
                 // width: resWidth(50.0, 40.0),
                 // height: resHeight(20.0, 15.0),
                 child:
                     // SvgPicture.asset("assets/images/bmi_name.svg"),
                     DropdownButton<LanguageEntity>(
+                  dropdownColor: Theme.of(context).colorScheme.primary,
                   items: Languages.languages
                       .map<DropdownMenuItem<LanguageEntity>>(
                         (e) => DropdownMenuItem<LanguageEntity>(
                           value: e,
                           child: Padding(
+                            // color: Theme.of(context).colorScheme.primary,
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,

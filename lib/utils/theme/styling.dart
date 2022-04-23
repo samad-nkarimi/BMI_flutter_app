@@ -30,32 +30,78 @@ class AppTheme {
     return ThemeData(
         scaffoldBackgroundColor: AppTheme.appBackgroundColor,
         brightness: Brightness.light,
-        textTheme: lightTextTheme(),
-        appBarTheme:
-            AppBarTheme(color: Colors.red, brightness: Brightness.light),
+        textTheme: lightTextTheme,
+        colorScheme: ColorScheme(
+          brightness: Brightness.light,
+          primary: Colors.orange.withOpacity(0.3),
+          onPrimary: Colors.black54,
+          secondary: Colors.orange.withOpacity(0.7),
+          onSecondary: Colors.white,
+          error: Colors.red,
+          onError: Colors.white,
+          background: Colors.white,
+          onBackground: Colors.black87,
+          surface: Colors.white,
+          onSurface: Colors.black87,
+          secondaryContainer: Colors.black.withOpacity(0.08),
+        ),
+        primaryColor: Colors.orange.withOpacity(0.3),
+        appBarTheme: AppBarTheme(
+          brightness: Brightness.light,
+          color: Colors.orange.withOpacity(0.7),
+        ),
         fontFamily: lang == 'fa' ? 'IRANSansFaNum_Medium' : 'SFProDisplay');
   }
 
-  static final ThemeData darkTheme = ThemeData(
-    scaffoldBackgroundColor: Colors.black,
-    brightness: Brightness.dark,
-    textTheme: darkTextTheme,
-  );
+  static ThemeData darkTheme() {
+    print(
+        "$languageFontTextMultiplier  $lang    8888888888888888888888888888888888");
+    languageFontTextMultiplier = lang == 'fa' ? 1 : 1.0;
 
-  static TextTheme lightTextTheme() => TextTheme(
-        headline6: _titleLight,
-        subtitle1: _subTitleSmallLight(),
-        subtitle2: _subTitleLight(),
-        button: _buttonLight,
-        headline4: _greetingLight,
-        headline3: _searchLight,
-        bodyText1: _selectedTabLight,
-        bodyText2: _unSelectedTabLight,
-      );
+    return ThemeData(
+        // scaffoldBackgroundColor: AppTheme.appBackgroundColor,
+        brightness: Brightness.light,
+        textTheme: darkTextTheme,
+        colorScheme: ColorScheme(
+          brightness: Brightness.light,
+          primary: Colors.black54,
+          onPrimary: Colors.white60,
+          secondary: Colors.black,
+          onSecondary: Colors.white,
+          error: Colors.red,
+          onError: Colors.white,
+          background: Colors.black87,
+          onBackground: Colors.white60,
+          surface: Colors.black45,
+          onSurface: Colors.black87,
+          secondaryContainer: Colors.white.withOpacity(0.25),
+        ),
+
+        // primaryColor: Colors.orange.withOpacity(0.3),
+        fontFamily: lang == 'fa' ? 'IRANSansFaNum_Medium' : 'SFProDisplay');
+  }
+
+  // static final ThemeData darkTheme = ThemeData(
+  //   scaffoldBackgroundColor: Colors.black,
+  //   brightness: Brightness.dark,
+  //   textTheme: darkTextTheme,
+  // );
+
+  static final TextTheme lightTextTheme = TextTheme(
+    headline6: _titleLight,
+    subtitle1: _subTitleSmallLight,
+    subtitle2: _subTitleLight,
+    button: _buttonLight,
+    headline4: _greetingLight,
+    headline3: _searchLight,
+    bodyText1: _selectedTabLight,
+    bodyText2: _unSelectedTabLight,
+  );
 
   static final TextTheme darkTextTheme = TextTheme(
     headline6: _titleDark,
     subtitle2: _subTitleDark,
+    subtitle1: _subTitleSmallDark,
     button: _buttonDark,
     headline4: _greetingDark,
     headline3: _searchDark,
@@ -68,25 +114,19 @@ class AppTheme {
     fontSize: 5 * SizeConfig.textMultiplier * languageFontTextMultiplier,
   );
 
-  static TextStyle _subTitleLight() {
-    // print("$languageFontTextMultiplier    9999999999999999999999999999999999");
-    return TextStyle(
-      color: subTitleTextColor,
-      fontSize: 3 * SizeConfig.textMultiplier * languageFontTextMultiplier,
-      height: 1.5 * languageFontTextMultiplier,
-      fontWeight: FontWeight.w700,
-    );
-  }
+  static final TextStyle _subTitleLight = TextStyle(
+    color: subTitleTextColor,
+    fontSize: 2 * SizeConfig.textMultiplier * languageFontTextMultiplier,
+    height: 1.5 * languageFontTextMultiplier,
+    // fontWeight: FontWeight.w700,
+  );
 
-  static TextStyle _subTitleSmallLight() {
-    // print("$subTitleSmallTextColor  colorrrrrrrrrr");
-    return TextStyle(
-      color: subTitleSmallTextColor,
-      fontSize: 2.0 * SizeConfig.textMultiplier * languageFontTextMultiplier,
-      fontWeight: FontWeight.w600,
-      height: 1.5 * languageFontTextMultiplier,
-    );
-  }
+  static final TextStyle _subTitleSmallLight = TextStyle(
+    color: subTitleSmallTextColor,
+    fontSize: 2.0 * SizeConfig.textMultiplier * languageFontTextMultiplier,
+    fontWeight: FontWeight.w600,
+    height: 1.5 * languageFontTextMultiplier,
+  );
 
   static final TextStyle _buttonLight = TextStyle(
     color: Colors.blue,
@@ -117,7 +157,7 @@ class AppTheme {
   static final TextStyle _titleDark = _titleLight.copyWith(color: Colors.white);
 
   static final TextStyle _subTitleDark =
-      _subTitleLight().copyWith(color: Colors.white70);
+      _subTitleLight.copyWith(color: Colors.white70);
 
   static final TextStyle _buttonDark =
       _buttonLight.copyWith(color: Colors.black);
@@ -126,11 +166,14 @@ class AppTheme {
       _greetingLight.copyWith(color: Colors.black);
 
   static final TextStyle _searchDark =
-      _searchDark.copyWith(color: Colors.black);
+      _searchLight.copyWith(color: Colors.black);
 
   static final TextStyle _selectedTabDark =
-      _selectedTabDark.copyWith(color: Colors.white);
+      _selectedTabLight.copyWith(color: Colors.white);
 
   static final TextStyle _unSelectedTabDark =
       _selectedTabDark.copyWith(color: Colors.white70);
+
+  static final TextStyle _subTitleSmallDark =
+      _subTitleSmallLight.copyWith(color: Colors.white70);
 }

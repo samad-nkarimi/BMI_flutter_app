@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -34,11 +34,10 @@ dependencies:
   flutter_svg: ^0.22.0
   flutter_toggle_tab: ^1.1.2
   numberpicker: ^2.1.1
-  flutter_localizations: 
-    sdk: flutter  
+  flutter_localizations:
+    sdk: flutter
   intl: ^0.17.0 # Add this line
   # generate: true # Add this line
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -49,12 +48,18 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_launcher_icons: "^0.9.2"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/launcher.png"
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -65,7 +70,7 @@ flutter:
     - assets/icons/menu.png
     - assets/icons/back.png
     - assets/images/bmi_name.svg
-    - assets/images/logo.png 
+    - assets/images/logo.png
     - assets/images/back_btn.png
     - assets/images/top_shape.svg
     - assets/images/man.svg
@@ -76,7 +81,6 @@ flutter:
     - assets/lang/fa.json
     - assets/images/flag_persian.png
     - assets/images/flag_english.png
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

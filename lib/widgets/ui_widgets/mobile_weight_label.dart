@@ -19,14 +19,8 @@ class _MobileWeightLabelState extends State<MobileWeightLabel> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        // left: SizeConfig.isMobilePortrait
-        //     ? SizeConfig.responsiveHeight(
-        //         SizeConstants.mobileHorizontalPaddingFactorText,
-        //         SizeConstants.tabletHorizontalPaddingFactorText,
-        //       )
-        //     : 0.1,
-        right: SizeConfig.isMobilePortrait
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.isMobilePortrait
             ? SizeConfig.responsiveHeight(
                 SizeConstants.mobileHorizontalPaddingFactorText,
                 SizeConstants.tabletHorizontalPaddingFactorText,

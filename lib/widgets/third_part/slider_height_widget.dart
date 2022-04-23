@@ -38,8 +38,8 @@ class _SliderHeightWidgetState extends State<SliderHeightWidget> {
         ),
         gradient: new LinearGradient(
           colors: [
-            Colors.orange.withOpacity(0.3),
-            Colors.orange.withOpacity(0.7),
+            Theme.of(context).colorScheme.primary,
+            Theme.of(context).colorScheme.secondary,
           ],
           begin: const FractionalOffset(0.0, 0.0),
           end: const FractionalOffset(1.0, 1.00),

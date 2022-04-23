@@ -22,7 +22,7 @@ class _AgeDataPickerState extends State<AgeDataPicker> {
         final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
         _currentAge = bmiModel.age;
         return AlertDialog(
-          backgroundColor: Colors.orange.shade200,
+          backgroundColor: Theme.of(context).primaryColor,
           title: Center(
             child: Text(
                 '${AppLocalizations.of(context).translate(TranslationConstants.select_age)}',

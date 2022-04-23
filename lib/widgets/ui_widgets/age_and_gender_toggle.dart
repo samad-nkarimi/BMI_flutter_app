@@ -44,10 +44,8 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                     style: maleToggle
                         ? Theme.of(context).textTheme.bodyText1.copyWith(
                             color: Colors.blue, fontWeight: FontWeight.bold)
-                        : Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(color: Colors.black26),
+                        : Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Theme.of(context).colorScheme.onPrimary),
                   ),
                 ),
               ),
@@ -69,10 +67,8 @@ class _FemaleMaleToggleState extends State<FemaleMaleToggle> {
                     style: !maleToggle
                         ? Theme.of(context).textTheme.bodyText1.copyWith(
                             color: Colors.blue, fontWeight: FontWeight.bold)
-                        : Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(color: Colors.black26),
+                        : Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Theme.of(context).colorScheme.onPrimary),
                   ),
                 ),
               ),
