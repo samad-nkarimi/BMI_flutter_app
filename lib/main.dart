@@ -35,7 +35,7 @@ Future<void> main() async {
         ),
       ],
       child: DevicePreview(
-        enabled: true,
+        enabled: false,
         builder: (context) => MyApp(),
         isToolbarVisible: true,
         data: DevicePreviewData(
@@ -67,7 +67,13 @@ class MyApp extends StatelessWidget {
                     return MaterialApp(
                       useInheritedMediaQuery: true,
                       // locale: DevicePreview.locale(context),
-                      builder: DevicePreview.appBuilder,
+                      builder: (BuildContext context, Widget child) {
+                        return MediaQuery(
+                          data: MediaQuery.of(context)
+                              .copyWith(textScaleFactor: 1.0),
+                          child: child,
+                        );
+                      },
                       theme: AppTheme.getTheme(themeState.theme).copyWith(
                         appBarTheme: Theme.of(context).appBarTheme.copyWith(
                               // backgroundColor: Colors.blue,

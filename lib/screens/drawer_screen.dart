@@ -88,40 +88,47 @@ class _MbiDrawerState extends State<MbiDrawer> {
               ),
             ),
           ),
-          Positioned(
-            bottom: SizeConfig.responsiveHeight(2.0, 2.0),
-            // left: SizeConfig.responsiveHeight(2.0, 3.0),
+          BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
+            int initialIndex = 0;
+            if (state.theme == themetype.light) {
+              initialIndex = 1;
+            }
 
-            child: ToggleSwitch(
-              minWidth: 70.0,
-              minHeight: 50.0,
-              initialLabelIndex: 0,
-              cornerRadius: 20.0,
-              activeFgColor: Colors.white,
-              inactiveBgColor: Colors.grey,
-              inactiveFgColor: Colors.white,
-              totalSwitches: 2,
-              icons: [
-                Icons.light_rounded,
-                Icons.nightlife_rounded,
-              ],
-              iconSize: 30.0,
-              activeBgColors: [
-                [Colors.black45, Colors.black26],
-                [Colors.yellow, Colors.orange]
-              ],
-              animate:
-                  true, // with just animate set to true, default curve = Curves.easeIn
-              curve: Curves
-                  .bounceInOut, // animate must be set to true when using custom curve
-              onToggle: (index) {
-                Future.delayed(Duration.zero, () {
-                  BlocProvider.of<ThemeBloc>(context).add(ThemeChangedEvent(
-                      index == 1 ? themetype.light : themetype.dark));
-                });
-              },
-            ),
-          ),
+            return Positioned(
+              bottom: SizeConfig.responsiveHeight(2.0, 2.0),
+              // left: SizeConfig.responsiveHeight(2.0, 3.0),
+
+              child: ToggleSwitch(
+                minWidth: 70.0,
+                minHeight: 50.0,
+                initialLabelIndex: initialIndex,
+                cornerRadius: 20.0,
+                activeFgColor: Colors.orange,
+                inactiveBgColor: Colors.grey,
+                inactiveFgColor: Colors.white,
+                totalSwitches: 2,
+                icons: [
+                  Icons.mode_night_rounded,
+                  Icons.sunny,
+                ],
+                iconSize: 30.0,
+                activeBgColors: [
+                  [Colors.black87],
+                  [Colors.yellow]
+                ],
+                animate:
+                    true, // with just animate set to true, default curve = Curves.easeIn
+                curve: Curves
+                    .bounceInOut, // animate must be set to true when using custom curve
+                onToggle: (index) {
+                  Future.delayed(Duration.zero, () {
+                    BlocProvider.of<ThemeBloc>(context).add(ThemeChangedEvent(
+                        index == 1 ? themetype.light : themetype.dark));
+                  });
+                },
+              ),
+            );
+          }),
         ],
       ),
     );
@@ -207,6 +214,9 @@ class _MbiDrawerState extends State<MbiDrawer> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
+          Container(
+            height: SizeConfig.responsiveHeight(1.75, 2.0),
+          ),
           drawerItem(
               "${AppLocalizations.of(context).translate(TranslationConstants.help_and_feedback)}",
               () => FlutterEmailSender.send(email)),
