@@ -1,4 +1,4 @@
-class Constants {
+class StringConstants {
   static const APP_NAME = "MBICalc";
 
   // drawer screen

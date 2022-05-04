@@ -12,8 +12,8 @@ import 'package:share/share.dart';
 import 'package:store_redirect/store_redirect.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-import '../utils/constants/constants.dart';
-import '../utils/constants/images.dart';
+import '../utils/constants/string_constants.dart';
+import '../utils/constants/constant_images.dart';
 import '../utils/size/size_config.dart';
 
 class MbiDrawer extends StatefulWidget {
@@ -28,9 +28,9 @@ class _MbiDrawerState extends State<MbiDrawer> {
   final double _topMenuSizeFraction = 0.35;
 
   final Email email = Email(
-    body: Constants.EMAIL_BODY,
-    subject: Constants.EMAIL_SUBJECT,
-    recipients: Constants.EMAIL_RECIP,
+    body: StringConstants.EMAIL_BODY,
+    subject: StringConstants.EMAIL_SUBJECT,
+    recipients: StringConstants.EMAIL_RECIP,
     // cc: ["samad.nkarimi@gmail.com"],
     // bcc: ["samad.nkarimi@gmail.com"],
     // attachmentPaths: null,
@@ -69,7 +69,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
             height: MediaQuery.of(context).size.height * _topMenuSizeFraction,
             padding: EdgeInsets.all(50),
             child: Image.asset(
-              Images.LOGO_IMAGE,
+              ConstantImages.LOGO_IMAGE,
               fit: BoxFit.fitWidth,
             ),
           ),
@@ -222,12 +222,12 @@ class _MbiDrawerState extends State<MbiDrawer> {
               () => FlutterEmailSender.send(email)),
           drawerItem(
               "${AppLocalizations.of(context).translate(TranslationConstants.share_app)}",
-              () => Share.share(Constants.APP_LINK)),
+              () => Share.share(StringConstants.APP_LINK)),
           drawerItem(
             "${AppLocalizations.of(context).translate(TranslationConstants.more_apps)}",
             () => StoreRedirect.redirect(
-              androidAppId: Constants.STORE_ANDROID_APP_ID,
-              iOSAppId: Constants.STORE_IOS_APP_ID,
+              androidAppId: StringConstants.STORE_ANDROID_APP_ID,
+              iOSAppId: StringConstants.STORE_IOS_APP_ID,
             ),
           ),
           drawerItem(

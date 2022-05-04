@@ -16,9 +16,14 @@ import 'utils/size/size_config.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   Bloc.observer = SimpleBlocObserver();
   final Prefs prefs = Prefs();
   themetype theme = await prefs.getThemeType();
+  String langCode = await prefs.getLanguageCode();
 
   runApp(
     MultiBlocProvider(
@@ -29,7 +34,7 @@ Future<void> main() async {
                 BmiCalcModel(bmiValue: 26.1, age: 20, height: 175, weight: 80),
           ),
         ),
-        BlocProvider(create: (context) => LanguageBloc()),
+        BlocProvider(create: (context) => LanguageBloc(langCode, prefs)),
         BlocProvider(
           create: (context) => ThemeBloc(theme, prefs),
         ),

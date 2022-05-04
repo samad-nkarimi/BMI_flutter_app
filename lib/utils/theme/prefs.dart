@@ -6,6 +6,8 @@ class Prefs {
   Future<SharedPreferences> initiate() async {
     // Obtain shared preferences.
     prefs = await SharedPreferences.getInstance();
+
+    return prefs;
   }
 
   Future<themetype> getThemeType() async {
@@ -30,6 +32,26 @@ class Prefs {
     try {
       // Save an boolean value to 'islight' key.
       await prefs.setBool('islight', isLight);
+    } catch (e) {}
+  }
+
+  //language pref
+  Future<String> getLanguageCode() async {
+    await initiate();
+    String langCode = 'en';
+
+    try {
+      if (prefs.containsKey("langcode")) langCode = prefs.getString('langcode');
+    } catch (e) {}
+
+    return langCode;
+  }
+
+  setLanguageCode(String langCode) async {
+    await initiate();
+    try {
+      // Save language code ("en" or "fa")
+      await prefs.setString('langcode', langCode);
     } catch (e) {}
   }
 }

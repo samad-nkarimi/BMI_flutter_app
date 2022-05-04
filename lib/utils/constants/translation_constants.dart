@@ -2,7 +2,6 @@ class TranslationConstants{
   TranslationConstants._();
 
   static const String weight='weight';
-
   static const String height= "height";
   static const String male= "male";
   static const String female= "female";
