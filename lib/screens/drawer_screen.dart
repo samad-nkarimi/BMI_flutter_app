@@ -90,7 +90,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
           ),
           BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
             int initialIndex = 0;
-            if (state.theme == themetype.light) {
+            if (state.theme == Themetype.light) {
               initialIndex = 1;
             }
 
@@ -123,7 +123,7 @@ class _MbiDrawerState extends State<MbiDrawer> {
                 onToggle: (index) {
                   Future.delayed(Duration.zero, () {
                     BlocProvider.of<ThemeBloc>(context).add(ThemeChangedEvent(
-                        index == 1 ? themetype.light : themetype.dark));
+                        index == 1 ? Themetype.light : Themetype.dark));
                   });
                 },
               ),

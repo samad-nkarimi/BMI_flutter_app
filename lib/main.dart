@@ -1,3 +1,4 @@
+import 'package:BMI/blocs/overlay/overlay_bloc.dart';
 import 'package:BMI/screens/home_screen.dart';
 import 'package:BMI/utils/localization/app_localizations.dart';
 import 'package:BMI/utils/theme/prefs.dart';
@@ -20,9 +21,9 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  Bloc.observer = SimpleBlocObserver();
+  // Bloc.observer = SimpleBlocObserver();
   final Prefs prefs = Prefs();
-  themetype theme = await prefs.getThemeType();
+  Themetype theme = await prefs.getThemeType();
   String langCode = await prefs.getLanguageCode();
 
   runApp(
@@ -37,6 +38,9 @@ Future<void> main() async {
         BlocProvider(create: (context) => LanguageBloc(langCode, prefs)),
         BlocProvider(
           create: (context) => ThemeBloc(theme, prefs),
+        ),
+        BlocProvider(
+          create: (context) => OverlayCubit(theme),
         ),
       ],
       child: DevicePreview(
@@ -69,6 +73,7 @@ class MyApp extends StatelessWidget {
                   AppTheme.lang = lang;
                   return BlocBuilder<ThemeBloc, ThemeState>(
                       builder: (context, themeState) {
+                    print(themeState.theme);
                     return MaterialApp(
                       useInheritedMediaQuery: true,
                       // locale: DevicePreview.locale(context),
@@ -101,8 +106,8 @@ class MyApp extends StatelessWidget {
                         // GlobalCupertinoLocalizations.delegate,
                       ],
                       supportedLocales: [
-                        Locale('en', 'US'), // English, no country code
-                        Locale('fa', 'IR'), // Persian, no country code
+                        Locale('en', 'US'), // English
+                        Locale('fa', 'IR'), // Persian
                       ],
 
                       home: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -114,7 +119,11 @@ class MyApp extends StatelessWidget {
                           systemNavigationBarDividerColor: Colors.transparent,
                           systemNavigationBarIconBrightness: Brightness.light,
                         ),
-                        child: MBIHome(),
+                        child: MBIHome(
+                          transparentColor: themeState.theme == Themetype.dark
+                              ? Colors.transparent
+                              : Colors.white.withOpacity(0.01),
+                        ),
                       ),
                     );
                   });

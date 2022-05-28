@@ -2,7 +2,7 @@ import 'package:BMI/blocs/theme/theme_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class ThemeState extends Equatable {
-  final themetype theme;
+  final Themetype theme;
   const ThemeState(this.theme);
 
   @override

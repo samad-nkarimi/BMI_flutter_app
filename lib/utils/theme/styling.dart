@@ -19,8 +19,8 @@ class AppTheme {
 
   static double languageFontTextMultiplier = 1.0;
 
-  static ThemeData getTheme(themetype theme) {
-    if (theme == themetype.light) {
+  static ThemeData getTheme(Themetype theme) {
+    if (theme == Themetype.light) {
       return lightTheme();
     } else {
       return darkTheme();

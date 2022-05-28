@@ -11,5 +11,5 @@ class StringConstants {
   // drawer screen - email
   static const EMAIL_BODY = "this is email body!";
   static const EMAIL_SUBJECT = "feedback from flutter app!";
-  static const EMAIL_RECIP = ["samad.nkarimi@gmail.com"];
+  static const EMAIL_RECIP = [""];
 }

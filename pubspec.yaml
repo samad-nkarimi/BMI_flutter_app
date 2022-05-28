@@ -1,5 +1,5 @@
 name: BMI
-description: are you fit?
+description: are you fit? check it out.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -23,15 +23,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  bloc: ^7.0.0
-  flutter_bloc: ^7.0.0
+  bloc: ^7.1.0
+  flutter_bloc: ^7.1.0
   equatable: ^2.0.0
   flutter_email_sender: ^5.1.0
   share: ^2.0.1
   store_redirect: ^2.0.1
-  syncfusion_flutter_gauges: ^19.1.64
+  syncfusion_flutter_gauges: ^20.1.57
   flutter_fluid_slider: ^1.0.3
-  flutter_svg: ^0.22.0
+  flutter_svg: ^1.1.0
   flutter_toggle_tab: ^1.1.2
   numberpicker: ^2.1.1
   flutter_localizations:
@@ -45,6 +45,9 @@ dependencies:
   device_preview: ^1.0.0
   toggle_switch: ^2.0.1
   shared_preferences: ^2.0.13
+
+  # flutter_native_splash:
+  #   color: #42a5f5
 
 dev_dependencies:
   flutter_test:

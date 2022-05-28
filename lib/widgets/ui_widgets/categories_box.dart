@@ -1,4 +1,5 @@
 import 'package:BMI/blocs/blocs.dart';
+import 'package:BMI/blocs/overlay/overlay_bloc.dart';
 import 'package:BMI/utils/constants/size_constants.dart';
 import 'package:BMI/utils/constants/translation_constants.dart';
 import 'package:BMI/utils/localization/app_localizations.dart';
@@ -26,6 +27,7 @@ class _CategoriesBoxState extends State<CategoriesBox> {
       builder: (context, state) {
         final bmiModel = BlocProvider.of<BmiCalcBloc>(context).bmiCalcModel;
         final currentCategory = bmiModel.getBmiValueCategory;
+        context.read<OverlayCubit>().setOverlayColor(currentCategory);
         return Container(
           padding: EdgeInsets.symmetric(
             horizontal: SizeConfig.responsiveHeight(

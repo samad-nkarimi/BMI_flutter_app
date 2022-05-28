@@ -10,7 +10,7 @@ class Prefs {
     return prefs;
   }
 
-  Future<themetype> getThemeType() async {
+  Future<Themetype> getThemeType() async {
     await initiate();
     bool isLight = true;
 
@@ -20,9 +20,9 @@ class Prefs {
     } catch (e) {}
 
     if (isLight) {
-      return themetype.light;
+      return Themetype.light;
     } else {
-      return themetype.dark;
+      return Themetype.dark;
     }
   }
 

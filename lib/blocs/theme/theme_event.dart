@@ -7,7 +7,7 @@ abstract class ThemeEvent extends Equatable {
 }
 
 class ThemeChangedEvent extends ThemeEvent {
-  final themetype theme;
+  final Themetype theme;
 
   ThemeChangedEvent(this.theme);
   @override
