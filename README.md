@@ -1,6 +1,6 @@
 # mbi_app
 
-![ezcv logo](https://raw.githubusercontent.com/samad-nkarimi/BMI_flutter_app/master/shot/1.jpg
+![ezcv logo](https://raw.githubusercontent.com/samad-nkarimi/BMI_flutter_app/master/shot/1.jpg)
 
 
 
