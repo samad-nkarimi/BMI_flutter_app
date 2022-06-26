@@ -1,7 +1,7 @@
 # mbi_app
 
-#![shot 1](shot/1.jpg )
-<img src="shot/1.jpg" width="100">
+
+<img src="shot/1.jpg" width="400">
 
 
 
