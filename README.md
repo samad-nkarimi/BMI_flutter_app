@@ -1,6 +1,7 @@
 # mbi_app
 
-![shot 1](shot/1.jpg ){:height="250px" width="100px"}
+#![shot 1](shot/1.jpg )
+<img src="shot/1.jpg" width="100">
 
 
 
