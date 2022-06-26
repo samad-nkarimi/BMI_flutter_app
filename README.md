@@ -1,6 +1,6 @@
 # mbi_app
 
-![shot 1](https://raw.githubusercontent.com/samad-nkarimi/BMI_flutter_app/master/shot/1.jpg)
+![shot 1](https://raw.githubusercontent.com/samad-nkarimi/BMI_flutter_app/master/shot/1.jpg?raw=true)
 
 
 
