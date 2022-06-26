@@ -1,6 +1,6 @@
 # mbi_app
 
-![shot 1](shot/1.jpg)
+![shot 1](shot/1.jpg) ![shot 2](shot/2.jpg) ![shot 3](shot/3.jpg) 
 
 
 
