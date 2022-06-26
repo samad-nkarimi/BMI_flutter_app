@@ -1,6 +1,6 @@
 # mbi_app
 
-![shot 1](shot/1.jpg | width=100) ![shot 2](shot/2.jpg | width=100) ![shot 3](shot/3.jpg | width=100) 
+![shot 1](shot/1.jpg | width=100px) ![shot 2](shot/2.jpg | width=100px) ![shot 3](shot/3.jpg | width=100px) 
 
 
 
